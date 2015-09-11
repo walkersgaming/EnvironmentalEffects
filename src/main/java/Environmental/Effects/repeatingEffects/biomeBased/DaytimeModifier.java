@@ -19,12 +19,12 @@ public class DaytimeModifier extends RepeatingEffectBiomeBased {
 	final boolean shouldTimeChange;
 	final Float daySpeed; //multiplier, 1.0 makes for standard 20 min days, 0.5 would be 40 min day,
 						 //2.0 10 min etc.
-	final int ticksInbetweenRuns;
+	final long ticksInbetweenRuns;
 	long previousRunTime; // in ticks
 	long currentRunTime; //in ticks
 
 	public DaytimeModifier(JavaPlugin plugin, Biome biome, Long permanentTime,
-			Float daySpeed, int ticksInbetweenRuns) {
+			Float daySpeed, long ticksInbetweenRuns) {
 		super(plugin,biome);
 		this.permanentTime = permanentTime;
 		shouldTimeChange = permanentTime != null;
@@ -58,6 +58,7 @@ public class DaytimeModifier extends RepeatingEffectBiomeBased {
 			}
 		}
 		previousRunTime = currentRunTime;
+		scheduleNextRun();
 
 	}
 	
@@ -72,5 +73,14 @@ public class DaytimeModifier extends RepeatingEffectBiomeBased {
 			p.setPlayerTime(currentRunTime, false);
 		}
 	}
+	
+	/**
+	 * Schedules the next run to update rain for all players
+	 */
+	public void scheduleNextRun() {
+		plugin.getServer().getScheduler()
+				.scheduleSyncDelayedTask(plugin, this, ticksInbetweenRuns);
+	}
+
 
 }

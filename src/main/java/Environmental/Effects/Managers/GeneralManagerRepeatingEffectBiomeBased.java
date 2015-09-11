@@ -1,4 +1,4 @@
-package Environmental.Effects.Managers;
+package Environmental.Effects.managers;
 
 import java.util.HashSet;
 

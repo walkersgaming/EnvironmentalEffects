@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
-import Environmental.Effects.Managers.Manager;
+import Environmental.Effects.managers.Manager;
 import Environmental.Effects.repeatingEffects.biomeBased.DaytimeModifier;
 import Environmental.Effects.repeatingEffects.biomeBased.WeatherMachine;
 

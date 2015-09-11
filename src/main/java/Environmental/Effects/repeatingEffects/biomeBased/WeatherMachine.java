@@ -30,14 +30,14 @@ public class WeatherMachine extends RepeatingEffectBiomeBased {
 	long rainUpdate;
 	int i;
 
-	WeatherMachine(JavaPlugin plugin, Biome biome, double rainChance,
+	public WeatherMachine(JavaPlugin plugin, Biome biome, double rainChance,
 			long minRainDuration, long rainUpdate) {
 		super(plugin, biome);
 		this.rainChance = rainChance;
 		this.minRainDuration = minRainDuration;
 		this.rainUpdate = rainUpdate;
 		RNG = new Random();
-		run();
+		scheduleNextRun();
 	}
 
 	public void run() {
@@ -64,7 +64,7 @@ public class WeatherMachine extends RepeatingEffectBiomeBased {
 	}
 
 	/**
-	 * Schedules the next run in 10 seconds to update rain for all players
+	 * Schedules the next run to update rain for all players
 	 */
 	public void scheduleNextRun() {
 		plugin.getServer().getScheduler()

@@ -1,0 +1,11 @@
+rainupdate: 200
+timeupdate: 200
+
+biomes:
+    weathermachine:
+        rain_chance: 0.5
+        minimum_rain_duration: 400
+    daytime_modifier:
+        dayspeed: 0.5
+        
+        
