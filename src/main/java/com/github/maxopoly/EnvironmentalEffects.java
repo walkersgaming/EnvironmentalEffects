@@ -266,9 +266,9 @@ public class EnvironmentalEffects extends JavaPlugin {
 								int level = currentDebuffSection
 										.getInt("level");
 								long duration = parseTime(currentDebuffSection
-										.getString("duration"));
+										.getString("duration","5s"));
 								double chance = currentDebuffSection
-										.getDouble("chance");
+										.getDouble("chance",1.0);
 								PotionEffect pe = new PotionEffect(pet,
 										(int) duration, level);
 								onHitDebuffs.put(pe, chance);

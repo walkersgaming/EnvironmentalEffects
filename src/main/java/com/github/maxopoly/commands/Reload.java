@@ -12,6 +12,7 @@ public class Reload extends AbstractCommand {
 
 	@Override
 	public boolean onCommand(CommandSender sender, List<String> args) {
+		sender.sendMessage("Reloading Environmental Effects");
 		plugin.reloadConfig();
 		return true;
 	}

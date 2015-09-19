@@ -2,3 +2,16 @@ name: EnvironmentalEffects
 version: 1.0
 author: [Maxopoly]
 main: com.github.maxopoly.EnvironmentalEffects
+commands:
+    ee:
+        description: EnvironmentalEffects - Mod for creating a variety of effects
+        usage: Command not found! Try /ee help
+
+    ee reload:
+        description: Completly reloads the plugin and rereads the config
+        usage: /ee reload
+        permission: EE.reload
+permissions:
+    EE.reload:
+        description: Allows player to reload the plugin by using /ee reload
+        default: op        
