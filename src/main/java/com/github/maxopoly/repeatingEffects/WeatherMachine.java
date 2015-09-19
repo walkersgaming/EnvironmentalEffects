@@ -1,18 +1,18 @@
-package Environmental.Effects.repeatingEffects.biomeBased;
+package com.github.maxopoly.repeatingEffects;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 import org.bukkit.WeatherType;
-import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * Allows to set randomize weather in specific biomes to configured values. The
+ * Allows to set randomize weather in specific areas to configured values. The
  * weather will only be changed client side, because this supports multiple
- * biomes on the same map and server side rain is global. Use this classes
+ * areas on the same map and server side rain is global. Use this classes
  * methods to determine whether it's raining for players right now, they might
- * be in async with the server's weather. Players might walk into our biome at
+ * be in async with the server's weather. Players might walk into an area at
  * any time, so this runnable constantly schedules itself to ensure the weather
  * is right for every player. This doesn't mean it's rerolled everytime run() is
  * run
@@ -20,7 +20,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author Max
  *
  */
-public class WeatherMachine extends RepeatingEffectBiomeBased {
+public class WeatherMachine extends RepeatingEffect {
 
 	double rainChance; // between 0 and 1, where 1 is 100%
 	long minRainDuration; // in ticks
@@ -30,14 +30,13 @@ public class WeatherMachine extends RepeatingEffectBiomeBased {
 	long rainUpdate;
 	int i;
 
-	public WeatherMachine(JavaPlugin plugin, Biome biome, double rainChance,
+	public WeatherMachine(JavaPlugin plugin, LinkedList<Area> areas, double rainChance,
 			long minRainDuration, long rainUpdate) {
-		super(plugin, biome);
+		super(plugin, areas,rainUpdate);
 		this.rainChance = rainChance;
 		this.minRainDuration = minRainDuration;
 		this.rainUpdate = rainUpdate;
 		RNG = new Random();
-		scheduleNextRun();
 	}
 
 	public void run() {
@@ -61,14 +60,6 @@ public class WeatherMachine extends RepeatingEffectBiomeBased {
 				applyToPlayer(p);
 			}
 		}
-	}
-
-	/**
-	 * Schedules the next run to update rain for all players
-	 */
-	public void scheduleNextRun() {
-		plugin.getServer().getScheduler()
-				.scheduleSyncDelayedTask(plugin, this, rainUpdate);
 	}
 
 	/**
@@ -105,7 +96,7 @@ public class WeatherMachine extends RepeatingEffectBiomeBased {
 	}
 	
 	public void applyToPlayer(Player p) {
-		if (isPlayerinBiome(p)) {
+		if (isPlayerInArea(p)) {
 			p.setPlayerWeather(getCurrentWeatherType());
 		}
 	}

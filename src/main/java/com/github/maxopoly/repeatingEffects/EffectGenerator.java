@@ -1,30 +1,35 @@
-package Environmental.Effects.repeatingEffects.biomeBased;
+package com.github.maxopoly.repeatingEffects;
+
+import java.util.LinkedList;
 
 import org.bukkit.Effect;
 import org.bukkit.Location;
-import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class EffectGenerator extends RepeatingEffectBiomeBased {
+/**
+ * Not functional yet
+ * @author Max
+ *
+ */
+public class EffectGenerator extends RepeatingEffect {
 	private Effect effect;
 	private int amount;
 	private float speed;
-	private long delayBetweenRuns;
 
-	public EffectGenerator(JavaPlugin plugin, Biome biome, Effect effect, int amount,
-			float speed, long delayBetweenRuns) {
-		super(plugin, biome);
+	public EffectGenerator(JavaPlugin plugin, LinkedList<Area> areas, Effect effect, int amount,
+			float speed, long updateTime) {
+		super(plugin, areas,updateTime);
 		this.effect = effect;
 		this.amount = amount;
 		this.speed = speed;
-		this.delayBetweenRuns = delayBetweenRuns;
 	}
 
 	public void applyToPlayer(Player p) {
-		if (isPlayerinBiome(p)) {
-			p.spigot().playEffect(p.getEyeLocation(), effect, effect.getId(),
+		if (isPlayerInArea(p)) {
+			p.spigot().playEffect(p.getEyeLocation(), effect, 0,
 					0, 0F, 0F, 0F, speed, amount, 1);
+			//TODO fix this
 		}
 	}
 
@@ -37,15 +42,11 @@ public class EffectGenerator extends RepeatingEffectBiomeBased {
 		for(Player p:currentPlayers) {
 			applyToPlayer(p);
 		}
-		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, this, delayBetweenRuns);
+		scheduleNextRun();
 	}
 	
 	public float getSpeed() {
 		return speed;
-	}
-	
-	public long getDelay() {
-		return delayBetweenRuns;
 	}
 	
 	public Effect getEffect() {

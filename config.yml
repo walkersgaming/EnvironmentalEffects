@@ -1,11 +1,309 @@
+#EnvironmentalEffects configuration file
+
+#Each effect by this plugin can have as many instances as you want. Specific instances will be tied to specific areas and can all be specified
+#in the same config section. Each instance has it's own identifier, which is the name of the section in the config. Try to avoid duplicating identifiers
+#and NEVER use the same identifier twice for the same effect.
+#An example:
+
+#effectXYZ:
+#   firstInstance:
+#       .details
+#       .about
+#       .firstInstance
+#   secondInstance:
+#       .details
+#       .about
+#       .secondInstance
+
+#       etc.
+
+#Some effects also require identifier within identifiers (there will be more information if thats the case), the same rules apply for those.
+
+#Some config values will require you to specify an amount of time or a timespan. This plugin supports multiple format for time, you can add a letter at the end
+#of a number to describe in which unit it is. Valid identifers are h (hours), m (minutes), s (second) and t (ticks). If no identifier is given, the value will be
+#interpreted as tick. It is also possible to combine those identifiers, but the numbers must always be integers, here are some examples:
+
+#10 minutes:
+#time: 10m
+
+#20 ticks:
+#time: 20t
+#or
+#time: 1s
+#or
+#time: 20
+#All of those mean exactly the same
+
+#1 hour 2 minutes and 10 seconds
+#time:1h10s2m
+#The order doesn't matter, you could even do this:
+#time:1m1h10s1m
+#And you would get the same result
+
+
+#Every effect by this plugin will be active in specific areas and require you to specify the areas for the effect. Effects without 
+#areas won't do anything and might as well be removed from the config, because they are just eating up unused computing power. 
+#Possible areas are: BIOME, CIRCLE, RECTANGLE and GLOBAL, all effects are active from bedrock to skylimit and can be combined as much
+#as wanted.
+
+#BIOMES means the effect is active in a specific biome (or multiple). Use the spigot identifier for biomes to 
+#describe them, a full list of those can be found at https://hub.spigotmc.org/javadocs/spigot/org/bukkit/block/Biome.html
+
+#CIRCLE will require you to specify a variable called xsize, which will be the radius of the circle and a location, which will be 
+#the center of the circle. Effects will be applied to every player inside the circle. The central location will require you to 
+#specify an x and z coordinate, specifying a y-level is possible, but doesn't have any effects currently, if it's not specified 
+#the y-level will default to 0
+
+#RECTANGLE will require you to specify a xsize, a zsize and a center location. The xsize and zsize describe the size of the
+#rectangle, starting at the central location, which means the final rectangle will have a total size of (2*xSize)*(2*zSize), centred
+#on the given location. For specifying the central location the same rules apply as for a CIRCLE
+
+#GLOBAL simply means the effect will be applied to every player on the map, dont combine global with any other area descriptions, it
+#will lead to exception. To use global, simply put "GLOBAL" into the biomes list.
+
+#Here are some examples for valid area configurations:
+
+#A global effect:
+
+#areas:
+#   biomes:
+#    - GLOBAL
+
+#An effect which is applied in plains and beach biomes:
+
+#areas:
+#   biomes:
+#    - BEACH
+#    - PLAINS
+
+#An effect which is applied in a 30 radius circle around 1000,1000:
+
+#areas:
+#   locations:
+#       exampleName1:
+#           shape: CIRCLE
+#           xsize: 30
+#           center:
+#               x: 1000
+#               z: 1000
+
+#More advanced combination:
+
+#areas:
+#   biomes:
+#    - MEGA_TAIGA
+#    - ROOFED_FOREST
+#   locations:
+#       exampleName2:
+#           shape: RECTANGLE
+#           xsize: 45
+#           zsize: 50
+#           center:
+#               x: -3000
+#               z: 2000
+#       exampleName3:
+#           shape: CIRCLE
+#           xsize: 100
+#           center:
+#               x: 1337
+#               z: 1337
+    
+
+#Some effects might require you to also specify itemstacks. Each itemstack has it's own identifier in this config and an example itemstack section could look like this:
+
+#                   ExampleDrop54:
+#                       material: CLOCK
+#                       amount: 2
+#                       display_name: The Clockback
+#                       lore: Special admin crime tool
+#                       enchants:
+#                           KB5:
+#                               enchant: KNOCKBACK
+#                               level: 20                   
+
+#Each item requires you to specify the material, use the spigot identifiers for those, a full list can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+#amount is the amount of the item, if it is not specified it will default to 1.
+#display_name is the name of the item, if it's not specified the item wont be named
+#lore is the lore of the item, it's also optional and will be just empty if it's not set
+#enchants lists all enchants that should be on the item. Each enchant has it's own config identifier and needs 2 options to be specified, enchant is the spigot identifier for the enchant,
+#a list of those can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/enchantments/Enchantment.html and level is the level of the enchant. You can specify as many enchants as
+#you want or completly remove the whole enchants section, it's optional.
+
+#Now the actual config with explainations alongside the different effects and options:
+    
+    
+#How often players are updated whether it's raining or not. This is only needed when players are 
+#walking into regions with different weather than their previous region, higher values here mean 
+#it might take longer until the players weather is updated. 
 rainupdate: 200
+
+#How often the daytime for players is updated. If time is slowed down or stopped completly, this 
+#shouldn't be too high, because otherwise players will notice the sudden change
 timeupdate: 200
 
-biomes:
-    weathermachine:
-        rain_chance: 0.5
-        minimum_rain_duration: 400
-    daytime_modifier:
-        dayspeed: 0.5
-        
-        
+#Name of the main world this is supposed to work on. This plugin only supports a single world per server yet,
+#mob spawning and possibly some other features won't work in worlds other than the main world set here
+worldname: default
+
+#Weather machines can modify the weather for players completly. Other than in vanilla, different regions can have
+#different weather thanks to this plugin, because the weather is only changed in the players client and not
+#actually serverside
+
+#Example config for weather machines:
+#weathermachines:
+#   permarain:
+#       rain_chance: 1.0
+#       minimum_rain_duration: 400
+#       areas:
+#           biomes:
+#            - OCEAN
+
+#Every minimum_rain_duration, the server decides based on the chance specified at rain_chance, whether it will rain
+#for the next minimum_rain_duration. A rain chance of 1.0 means it will always rain, 0.5 means a 50 % chance and 0.0 means
+#it will never rain etc., any double value can be used here.
+
+weathermachines:
+
+#Daytime modifiers can speed up, slow down or completly stop the minecraft ingame days. Different daytimes in different regions
+#on the same server are possible with this
+
+#Example config for a daytime_modifier:
+#daytime_modifier:
+#   permaevening:
+#       starting_time: 20000
+#       dayspeed: 0.0
+
+#The starting time is the set time whenever the server is started or the plugin is reloaded. A detailied explaination of ingame time
+#can be found here: http://minecraft.gamepedia.com/Day-night_cycle#Conversions
+#Dayspeed is a multiplier of the vanilla dayspeed. 0.0 would mean that time doesn't change at all, 1.0 would result in vanilla 20min days
+#and for example 0.0138888 would make an ingame day last 24 real hours. Values higher than 1.0 are possible to speed up the days, but too
+#high values might lead to very weird behavior.
+
+daytime_modifier:
+
+
+#non-functional yet
+#effects:
+#   snowstorm:
+#       effect_type: SNOW_SHOVEL
+#       speed: 1.0
+#       amount: 40
+#       delay: 20
+
+
+#This effect spawns fireballs at y=255 around players. Be careful when using this without disabling fireball terrain distruction and fire generation, the fireballs will
+#slowly destroy the whole surrounding and set everything on fire
+
+#Example config:
+#fireball:
+#    netherFireRain:
+#       frequency: 10s
+#       range: 20
+#       areas:
+#           biomes:
+#            - HELL
+
+#frequency influences how often fireballs are spawned around the player. A random amount of time between 0 and the given value is chosen for the period of time until
+#the next fireball spawns. If frequency is set too low (<20ticks) it might heavily influence server performance. The fireballs will spawn in a random location in a square, which's sides are 2*range long
+#and which is centred on the player. If range it set to 0, all fireballs will be spawned right above the player.
+
+fireball:
+
+
+#Potion effects allow to give out specific buffs and debuffs in specific regions to players (other entities wont be affected)
+#Example config:
+
+#potioneffects:
+#   funareajump:
+#       type: JUMP
+#       duration: 60s
+#       level: 2
+#       areas:
+#          locations:
+#            funarea1:
+#               shape: CIRCLE
+#               xsize: 200
+#               center:
+#                    x: 0
+#                    z: 0                 
+
+#type describes which type of potion effect is applied, use the spigot identifier for those, a full list can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionEffectType.html
+#duration is simply the amount of time the buff lasts, it will be refreshed every duration*0.75 and level is the level of the potion effect. A detailed explaination what different levels of potion effects do
+#can be found here:http://minecraft.gamepedia.com/Status_effect#List_of_effects 
+
+potionseffects:
+
+#The monster spawning part of this plugin is very powerful and allows you to spawn completly customized mobs around players. Here is an example config:
+
+#monster:
+#    mobdescription1:
+#       updatetime: 1m
+#       areas:
+#           biomes:
+#            - EXTREME_HILLS
+#       mobconfig:
+#           OPskeletons:
+#               type: SKELETON
+#               name: xX420QU1CKSC0P3R420Xx
+#               range: 64
+#               amount: 2
+#               maximum_spawn_attempts: 10
+#               deathmessage: Y you hardscope
+#               spawn_chance: 0.5
+#               drops:
+#                   Special_IngredientXYZ:
+#                       material: BONE
+#                       amount: 2
+#                       lore: Spooky and scary
+#               equipment:
+#                   bow:
+#                       material: BOW
+#                       enchants:
+#                           P10:
+#                               enchant: ARROW_DAMAGE
+#                               level: 10
+#                           KB5:
+#                               enchant: KNOCKBACK
+#                               level: 5
+#                   protchest:
+#                       material: DIAMOND_CHESTPLATE
+#                       enchants:
+#                           Prot6:
+#                               enchant: PROTECTION_ENVIRONMENTAL
+#                               level: 6
+#               buffs:
+#                   speed5:
+#                       type: SPEED
+#                       level: 5
+#               on_hit_debuffs:
+#                   theyseenothing:
+#                       type: BLINDNESS
+#                       level: 1
+#                       duration: 5s
+#                       chance: 0.2  
+
+#First of all, just for like every other effect, you can have as many instances of this active as you want. The update time decides how often the plugins attempts to spawn mobs next to every player, this is
+#the same for all mobs spawned by this instance. Each instance also has as many mobconfigs as wanted (at least 1), those have their own identifers and completly describe the monster which should be spawned.
+
+#In a mobconfig, type describes which type of monster should be spawned. Use entity identifiers for that, a full list can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
+#Just because stuff like carts are entities doesn't mean you can spawn them with this, only use this config part to spawn monsters. anything else will lead to exceptions etc.
+#name is the name the mob will be given after spawning, this is optional and if you either leave the field empty or completly remove the option, the mob will be spawned without a name.
+#range defines the maximum distance from a player a mob could spawn, like for other effects, this defines a square, which's sides are 2*range long and which is centred on the player, the spawning location
+#is randomized inside this square and on the same y-level as the player. If the option range is not set, it will default to 32
+#amount specifies how many monsters with the given specifics should be spawned at once, for example in the example config above, 2 spooky skeletons would be spawned at once. If this option is removed, it defaults to 10
+#maximum_spawn_attempts defined how often the plugin should try to find a suitable spawning location for the monsters. It wont spawn them inside of walls etc. and instead try to find a free space inside
+#the given range and give up after maximum_spawn_attempts. If this option is removed, it defaults to 5
+#deathmessage is the message that is sent to the player who kills the monster. If this option is removed or left empty, no message will be sent.
+#spawn_chance is the chance to even spawn something every updatetime. This is a double, where 1.0 means it should always try to spawn and 0.0 means it should never try to spawn. This chance does not take 
+#into account that there might be no location for the monster to spawn in and that the spawning could fail because of that.
+#drops is a list of items, which are dropped by the monster upon death. This part is also optional, if it doesnt exist the drops will be vanilla.
+#equipment is the equipment of the monster. You dont need to specify in which slot something will be equipped, that will be detected automatically, but just use common sense and for example dont try to equip
+#a chestplate on a spider, it wont work and might crash. Specifying equipment is optional
+#buffs is a list of buffs that will be applied to the monster, they will last forever (technically not, but no player will ever see a buff end). Just specify the type and level for each buff, same as for the
+#potion effect section applies here. Specifying buffs is also optional.
+#on_hit_debuffs allows to let monster apply specific debuffs (or even buffs) to players hit by them. Each debuff requires you to specify a type (same thing as for potion buffs), it's level, the duration,
+#the level and a chance to apply it on hitting a player. If the duration is not set, it will default to 5 seconds and if the chance is not set, it will default to 1.0. Chance is a double, where 1.0 is 100 %
+#and 0.0 is 0%
+
+monster:
+    
