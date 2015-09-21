@@ -114,7 +114,7 @@ public class Area {
 		case BIOME:
 			return loc.getBlock().getBiome() == biome;
 		case RECTANGLE:
-			return xSize <= getXDifference(loc) && zSize <= getZDifference(loc);
+			return xSize >= getXDifference(loc) && zSize >= getZDifference(loc);
 		case CIRCLE:
 			return getXZDistance(loc) <= xSize;
 		default:
@@ -136,7 +136,7 @@ public class Area {
 	}
 
 	private double getZDifference(Location loc) {
-		return Math.abs(loc.getZ() - center.getZ());
+		return  Math.abs(loc.getZ() - center.getZ());
 	}
 
 }

@@ -24,7 +24,7 @@ public abstract class RepeatingEffect implements Runnable {
 	protected Collection<? extends Player> currentPlayers;
 	protected long updateTime;
 	protected LinkedList<Area> areas;
-	private Random rng;
+	protected Random rng;
 
 	public RepeatingEffect(JavaPlugin plugin, LinkedList<Area> areas,
 			long updateTime) {

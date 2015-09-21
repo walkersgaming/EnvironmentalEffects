@@ -18,7 +18,8 @@ public class CommandHandler implements CommandExecutor {
 
 		plugin.getCommand("ee").setExecutor(this);
 
-		registerCommands(new AbstractCommand[] {new Reload(plugin)});
+		registerCommands(new AbstractCommand[] { new Reload(plugin),
+				new WrathOfTheGods(plugin) });
 	}
 
 	private void registerCommands(AbstractCommand[] abstractCommands) {

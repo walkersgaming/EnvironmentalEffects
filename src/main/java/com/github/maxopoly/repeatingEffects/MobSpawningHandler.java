@@ -71,7 +71,7 @@ public class MobSpawningHandler extends RepeatingEffect {
 	}
 	
 	public static MobConfig getConfig(Monster mob) {
-		MobConfig mb = currentMobs.get(currentMobs);
+		MobConfig mb = currentMobs.get(mob);
 		return mb;
 	}
 

@@ -16,7 +16,6 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class DaytimeModifier extends RepeatingEffect {
 
-	private final boolean shouldTimeChange;
 	private final Float daySpeed; // multiplier, 1.0 makes for standard 20 min
 									// days, 0.5
 	// would be 40 min day,
@@ -28,17 +27,10 @@ public class DaytimeModifier extends RepeatingEffect {
 			Float daySpeed, long updateTime) {
 		super(plugin, areas, updateTime);
 		this.currentRunTime = startingTime;
-		shouldTimeChange = daySpeed == 0.0;
 		this.daySpeed = daySpeed;
 	}
 
 	public void run() {
-		if (!shouldTimeChange) {
-			for (Player p : currentPlayers) {
-				applyToPlayer(p);
-			}
-			return;
-		}
 		currentPlayers = getCurrentPlayers();
 		currentRunTime = previousRunTime + (long) (getUpdateTime() * daySpeed);
 		if (currentRunTime > 23999) {

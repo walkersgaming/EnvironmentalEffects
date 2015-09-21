@@ -24,6 +24,7 @@ import com.github.maxopoly.commands.CommandHandler;
 import com.github.maxopoly.exceptions.ConfigParseException;
 import com.github.maxopoly.listeners.MobListeners;
 import com.github.maxopoly.listeners.SyncPlayersWithInternalValues;
+import com.github.maxopoly.listeners.TerrainDamageListeners;
 import com.github.maxopoly.managers.RepeatingEffectManager;
 import com.github.maxopoly.mobs.MobConfig;
 import com.github.maxopoly.repeatingEffects.Area;
@@ -39,6 +40,10 @@ public class EnvironmentalEffects extends JavaPlugin {
 	private static JavaPlugin plugin;
 	private RepeatingEffectManager manager;
 	private CommandHandler commandHandler;
+
+	boolean fireballTerrainDamage;
+	boolean fireballTerrainIgnition;
+	boolean disableFirespread;
 
 	public void onEnable() {
 		createManagers();
@@ -69,6 +74,14 @@ public class EnvironmentalEffects extends JavaPlugin {
 		long timeUpdate = config.getLong("timeupdate");
 		sendConsoleMessage("Daytime for players will be updated every "
 				+ timeUpdate + " ticks");
+		fireballTerrainDamage = config.getBoolean("fireball_terraindamage");
+		sendConsoleMessage("fireball terrain damage: " + fireballTerrainDamage);
+		fireballTerrainIgnition = config.getBoolean("fireball_terrainignition");
+		sendConsoleMessage("fireball terrain ignition: "
+				+ fireballTerrainIgnition);
+		disableFirespread = config.getBoolean("firespread_disabled");
+		sendConsoleMessage("Disabling fire spread: "
+				+ String.valueOf(disableFirespread));
 		String worldname = config.getString("worldname");
 		sendConsoleMessage("Worldname is:" + worldname);
 
@@ -119,7 +132,7 @@ public class EnvironmentalEffects extends JavaPlugin {
 				dtm.scheduleNextRun();
 				manager.add(dtm);
 				sendConsoleMessage("Initialized daytime modifier " + key
-						+ "starting time:" + startingTime + ", daytime speed:"
+						+ " starting time:" + startingTime + ", daytime speed:"
 						+ daytimeSpeed);
 			}
 		} else {
@@ -266,9 +279,9 @@ public class EnvironmentalEffects extends JavaPlugin {
 								int level = currentDebuffSection
 										.getInt("level");
 								long duration = parseTime(currentDebuffSection
-										.getString("duration","5s"));
-								double chance = currentDebuffSection
-										.getDouble("chance",1.0);
+										.getString("duration", "5s"));
+								double chance = currentDebuffSection.getDouble(
+										"chance", 1.0);
 								PotionEffect pe = new PotionEffect(pet,
 										(int) duration, level);
 								onHitDebuffs.put(pe, chance);
@@ -288,6 +301,7 @@ public class EnvironmentalEffects extends JavaPlugin {
 				msh.scheduleNextRun();
 				manager.add(msh);
 			}
+			sendConsoleMessage("Successfully parsed EE config");
 		}
 	}
 
@@ -326,10 +340,14 @@ public class EnvironmentalEffects extends JavaPlugin {
 				.getPluginManager()
 				.registerEvents(new SyncPlayersWithInternalValues(manager),
 						this);
+		this.getServer().getPluginManager()
+				.registerEvents(new MobListeners(), this);
 		this.getServer()
-		.getPluginManager()
-		.registerEvents(new MobListeners(),
-				this);
+				.getPluginManager()
+				.registerEvents(
+						new TerrainDamageListeners(fireballTerrainDamage,
+								fireballTerrainIgnition, disableFirespread),
+						this);
 	}
 
 	public static void sendConsoleMessage(String message) {
@@ -338,6 +356,10 @@ public class EnvironmentalEffects extends JavaPlugin {
 
 	public LinkedList<Area> parseAreas(ConfigurationSection cs, String worldname)
 			throws ConfigParseException {
+		if (cs == null) {
+			throw new ConfigParseException(
+					"No area was specified for an effect");
+		}
 		LinkedList<Area> areas = new LinkedList<Area>();
 		List<String> biomes = cs.getStringList("biomes");
 		ConfigurationSection locs = cs.getConfigurationSection("locations");
@@ -378,7 +400,7 @@ public class EnvironmentalEffects extends JavaPlugin {
 
 	public Location parseLocation(ConfigurationSection c, String worldname) {
 		long x = c.getLong("x");
-		long y = c.getLong("y",0L);
+		long y = c.getLong("y", 0L);
 		long z = c.getLong("z");
 		return new Location(plugin.getServer().getWorld(worldname), x, y, z);
 	}
@@ -387,14 +409,14 @@ public class EnvironmentalEffects extends JavaPlugin {
 		long result = 0;
 		boolean set = true;
 		try {
-			Long.parseLong(arg);
+			result += Long.parseLong(arg);
 		} catch (NumberFormatException e) {
 			set = false;
 		}
 		if (set) {
 			return result;
 		}
-		while (arg != "") {
+		while (!arg.equals("")) {
 			int length = 0;
 			switch (arg.charAt(arg.length() - 1)) {
 			case 't': // ticks
@@ -430,7 +452,7 @@ public class EnvironmentalEffects extends JavaPlugin {
 		StringBuilder number = new StringBuilder();
 		for (int i = arg.length() - 2; i >= 0; i--) {
 			if (Character.isDigit(arg.charAt(i))) {
-				number.append(arg.substring(i, i + 1));
+				number.insert(0, arg.substring(i, i + 1));
 			} else {
 				break;
 			}

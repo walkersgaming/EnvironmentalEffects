@@ -27,7 +27,7 @@ public class EffectGenerator extends RepeatingEffect {
 
 	public void applyToPlayer(Player p) {
 		if (isPlayerInArea(p)) {
-			p.spigot().playEffect(p.getEyeLocation(), effect, 0,
+			p.spigot().playEffect(p.getLocation(), effect, 0,
 					0, 0F, 0F, 0F, speed, amount, 1);
 			//TODO fix this
 		}

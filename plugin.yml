@@ -11,7 +11,14 @@ commands:
         description: Completly reloads the plugin and rereads the config
         usage: /ee reload
         permission: EE.reload
+    ee wrathofthegods:
+        description: Brings the wrath of ttk himself upon filthy players
+        usage: /ee wrathofthegods
+        permission: EE.ttk
 permissions:
     EE.reload:
         description: Allows player to reload the plugin by using /ee reload
-        default: op        
+        default: op 
+    EE.ttk:
+        description: Allows ttk to make players angry
+        default: op

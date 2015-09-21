@@ -1,7 +1,6 @@
 package com.github.maxopoly.repeatingEffects;
 
 import java.util.LinkedList;
-import java.util.Random;
 
 import org.bukkit.WeatherType;
 import org.bukkit.entity.Player;
@@ -24,11 +23,10 @@ public class WeatherMachine extends RepeatingEffect {
 
 	double rainChance; // between 0 and 1, where 1 is 100%
 	long minRainDuration; // in ticks
-	Random RNG;
 	boolean rain;
 	WeatherType currentWeather;
 	long rainUpdate;
-	int i;
+	int i=0;
 
 	public WeatherMachine(JavaPlugin plugin, LinkedList<Area> areas, double rainChance,
 			long minRainDuration, long rainUpdate) {
@@ -36,7 +34,6 @@ public class WeatherMachine extends RepeatingEffect {
 		this.rainChance = rainChance;
 		this.minRainDuration = minRainDuration;
 		this.rainUpdate = rainUpdate;
-		RNG = new Random();
 	}
 
 	public void run() {
@@ -66,7 +63,7 @@ public class WeatherMachine extends RepeatingEffect {
 	 * Recalculates whether it should rain based on probabilities
 	 */
 	public void willItRain() {
-		rain = RNG.nextDouble() <= rainChance;
+		rain = rng.nextDouble() <= rainChance;
 		if (rain) {
 			currentWeather = WeatherType.DOWNFALL;
 		} else {
