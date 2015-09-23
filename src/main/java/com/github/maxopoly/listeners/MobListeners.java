@@ -17,7 +17,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
-import com.github.maxopoly.mobs.MobConfig;
+import com.github.maxopoly.datarepresentations.MobConfig;
 import com.github.maxopoly.repeatingEffects.MobSpawningHandler;
 
 public class MobListeners implements Listener {

@@ -8,6 +8,9 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.maxopoly.datarepresentations.Area;
+import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
+
 /**
  * Pretty much every effect caused by this plugin repeats in some sort of way,
  * this provides a super class for any repeating effect with some convenience
@@ -24,14 +27,18 @@ public abstract class RepeatingEffect implements Runnable {
 	protected Collection<? extends Player> currentPlayers;
 	protected long updateTime;
 	protected LinkedList<Area> areas;
+	protected PlayerEnvironmentState pes;
 	protected Random rng;
 
 	public RepeatingEffect(JavaPlugin plugin, LinkedList<Area> areas,
-			long updateTime) {
+			long updateTime, PlayerEnvironmentState pes) {
 		this.plugin = plugin;
 		this.updateTime = updateTime;
 		this.areas = areas;
 		this.rng = new Random();
+		this.pes = pes;
+		plugin.getServer().getScheduler()
+				.scheduleSyncRepeatingTask(plugin, this, 0L, updateTime);
 	}
 
 	/**
@@ -71,6 +78,15 @@ public abstract class RepeatingEffect implements Runnable {
 	}
 
 	/**
+	 * Standard run method for an effect. May be overwritten by a subclass
+	 */
+	public void run() {
+		for (Player p : getCurrentPlayers()) {
+			applyToPlayer(p);
+		}
+	}
+
+	/**
 	 * Checks whether the given location is inside any of the areas in which
 	 * effects are applied by this instance
 	 * 
@@ -89,6 +105,31 @@ public abstract class RepeatingEffect implements Runnable {
 	}
 
 	/**
+	 * Convenience method to check whether the player is in the right area and
+	 * whether the environmental conditions are met
+	 * 
+	 * @param p
+	 *            player to check
+	 * @return true if the player fulfills all the criteria, false if not
+	 */
+	public boolean conditionsMet(Player p) {
+		return environmentConditionMet(p) && isPlayerInArea(p);
+	}
+
+	/**
+	 * Checks whether the environmental conditions for this instance are met for
+	 * a player. If the conditions are null, it's always assumed they are true,
+	 * also checks whether the player is null
+	 * 
+	 * @param p
+	 *            player to check
+	 * @return true if the player meets the conditions, false if not
+	 */
+	public boolean environmentConditionMet(Player p) {
+		return p != null && (pes == null || pes.conditionMet(p));
+	}
+
+	/**
 	 * Checks whether the given player is inside any of the areas in which
 	 * effects are applied by this instance
 	 * 
@@ -98,25 +139,6 @@ public abstract class RepeatingEffect implements Runnable {
 	 */
 	public boolean isPlayerInArea(Player p) {
 		return isInArea(p.getLocation());
-	}
-
-	/**
-	 * Schedules this effect to be applied again in the set amount of time
-	 */
-	public void scheduleNextRun() {
-		plugin.getServer().getScheduler()
-				.scheduleSyncDelayedTask(plugin, this, updateTime);
-	}
-
-	/**
-	 * Schedules this effect to be applied again in a random intervall, which
-	 * has a maximum length of the set updateTime and a minimal length of 0
-	 */
-	public void scheduleNextRunRandomized() {
-		plugin.getServer()
-				.getScheduler()
-				.scheduleSyncDelayedTask(plugin, this,
-						rng.nextInt((int) getUpdateTime()));
 	}
 
 }

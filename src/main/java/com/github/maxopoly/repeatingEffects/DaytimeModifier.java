@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.maxopoly.datarepresentations.Area;
+
 /**
  * Allows to change the length of ingame days or to set the time to a specific
  * value permanently. All of this is only done playerside, so the players time
@@ -16,32 +18,28 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class DaytimeModifier extends RepeatingEffect {
 
-	private final Float daySpeed; // multiplier, 1.0 makes for standard 20 min
-									// days, 0.5
-	// would be 40 min day,
-	// 2.0 10 min etc.
+	private final Float daySpeed;
+	// multiplier, 1.0 makes for standard 20 min days, 0.5
+	// would be 40 min day, 2.0 10 min etc.
 	private long previousRunTime; // in ticks
 	private long currentRunTime; // in ticks
 
-	public DaytimeModifier(JavaPlugin plugin, LinkedList<Area> areas, Long startingTime,
-			Float daySpeed, long updateTime) {
-		super(plugin, areas, updateTime);
+	public DaytimeModifier(JavaPlugin plugin, LinkedList<Area> areas,
+			Long startingTime, Float daySpeed, long updateTime) {
+		super(plugin, areas, updateTime, null);
 		this.currentRunTime = startingTime;
 		this.daySpeed = daySpeed;
 	}
 
 	public void run() {
-		currentPlayers = getCurrentPlayers();
 		currentRunTime = previousRunTime + (long) (getUpdateTime() * daySpeed);
 		if (currentRunTime > 23999) {
 			currentRunTime -= 24000L;
 		}
-		for (Player p : currentPlayers) {
+		for (Player p : getCurrentPlayers()) {
 			applyToPlayer(p);
 		}
 		previousRunTime = currentRunTime;
-		scheduleNextRun();
-
 	}
 
 	/**
@@ -49,10 +47,8 @@ public class DaytimeModifier extends RepeatingEffect {
 	 * desired time
 	 */
 	public void applyToPlayer(Player p) {
-		if (p != null) {
-			if (isPlayerInArea(p)) {
-				p.setPlayerTime(currentRunTime, false);
-			}
+		if (conditionsMet(p)) {
+			p.setPlayerTime(currentRunTime, false);
 		}
 	}
 }

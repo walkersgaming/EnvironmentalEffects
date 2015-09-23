@@ -1,4 +1,4 @@
-package com.github.maxopoly.repeatingEffects;
+package com.github.maxopoly.datarepresentations;
 
 import org.bukkit.Location;
 import org.bukkit.block.Biome;
@@ -123,6 +123,28 @@ public class Area {
 		}
 	}
 
+	/**
+	 * @return Shape of this area
+	 */
+	public Area.Shape getShape() {
+		return shape;
+	}
+
+	/**
+	 * @return center of this area
+	 */
+	public Location getCenter() {
+		return center;
+	}
+	
+	public int getxSize() {
+		return xSize;
+	}
+	
+	public int getzSize() {
+		return zSize;
+	}
+
 	// these methods are not safe, calling them when the area is actually
 	// not a geometrical shape with x and z will throw exceptions
 	private double getXZDistance(Location loc) {
@@ -136,7 +158,7 @@ public class Area {
 	}
 
 	private double getZDifference(Location loc) {
-		return  Math.abs(loc.getZ() - center.getZ());
+		return Math.abs(loc.getZ() - center.getZ());
 	}
 
 }

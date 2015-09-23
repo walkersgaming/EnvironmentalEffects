@@ -1,4 +1,4 @@
-package com.github.maxopoly.mobs;
+package com.github.maxopoly.datarepresentations;
 
 import java.util.HashMap;
 import java.util.LinkedList;

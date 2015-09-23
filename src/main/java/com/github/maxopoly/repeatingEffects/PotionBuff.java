@@ -7,32 +7,28 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import com.github.maxopoly.datarepresentations.Area;
+import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
+
 public class PotionBuff extends RepeatingEffect {
 	private PotionEffectType pet;
 	private int duration; // in ticks
 	private int level;
 
 	public PotionBuff(JavaPlugin plugin, LinkedList<Area> areas,
-			PotionEffectType pet, int level, int duration) {
-		super(plugin, areas, (duration / 4) * 3);
+			PotionEffectType pet, int level, int duration,
+			PlayerEnvironmentState pes) {
+		super(plugin, areas, (duration / 4) * 3, pes);
 		this.pet = pet;
 		this.level = level;
 		this.duration = duration;
 	}
 
 	public void applyToPlayer(Player p) {
-		if (isPlayerInArea(p)) {
+		if (conditionsMet(p)) {
 			PotionEffect pe = new PotionEffect(pet, level, duration);
 			p.addPotionEffect(pe);
 		}
-	}
-
-	public void run() {
-		currentPlayers = getCurrentPlayers();
-		for (Player p : currentPlayers) {
-			applyToPlayer(p);
-		}
-		scheduleNextRun();
 	}
 
 	/**

@@ -9,6 +9,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
+import com.github.maxopoly.datarepresentations.Area;
+import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
+
 /**
  * Spawns fireballs randomly around players. Be careful when using this without
  * an additional listener to prevent the fireballs from dealing terrain damage,
@@ -21,19 +24,11 @@ public class FireBallRain extends RepeatingEffect {
 	private int range;
 	private Random rng;
 
-	public FireBallRain(JavaPlugin plugin, LinkedList<Area> areas, long frequency,
-			int range) {
-		super(plugin, areas, frequency);
+	public FireBallRain(JavaPlugin plugin, LinkedList<Area> areas,
+			long frequency, int range, PlayerEnvironmentState pes) {
+		super(plugin, areas, frequency, pes);
 		this.range = range;
 		rng = new Random();
-	}
-
-	public void run() {
-		currentPlayers = getCurrentPlayers();
-		for (Player p : currentPlayers) {
-			applyToPlayer(p);
-		}
-		scheduleNextRunRandomized();
 	}
 
 	/**
@@ -41,17 +36,17 @@ public class FireBallRain extends RepeatingEffect {
 	 * at y=255. It will fly straight down.
 	 */
 	public void applyToPlayer(Player p) {
-		if (!isPlayerInArea(p)) {
-			return;
+		if (conditionsMet(p)) {
+
+			int x = rng.nextInt(range * 2) - range;
+			int y = rng.nextInt(range * 2) - range;
+			Location pLoc = p.getLocation();
+			Location spawnLoc = new Location(p.getWorld(), pLoc.getX() + x,
+					255, pLoc.getY() + y);
+			// this will spawn them at build limit, doesnt work in caves
+			Fireball fireball = p.getWorld().spawn(spawnLoc, Fireball.class);
+			fireball.setDirection(new Vector(0, -1, 0));
 		}
-		int x = rng.nextInt(range * 2) - range;
-		int y = rng.nextInt(range * 2) - range;
-		Location pLoc = p.getLocation();
-		Location spawnLoc = new Location(p.getWorld(), pLoc.getX() + x, 255,
-				pLoc.getY() + y);
-		// this will spawn them at build limit, doesnt work in caves
-		Fireball fireball = p.getWorld().spawn(spawnLoc, Fireball.class);
-		fireball.setDirection(new Vector(0, -1, 0));
 	}
 
 	/**

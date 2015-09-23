@@ -111,6 +111,24 @@
 #               z: 1337
     
 
+#Some effects also allow you to specify specific environmental conditions for the player, which have to be fulfilled so the
+#effect is applied. Only some allow this and if it is allowed the example next to the config section will show it. An example:
+
+#player_environment_state:
+#   rain: true
+#   night: true
+
+#This for example will lead to effects only being applied if it's raining and it's night for the player. Night is here defined
+#as >12000 dayticks. If you wanted the effect for example to only be active during the day, night would have to be set to true.
+#If you want to ignore one of the options, for example to always apply an effect when it's raining, independent from the day
+#time, simply leave the time option out like this:
+
+#player_environment_state:
+#   rain: true
+    
+#This works with both options
+
+
 #Some effects might require you to also specify itemstacks. Each itemstack has it's own identifier in this config and an example 
 #itemstack section could look like this:
 
@@ -140,16 +158,17 @@
     
 #How often players are updated whether it's raining or not. This is only needed when players are 
 #walking into regions with different weather than their previous region, higher values here mean 
-#it might take longer until the players weather is updated. 
+#it might take longer until the players weather is updated. Defaults to 200 ticks if not set.
 rainupdate: 200
 
 #How often the daytime for players is updated. If time is slowed down or stopped completly, this 
-#shouldn't be too high, because otherwise players will notice the sudden change
+#shouldn't be too high, because otherwise players will notice the sudden change. Defaults to 200
+#ticks if not set
 timeupdate: 200
 
 #Name of the main world this is supposed to work on. This plugin only supports a single world per server yet,
 #mob spawning and possibly some other features won't work in worlds other than the main world set here
-worldname: default
+worldname: world
 
 #Weather machines can modify the weather for players completly. Other than in vanilla, different regions can have
 #different weather thanks to this plugin, because the weather is only changed in the players client and not
@@ -188,6 +207,29 @@ weathermachines:
 daytime_modifier:
 
 
+#lightning effects allow you to create as much lightning around players as you want. An example config:
+
+#lightning:
+#   endoftheworld:
+#       areas:
+#           biomes:
+#            - GLOBAL
+#       frequency: 15s
+#       player_environment_state:
+#           rain: true
+#       deal_damage: false
+#       range: 16
+
+#frequency simply is how often lighting strikes near each player
+
+#deal_damage specifies whether the lightning should deal damage to players, if this is set to true it will deal
+#damage and might kill player. Defaults to true if not set
+
+#range is the range around the player in which the lightning can randomly strike. Calculation of the area is the same square
+#calculation as for all other effects. Defaults to 32 if not set.
+
+lightning:
+
 #non-functional yet
 #effects:
 #   snowstorm:
@@ -209,12 +251,12 @@ daytime_modifier:
 #       areas:
 #           biomes:
 #            - HELL
+#       player_environment_state:
+#           night: false
 
-#frequency influences how often fireballs are spawned around the player. A random amount of time between 0 and the given 
-#value is chosen for the period of time until the next fireball spawns. If frequency is set too low (<20ticks) it might 
-#heavily influence server performance. The fireballs will spawn in a random location in a square, 
-#which's sides are 2*range long and which is centred on the player. If range it set to 0, all fireballs will be spawned 
-#right above the player.
+#frequency influences how often fireballs are spawned around the player. If frequency is set too low (<20ticks) it might 
+#heavily influence server performance. The fireballs will spawn in a random location in a square, which's sides are 2*range
+#long and which is centred on the player. If range it set to 0, all fireballs will be spawned right above the player.
 
 fireball:
 
@@ -234,7 +276,9 @@ fireball:
 #               xsize: 200
 #               center:
 #                    x: 0
-#                    z: 0                 
+#                    z: 0 
+#       player_environment_state:
+#           night: true                
 
 #type describes which type of potion effect is applied, use the spigot identifier for those, a full list can be found here: 
 #https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionEffectType.html
@@ -243,6 +287,39 @@ fireball:
 #http://minecraft.gamepedia.com/Status_effect#List_of_effects 
 
 potionseffects:
+
+
+#Armour based damage allows you to deal damage to player because they are wearing a specific piece of armour or because they
+#are not wearing a specific piece of armour. An example config could look like this:
+
+#armour_based_damage:
+#   deserts_are_hot:
+#       areas:
+#           biomes:
+#            - DESERT
+#       frequency: 5m
+#       damage_message: The sand is burning your feet!
+#       damage_amount: 1
+#       player_environment_state:
+#           night: false
+#       armour:
+#           boots: false
+
+#damage_message is a message that is sent to a player whenever damage is dealt to him, if this option is not set, no message
+#will be sent
+
+#damage_amount is the damage dealt to the player, where 1 is half a heart. Counting like this, a player has 20 health maximum
+
+#armour allows you to specify what slot must be filled or empty to deal damage. Possible keywords for this are: helmet, chest,
+#leggings and boots. In the given example, the player would receive damage if he is in the desert during the day without boots.
+#If an armourslot option is not set in the config, it is assumed that the slot is not relevant to whether the damage is dealt or
+#not. Setting a slot to true means, damage is dealt if it filled, setting it to false means damage is dealt if it is empty. If 
+#only one of the arguments is full filled, the damage will still be dealt, for example if you specified both chest and helmet
+#as true, the player would receive damage if he was wearing just one of those.
+
+
+
+armour_based_damage:
 
 #The monster spawning part of this plugin is very powerful and allows you to spawn completly customized mobs around players.
 #Here is an example config:
@@ -253,6 +330,8 @@ potionseffects:
 #       areas:
 #           biomes:
 #            - EXTREME_HILLS
+#       player_environment_state:
+#           night: true
 #       mobconfig:
 #           OPskeletons:
 #               type: SKELETON

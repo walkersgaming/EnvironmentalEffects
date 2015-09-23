@@ -38,6 +38,12 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		 <dependency>
+      <groupId>vg.civcraft.mc.citadel</groupId>
+      <artifactId>Citadel</artifactId>
+      <version>3.0.12-40</version>
+      <scope>provided</scope>
+    </dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
@@ -50,5 +56,9 @@
 			<id>spigot-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
+		<repository>
+      <id>civcraft-repo</id>
+      <url>http://build.civcraft.co/plugin/repository/everything/</url>
+    </repository>
 	</repositories>
 </project>

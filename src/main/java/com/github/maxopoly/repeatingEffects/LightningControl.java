@@ -6,27 +6,34 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.maxopoly.datarepresentations.Area;
+import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
+
+/**
+ * Spawns lightning around players, this can be either just a visual effect or
+ * actual lightning, which deals damage.
+ * 
+ * @author Max
+ *
+ */
 public class LightningControl extends RepeatingEffect {
 	boolean dealDamage;
 	int range;
 
 	public LightningControl(JavaPlugin plugin, LinkedList<Area> areas,
-			long updatetime, boolean dealDamage, int range) {
-		super(plugin, areas, updatetime);
+			long updatetime, PlayerEnvironmentState pes, boolean dealDamage,
+			int range) {
+		super(plugin, areas, updatetime, pes);
 		this.dealDamage = dealDamage;
 		this.range = range;
 	}
 
-	public void run() {
-		currentPlayers = getCurrentPlayers();
-		for (Player p : currentPlayers) {
-			applyToPlayer(p);
-		}
-		scheduleNextRun();
-	}
-
+	/**
+	 * Creates a single lightning somewhere around a player if the conditions
+	 * are met
+	 */
 	public void applyToPlayer(Player p) {
-		if (p != null && isPlayerInArea(p)) {
+		if (conditionsMet(p)) {
 			int x = (int) p.getLocation().getX() + rng.nextInt(range * 2)
 					- (range);
 			int z = (int) p.getLocation().getZ() + rng.nextInt(range * 2)

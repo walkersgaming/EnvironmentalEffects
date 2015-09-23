@@ -7,7 +7,9 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.maxopoly.mobs.MobConfig;
+import com.github.maxopoly.datarepresentations.Area;
+import com.github.maxopoly.datarepresentations.MobConfig;
+import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
 
 /**
  * Manages the spawning of completly configurable mobs. All of the mobs are kept
@@ -24,8 +26,9 @@ public class MobSpawningHandler extends RepeatingEffect {
 	private static HashMap<Monster, MobConfig> currentMobs;
 
 	public MobSpawningHandler(JavaPlugin plugin, LinkedList<Area> areas,
-			LinkedList<MobConfig> mobConfigs, long updateTime) {
-		super(plugin, areas, updateTime);
+			LinkedList<MobConfig> mobConfigs, long updateTime,
+			PlayerEnvironmentState pes) {
+		super(plugin, areas, updateTime, pes);
 		this.mobConfigs = mobConfigs;
 		if (currentMobs == null) {
 			currentMobs = new HashMap<Monster, MobConfig>();
@@ -41,7 +44,7 @@ public class MobSpawningHandler extends RepeatingEffect {
 	 * account before calling this method
 	 */
 	public void applyToPlayer(Player p) {
-		if (p != null) {
+		if (conditionsMet(p)) {
 			for (MobConfig mc : mobConfigs) {
 				LinkedList<Monster> resultedMobs = mc
 						.createMob(p.getLocation());
@@ -56,20 +59,6 @@ public class MobSpawningHandler extends RepeatingEffect {
 		}
 	}
 
-	/**
-	 * Cycle through players and attempt to spawn mobs on them if they are in
-	 * the right area
-	 */
-	public void run() {
-		currentPlayers = getCurrentPlayers();
-		for (Player p : currentPlayers) {
-			if (isPlayerInArea(p)) {
-				applyToPlayer(p);
-			}
-		}
-		scheduleNextRun();
-	}
-	
 	public static MobConfig getConfig(Monster mob) {
 		MobConfig mb = currentMobs.get(mob);
 		return mb;

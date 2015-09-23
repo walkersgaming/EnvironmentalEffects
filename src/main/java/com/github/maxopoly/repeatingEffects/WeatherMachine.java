@@ -6,6 +6,8 @@ import org.bukkit.WeatherType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.maxopoly.datarepresentations.Area;
+
 /**
  * Allows to set randomize weather in specific areas to configured values. The
  * weather will only be changed client side, because this supports multiple
@@ -30,7 +32,7 @@ public class WeatherMachine extends RepeatingEffect {
 
 	public WeatherMachine(JavaPlugin plugin, LinkedList<Area> areas, double rainChance,
 			long minRainDuration, long rainUpdate) {
-		super(plugin, areas,rainUpdate);
+		super(plugin, areas,rainUpdate,null);
 		this.rainChance = rainChance;
 		this.minRainDuration = minRainDuration;
 		this.rainUpdate = rainUpdate;
@@ -43,7 +45,6 @@ public class WeatherMachine extends RepeatingEffect {
 			willItRain();
 		}
 		setRainForPlayers();
-		scheduleNextRun();
 	}
 
 	/**
@@ -51,8 +52,7 @@ public class WeatherMachine extends RepeatingEffect {
 	 * selected weather type
 	 */
 	public void setRainForPlayers() {
-		currentPlayers = getCurrentPlayers();
-		for (Player p : currentPlayers) {
+		for (Player p : getCurrentPlayers()) {
 			if (p.getPlayerWeather() != getCurrentWeatherType()) {
 				applyToPlayer(p);
 			}
@@ -93,7 +93,7 @@ public class WeatherMachine extends RepeatingEffect {
 	}
 	
 	public void applyToPlayer(Player p) {
-		if (isPlayerInArea(p)) {
+		if (conditionsMet(p)) {
 			p.setPlayerWeather(getCurrentWeatherType());
 		}
 	}

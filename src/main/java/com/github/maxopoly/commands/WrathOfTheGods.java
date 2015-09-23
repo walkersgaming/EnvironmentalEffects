@@ -6,37 +6,42 @@ import java.util.List;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.maxopoly.datarepresentations.Area;
+import com.github.maxopoly.datarepresentations.Area.Shape;
 import com.github.maxopoly.exceptions.ConfigParseException;
-import com.github.maxopoly.repeatingEffects.Area;
-import com.github.maxopoly.repeatingEffects.Area.Shape;
 import com.github.maxopoly.repeatingEffects.FireBallRain;
 import com.github.maxopoly.repeatingEffects.LightningControl;
 import com.github.maxopoly.repeatingEffects.WeatherMachine;
 
+/**
+ * Joke command, which disables any previous effects and enables permanent rain,
+ * tons of fireball rain and tons of lightning
+ * 
+ * @author Max
+ *
+ */
 public class WrathOfTheGods extends AbstractCommand {
 	public WrathOfTheGods(JavaPlugin plugin) {
 		super(plugin, "wrathofthegods");
 	}
-	
+
 	@Override
 	public boolean onCommand(CommandSender sender, List<String> args) {
-		sender.sendMessage("THIS WORLD SHALL COME TO AN END");
 		plugin.getServer().getScheduler().cancelTasks(plugin);
-		Area global=null;
+		plugin.getServer().broadcastMessage("THIS WORLD SHALL COME TO AN END");
+		Area global = null;
 		try {
-		global = new Area(Shape.GLOBAL);
+			global = new Area(Shape.GLOBAL);
+		} catch (ConfigParseException e) {
+
 		}
-		catch (ConfigParseException e) {
-			
-		}
-		LinkedList <Area> areas = new LinkedList <Area> ();
+		LinkedList<Area> areas = new LinkedList<Area>();
 		areas.add(global);
-		WeatherMachine wm = new WeatherMachine(plugin, areas, 1D, 3600000L, 200L);
-		wm.scheduleNextRun();
-		FireBallRain fbr = new FireBallRain(plugin,areas,200L,32);
-		fbr.scheduleNextRun();
-		LightningControl lc = new LightningControl(plugin, areas, 300L, true, 64);
-		lc.scheduleNextRun();
+		WeatherMachine wm = new WeatherMachine(plugin, areas, 1D, 3600000L,
+				200L);
+		FireBallRain fbr = new FireBallRain(plugin, areas, 200L, 32, null);
+		LightningControl lc = new LightningControl(plugin, areas, 300L, null,
+				true, 64);
 		sender.sendMessage("MAXIMUM DESTRUCTION ACTIVATED");
 		return true;
 	}
