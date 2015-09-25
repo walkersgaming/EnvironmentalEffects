@@ -27,7 +27,7 @@ public class DaytimeModifier extends RepeatingEffect {
 	public DaytimeModifier(JavaPlugin plugin, LinkedList<Area> areas,
 			Long startingTime, Float daySpeed, long updateTime) {
 		super(plugin, areas, updateTime, null);
-		this.currentRunTime = startingTime;
+		this.previousRunTime = startingTime;
 		this.daySpeed = daySpeed;
 	}
 

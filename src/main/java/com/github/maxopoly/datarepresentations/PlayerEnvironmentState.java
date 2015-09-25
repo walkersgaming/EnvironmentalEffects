@@ -40,4 +40,11 @@ public class PlayerEnvironmentState {
 		}
 		return false;
 	}
+	
+	public Boolean getRain() {
+		return rain;
+	}
+	public Boolean getNight() {
+		return night;
+	}
 }

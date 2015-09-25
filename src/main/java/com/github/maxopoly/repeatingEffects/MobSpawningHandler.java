@@ -2,6 +2,7 @@ package com.github.maxopoly.repeatingEffects;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -23,17 +24,13 @@ import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
 public class MobSpawningHandler extends RepeatingEffect {
 
 	private LinkedList<MobConfig> mobConfigs;
-	private static HashMap<Monster, MobConfig> currentMobs;
+	private static HashMap<Monster, MobConfig> currentMobs = new HashMap<Monster, MobConfig>();;
 
 	public MobSpawningHandler(JavaPlugin plugin, LinkedList<Area> areas,
 			LinkedList<MobConfig> mobConfigs, long updateTime,
 			PlayerEnvironmentState pes) {
 		super(plugin, areas, updateTime, pes);
 		this.mobConfigs = mobConfigs;
-		if (currentMobs == null) {
-			currentMobs = new HashMap<Monster, MobConfig>();
-		}
-
 	}
 
 	/**
@@ -51,17 +48,37 @@ public class MobSpawningHandler extends RepeatingEffect {
 				if (resultedMobs != null) {
 					for (Monster mob : resultedMobs) {
 						if (mob != null) {
-							currentMobs.put(mob, mc);
+							addMonster(mob, mc);
 						}
 					}
 				}
 			}
 		}
 	}
+	
+	/**
+	 * Kills all mobs currently handled by any MobSpawningHandler. This is run every time the 
+	 * this plugin (or in most cases the server) is disabled, because this plugin is currently not 
+	 * hooked up to a database to make drops and effects consistent over restarts.
+	 */
+	public static void killAll() {
+		for(Map.Entry<Monster,MobConfig> current:currentMobs.entrySet()) {
+			current.getKey().remove();
+		}
+		
+	}
 
 	public static MobConfig getConfig(Monster mob) {
 		MobConfig mb = currentMobs.get(mob);
 		return mb;
+	}
+
+	public static void addMonster(Monster mob, MobConfig config) {
+		currentMobs.put(mob, config);
+	}
+	
+	public static void removeMonster(Monster mob) {
+		currentMobs.remove(mob);
 	}
 
 }

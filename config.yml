@@ -166,6 +166,17 @@ rainupdate: 200
 #ticks if not set
 timeupdate: 200
 
+#Keeps fireballs from dealing terrain damage if set to true. This might be needed if the fireballl rain is heavily used
+#to prevent the whole world being destroyed slowly. But then again this makes the effect very boring, because it makes it 
+#almost invisble
+disabled_fireball_terraindamage: true
+
+#Keeps fireballs from igniting terrain if set to true
+disable_fireball_terrainignition: true
+
+#Completly disabled passive fire spread if set to true. Player can still ignite individual blocks if this is enabled
+firespread_disabled: true
+
 #Name of the main world this is supposed to work on. This plugin only supports a single world per server yet,
 #mob spawning and possibly some other features won't work in worlds other than the main world set here
 worldname: world
@@ -188,6 +199,18 @@ worldname: world
 #it will never rain etc., any double value can be used here.
 
 weathermachines:
+    permarain:
+        rain_chance: 1.0
+        minimum_rain_duration: 4000
+        areas:
+            biomes:
+             - PLAINS
+    neverrrain:
+        rain_chance: 0.0
+        minimum_rain_duration: 4000
+        areas:
+            biomes:
+             - OCEAN
 
 #Daytime modifiers can speed up, slow down or completly stop the minecraft ingame days. Different daytimes in different regions
 #on the same server are possible with this
@@ -197,6 +220,9 @@ weathermachines:
 #   permaevening:
 #       starting_time: 20000
 #       dayspeed: 0.0
+#       areas:
+#           biomes:
+#            - GLOBAL
 
 #The starting time is the set time whenever the server is started or the plugin is reloaded. A detailied explaination 
 #of ingame time can be found here: http://minecraft.gamepedia.com/Day-night_cycle#Conversions
@@ -259,12 +285,17 @@ lightning:
 #long and which is centred on the player. If range it set to 0, all fireballs will be spawned right above the player.
 
 fireball:
-
+    fire:
+        frequency: 1s
+        range: 5
+        areas:
+            biomes:
+             - PLAINS
 
 #Potion effects allow to give out specific buffs and debuffs in specific regions to players (other entities wont be affected)
 #Example config:
 
-#potioneffects:
+#potion_effects:
 #   funareajump:
 #       type: JUMP
 #       duration: 60s
@@ -286,7 +317,16 @@ fireball:
 #of the potion effect. A detailed explaination what different levels of potion effects do can be found here:
 #http://minecraft.gamepedia.com/Status_effect#List_of_effects 
 
-potionseffects:
+potion_effects:
+   funareajump:
+       type: FAST_DIGGING
+       duration: 60s
+       level: 0
+       areas:
+          biomes:
+           - GLOBAL
+       player_environment_state:
+           rain: false      
 
 
 #Armour based damage allows you to deal damage to player because they are wearing a specific piece of armour or because they
@@ -405,7 +445,9 @@ armour_based_damage:
 #location for the monster to spawn in and that the spawning could fail because of that.
 
 #drops is a list of items, which are dropped by the monster upon death. This part is also optional, if it doesnt exist 
-#the drops will be vanilla.
+#the drops will be vanilla. A monster spawned by this plugin will only drop it's "special" drops as defined in this 
+#config if it was killed by a player, otherwise the drops will be vanilla. Also a monster will never drop the armour
+#or weapon it was given when it spawned
 
 #equipment is the equipment of the monster. You dont need to specify in which slot something will be equipped, that will 
 #be detected automatically, but just use common sense and for example dont try to equip a chestplate on a spider, it wont 
@@ -420,5 +462,7 @@ armour_based_damage:
 #a player. If the duration is not set, it will default to 5 seconds and if the chance is not set, it will default to 1.0. 
 #Chance is a double, where 1.0 is 100 % and 0.0 is 0%
 
-monster:
-    
+#General advice on the balancing of mobs: If you want to spawn monster during the day, give them fire res. Skeletons wont spawn
+#with a bow unless you give them one and strength does not apply to arrows, work with power enchants on the bow instead. Also
+#giving monsters utility instead of flat out damage is usually better.
+monster: 

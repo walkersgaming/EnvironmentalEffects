@@ -1,7 +1,6 @@
 package com.github.maxopoly.repeatingEffects;
 
 import java.util.LinkedList;
-import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Fireball;
@@ -22,13 +21,11 @@ import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
  */
 public class FireBallRain extends RepeatingEffect {
 	private int range;
-	private Random rng;
 
 	public FireBallRain(JavaPlugin plugin, LinkedList<Area> areas,
 			long frequency, int range, PlayerEnvironmentState pes) {
 		super(plugin, areas, frequency, pes);
 		this.range = range;
-		rng = new Random();
 	}
 
 	/**
@@ -37,12 +34,11 @@ public class FireBallRain extends RepeatingEffect {
 	 */
 	public void applyToPlayer(Player p) {
 		if (conditionsMet(p)) {
-
 			int x = rng.nextInt(range * 2) - range;
-			int y = rng.nextInt(range * 2) - range;
+			int z = rng.nextInt(range * 2) - range;
 			Location pLoc = p.getLocation();
 			Location spawnLoc = new Location(p.getWorld(), pLoc.getX() + x,
-					255, pLoc.getY() + y);
+					255, pLoc.getZ() + z);
 			// this will spawn them at build limit, doesnt work in caves
 			Fireball fireball = p.getWorld().spawn(spawnLoc, Fireball.class);
 			fireball.setDirection(new Vector(0, -1, 0));

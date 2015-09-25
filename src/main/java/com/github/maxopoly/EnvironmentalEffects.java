@@ -1,42 +1,18 @@
 package com.github.maxopoly;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Biome;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import com.github.maxopoly.commands.CommandHandler;
-import com.github.maxopoly.datarepresentations.Area;
-import com.github.maxopoly.datarepresentations.MobConfig;
-import com.github.maxopoly.datarepresentations.Area.Shape;
-import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
 import com.github.maxopoly.exceptions.ConfigParseException;
 import com.github.maxopoly.listeners.MobListeners;
 import com.github.maxopoly.listeners.SyncPlayersWithInternalValues;
 import com.github.maxopoly.listeners.TerrainDamageListeners;
 import com.github.maxopoly.managers.RepeatingEffectManager;
-import com.github.maxopoly.repeatingEffects.DaytimeModifier;
-import com.github.maxopoly.repeatingEffects.EffectGenerator;
-import com.github.maxopoly.repeatingEffects.FireBallRain;
 import com.github.maxopoly.repeatingEffects.MobSpawningHandler;
-import com.github.maxopoly.repeatingEffects.PotionBuff;
-import com.github.maxopoly.repeatingEffects.WeatherMachine;
+
 
 public class EnvironmentalEffects extends JavaPlugin {
 	private static JavaPlugin plugin;
@@ -45,7 +21,14 @@ public class EnvironmentalEffects extends JavaPlugin {
 	private ConfigParser cp;
 
 	public void onEnable() {
-		reload();
+		plugin=this;
+		commandHandler = new CommandHandler(this);
+		cp = new ConfigParser(this);
+		try {
+			manager =  cp.parseConfig();
+		} catch (ConfigParseException e) {
+			e.printStackTrace();
+		}
 		registerListeners();
 	}
 
@@ -55,7 +38,7 @@ public class EnvironmentalEffects extends JavaPlugin {
 	}
 
 	public void onDisable() {
-
+		MobSpawningHandler.killAll();
 	}
 
 	/**

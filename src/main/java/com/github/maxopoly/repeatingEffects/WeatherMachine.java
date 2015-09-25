@@ -36,6 +36,7 @@ public class WeatherMachine extends RepeatingEffect {
 		this.rainChance = rainChance;
 		this.minRainDuration = minRainDuration;
 		this.rainUpdate = rainUpdate;
+		willItRain();
 	}
 
 	public void run() {

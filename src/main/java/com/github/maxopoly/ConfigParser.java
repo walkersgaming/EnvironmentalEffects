@@ -160,7 +160,7 @@ public class ConfigParser {
 						.getConfigurationSection(key);
 				long frequency = parseTime(currentSection
 						.getString("frequency"));
-				int range = currentSection.getInt("range");
+				int range = currentSection.getInt("range", 32);
 				LinkedList<Area> areas = parseAreas(
 						currentSection.getConfigurationSection("areas"),
 						worldname);
@@ -176,14 +176,14 @@ public class ConfigParser {
 
 		// Initialize potion buffs
 		ConfigurationSection potionSection = config
-				.getConfigurationSection("potioneffects");
+				.getConfigurationSection("potion_effects");
 		if (potionSection != null) {
 			for (String key : potionSection.getKeys(false)) {
 				ConfigurationSection currentSection = potionSection
 						.getConfigurationSection(key);
 				PotionEffectType pet = PotionEffectType
 						.getByName(currentSection.getString("type"));
-				int duration = currentSection.getInt("duration");
+				long duration = parseTime(currentSection.getString("duration"));
 				int level = currentSection.getInt("level");
 				LinkedList<Area> areas = parseAreas(
 						currentSection.getConfigurationSection("areas"),
@@ -193,6 +193,9 @@ public class ConfigParser {
 				PotionBuff pb = new PotionBuff(plugin, areas, pet, level,
 						duration, pes);
 				manager.add(pb);
+				sendConsoleMessage("Loaded potion buff " + key + " type:"
+						+ pet.toString() + ",level:" + level + " duration:"
+						+ duration);
 			}
 
 		}
@@ -301,7 +304,7 @@ public class ConfigParser {
 								.getConfigurationSection("buffs");
 						if (buffSection != null) {
 							for (String buffkey : buffSection.getKeys(false)) {
-								ConfigurationSection currentBuffSection = potionSection
+								ConfigurationSection currentBuffSection = buffSection
 										.getConfigurationSection(buffkey);
 								PotionEffectType pet = PotionEffectType
 										.getByName(currentBuffSection

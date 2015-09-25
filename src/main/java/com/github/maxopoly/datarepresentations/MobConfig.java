@@ -101,6 +101,8 @@ public class MobConfig {
 				eq.setChestplateDropChance(0F);
 				eq.setHelmetDropChance(0F);
 				eq.setItemInHandDropChance(0F);
+				mob.setCanPickupItems(false);
+				mob.setRemoveWhenFarAway(false);
 				for (Map.Entry<PotionEffectType, Integer> current : buffs
 						.entrySet()) {
 					mob.addPotionEffect(new PotionEffect(current.getKey(),
