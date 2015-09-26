@@ -37,10 +37,10 @@ public class ArmourState {
 	 */
 	public boolean isPlayerWearingWrongArmour(Player p) {
 		EntityEquipment eq = p.getEquipment();
-		if (head == null || (eq.getHelmet() != null) == head) {
-			if (chest == null || (eq.getChestplate() != null) == chest) {
-				if (pants == null || (eq.getLeggings() != null) == pants) {
-					if (boots == null || (eq.getBoots() != null) == boots) {
+		if (head == null || (eq.getHelmet() == null) == head) {
+			if (chest == null || (eq.getChestplate() == null) == chest) {
+				if (pants == null || (eq.getLeggings() == null) == pants) {
+					if (boots == null || (eq.getBoots() == null) == boots) {
 						return false;
 					}
 				}

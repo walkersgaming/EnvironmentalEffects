@@ -60,10 +60,10 @@ public class ConfigParser {
 		long timeUpdate = config.getLong("timeupdate", 200L);
 		sendConsoleMessage("Daytime for players will be updated every "
 				+ timeUpdate + " ticks");
-		fireballTerrainDamage = config.getBoolean("fireball_terraindamage",
+		fireballTerrainDamage = config.getBoolean("disable_fireball_terraindamage",
 				false);
 		sendConsoleMessage("fireball terrain damage: " + fireballTerrainDamage);
-		fireballTerrainIgnition = config.getBoolean("fireball_terrainignition",
+		fireballTerrainIgnition = config.getBoolean("disable_fireball_terrainignition",
 				false);
 		sendConsoleMessage("fireball terrain ignition: "
 				+ fireballTerrainIgnition);
