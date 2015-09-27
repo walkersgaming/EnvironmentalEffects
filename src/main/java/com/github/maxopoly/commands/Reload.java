@@ -5,6 +5,8 @@ import java.util.List;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.maxopoly.EnvironmentalEffects;
+
 public class Reload extends AbstractCommand {
 	public Reload(JavaPlugin plugin) {
 		super(plugin, "reload");
@@ -13,7 +15,7 @@ public class Reload extends AbstractCommand {
 	@Override
 	public boolean onCommand(CommandSender sender, List<String> args) {
 		sender.sendMessage("Reloading Environmental Effects");
-		plugin.reloadConfig();
+		((EnvironmentalEffects)plugin).reload();
 		return true;
 	}
 

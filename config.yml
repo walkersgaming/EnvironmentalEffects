@@ -169,12 +169,12 @@ timeupdate: 200
 #Keeps fireballs from dealing terrain damage if set to true. This might be needed if the fireballl rain is heavily used
 #to prevent the whole world being destroyed slowly. But then again this makes the effect very boring, because it makes it 
 #almost invisble
-disabled_fireball_terraindamage: true
+disable_fireball_terraindamage: true
 
 #Keeps fireballs from igniting terrain if set to true
 disable_fireball_terrainignition: true
 
-#Completly disabled passive fire spread if set to true. Player can still ignite individual blocks if this is enabled
+#Completly disables passive fire spread if set to true. Player can still ignite individual blocks if this is enabled
 firespread_disabled: true
 
 #Name of the main world this is supposed to work on. This plugin only supports a single world per server yet,
