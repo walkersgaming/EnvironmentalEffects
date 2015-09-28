@@ -1,5 +1,7 @@
 #EnvironmentalEffects configuration file
 
+#Dont ever use tabs to format any Spigot config, it wont work, only use spaces!
+
 #Each effect by this plugin can have as many instances as you want. Specific instances will be tied to specific areas and 
 #can all be specified in the same config section. Each instance has it's own identifier, which is the name of the section 
 #in the config. Try to avoid duplicating identifiers and NEVER use the same identifier twice for the same effect.
@@ -343,23 +345,29 @@ potion_effects:
 #       player_environment_state:
 #           night: false
 #       armour:
-#           boots: false
+#           boots: 
+#            - NONE
+#            - IRON
+#            - CHAINMAIL
 
 #damage_message is a message that is sent to a player whenever damage is dealt to him, if this option is not set, no message
 #will be sent
 
 #damage_amount is the damage dealt to the player, where 1 is half a heart. Counting like this, a player has 20 health maximum
 
-#armour allows you to specify what slot must be filled or empty to deal damage. Possible keywords for this are: helmet, chest,
-#leggings and boots. In the given example, the player would receive damage if he is in the desert during the day without boots.
-#If an armourslot option is not set in the config, it is assumed that the slot is not relevant to whether the damage is dealt or
-#not. Setting a slot to true means, damage is dealt if it filled, setting it to false means damage is dealt if it is empty. If 
-#only one of the arguments is full filled, the damage will still be dealt, for example if you specified both chest and helmet
-#as true, the player would receive damage if he was wearing just one of those.
-
+#armour allows you to specify with which armour a player should be damaged. Possible subsections here are helmet, chest, leggings
+#and boots, you can provide a list with damage cases for each of those. If a list is left empty or the slot isn't even listed,
+#the plugin will assume that the slot doesn't matter for this effect. The arguments put into the list of each slot decide with
+#which armour type specifically damage should be dealt, possible identifers here are DIAMOND, GOLD, IRON, CHAINMAIL, LEATHER,
+#NONE and ANY. Specific armour types mean the player will receive damage if his armour is of the given type, NONE means damage 
+#will be dealt if the player is wearing no armour at all and ANY means the player will be damaged if he is wearing any armour
+#in that slot at all. If only one of the arguments is full filled, the damage will still be dealt, this applies both for 
+#different slots and different armourtypes in the list for each slot. Try to avoid overlapping arguments, for example if you
+#specify ANY, you wont need to list any other type.
 
 
 armour_based_damage:
+
 
 #The monster spawning part of this plugin is very powerful and allows you to spawn completly customized mobs around players.
 #Here is an example config:

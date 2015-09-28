@@ -20,6 +20,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.github.maxopoly.datarepresentations.Area;
 import com.github.maxopoly.datarepresentations.ArmourState;
+import com.github.maxopoly.datarepresentations.ArmourState.ArmourType;
 import com.github.maxopoly.datarepresentations.MobConfig;
 import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
 import com.github.maxopoly.datarepresentations.Area.Shape;
@@ -60,11 +61,11 @@ public class ConfigParser {
 		long timeUpdate = config.getLong("timeupdate", 200L);
 		sendConsoleMessage("Daytime for players will be updated every "
 				+ timeUpdate + " ticks");
-		fireballTerrainDamage = config.getBoolean("disable_fireball_terraindamage",
-				false);
+		fireballTerrainDamage = config.getBoolean(
+				"disable_fireball_terraindamage", false);
 		sendConsoleMessage("fireball terrain damage: " + fireballTerrainDamage);
-		fireballTerrainIgnition = config.getBoolean("disable_fireball_terrainignition",
-				false);
+		fireballTerrainIgnition = config.getBoolean(
+				"disable_fireball_terrainignition", false);
 		sendConsoleMessage("fireball terrain ignition: "
 				+ fireballTerrainIgnition);
 		disableFirespread = config.getBoolean("firespread_disabled", false);
@@ -242,16 +243,16 @@ public class ConfigParser {
 				int dmg = currentSection.getInt("damage_amount");
 				ConfigurationSection as = currentSection
 						.getConfigurationSection("armour");
-				Boolean head = booleanNullCheck(as, "helmet");
-				Boolean chest = booleanNullCheck(as, "chest");
-				Boolean pants = booleanNullCheck(as, "leggings");
-				Boolean boots = booleanNullCheck(as, "boots");
+				LinkedList<ArmourType> head = parseArmourTypeList(as, "helmet");
+				LinkedList<ArmourType> chest = parseArmourTypeList(as, "chest");
+				LinkedList<ArmourType> pants = parseArmourTypeList(as,
+						"leggings");
+				LinkedList<ArmourType> boots = parseArmourTypeList(as, "boots");
 				ArmourState armourState = new ArmourState(head, chest, pants,
 						boots);
 				ArmourBasedDamage abd = new ArmourBasedDamage(plugin, areas,
 						frequency, pes, armourState, dmgMsg, dmg);
 				manager.add(abd);
-
 			}
 		}
 
@@ -353,8 +354,8 @@ public class ConfigParser {
 		return manager;
 	}
 
-	public LinkedList<Area> parseAreas(ConfigurationSection cs, String worldname)
-			throws ConfigParseException {
+	private LinkedList<Area> parseAreas(ConfigurationSection cs,
+			String worldname) throws ConfigParseException {
 		if (cs == null) {
 			throw new ConfigParseException(
 					"No area was specified for an effect");
@@ -397,14 +398,14 @@ public class ConfigParser {
 		return areas;
 	}
 
-	public Location parseLocation(ConfigurationSection c, String worldname) {
+	private Location parseLocation(ConfigurationSection c, String worldname) {
 		long x = c.getLong("x");
 		long y = c.getLong("y", 0L);
 		long z = c.getLong("z");
 		return new Location(plugin.getServer().getWorld(worldname), x, y, z);
 	}
 
-	public long parseTime(String arg) throws ConfigParseException {
+	private long parseTime(String arg) throws ConfigParseException {
 		long result = 0;
 		boolean set = true;
 		try {
@@ -447,7 +448,7 @@ public class ConfigParser {
 		return result;
 	}
 
-	public long getLastNumber(String arg) {
+	private long getLastNumber(String arg) {
 		StringBuilder number = new StringBuilder();
 		for (int i = arg.length() - 2; i >= 0; i--) {
 			if (Character.isDigit(arg.charAt(i))) {
@@ -460,7 +461,7 @@ public class ConfigParser {
 		return result;
 	}
 
-	public LinkedList<ItemStack> getItemStacks(ConfigurationSection cs) {
+	private LinkedList<ItemStack> getItemStacks(ConfigurationSection cs) {
 		LinkedList<ItemStack> result = new LinkedList<ItemStack>();
 		for (String key : cs.getKeys(false)) {
 			ConfigurationSection currentSection = cs
@@ -498,7 +499,7 @@ public class ConfigParser {
 		return result;
 	}
 
-	public PlayerEnvironmentState parsePlayerEnvironmentState(
+	private PlayerEnvironmentState parsePlayerEnvironmentState(
 			ConfigurationSection cs) {
 		if (cs == null) {
 			return null;
@@ -509,13 +510,31 @@ public class ConfigParser {
 
 	}
 
-	public Boolean booleanNullCheck(ConfigurationSection cs, String s) {
+	private Boolean booleanNullCheck(ConfigurationSection cs, String s) {
 		if (cs.contains(s)) {
 			return cs.getBoolean(s);
 		} else {
 			return null;
 		}
 
+	}
+
+	private LinkedList<ArmourType> parseArmourTypeList(ConfigurationSection cs,
+			String type) {
+		if (!cs.contains(type)) {
+			sendConsoleMessage(type + " was null");
+			return null;
+		}
+		LinkedList<ArmourType> result = new LinkedList<ArmourType>();
+		for (String s : cs.getStringList(type)) {
+			sendConsoleMessage("adding " + s);
+			result.add(ArmourType.valueOf(s.toUpperCase()));
+		}
+		if (result.size() == 0) {
+			sendConsoleMessage("size was 0");
+			return null;
+		}
+		return result;
 	}
 
 	public void sendConsoleMessage(String a) {

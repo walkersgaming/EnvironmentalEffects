@@ -1,25 +1,41 @@
 package com.github.maxopoly.datarepresentations;
 
+import java.util.LinkedList;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Describes a specific state of armour for a player. This is used by the
  * ArmourBasedDamage effect to describe an armour condition, which is wrong and
- * should be punished. Each armour slot has a Boolean, true means if something
- * is in the slot, the player will be punished, false means the player will be
- * punished if nothing is in the slot and null means the slot doesn't matter
+ * should be punished. Each armour slot has a list of the enum ArmourType to
+ * describe which armour states should be punished.
  * 
  * @author Max
  *
  */
 public class ArmourState {
-	private Boolean head;
-	private Boolean chest;
-	private Boolean pants;
-	private Boolean boots;
+	/**
+	 * Describes the possible types of armour. New constants may be added to
+	 * this if they are implemented in the isPlayerWearingArmour(Player p)
+	 * method
+	 * 
+	 * @author Max
+	 *
+	 */
+	public enum ArmourType {
+		DIAMOND, GOLD, IRON, CHAINMAIL, LEATHER, NONE, ANY
+	}
 
-	public ArmourState(Boolean head, Boolean chest, Boolean pants, Boolean boots) {
+	private LinkedList<ArmourType> head;
+	private LinkedList<ArmourType> chest;
+	private LinkedList<ArmourType> pants;
+	private LinkedList<ArmourType> boots;
+
+	public ArmourState(LinkedList<ArmourType> head,
+			LinkedList<ArmourType> chest, LinkedList<ArmourType> pants,
+			LinkedList<ArmourType> boots) {
 		this.head = head;
 		this.chest = chest;
 		this.pants = pants;
@@ -32,20 +48,49 @@ public class ArmourState {
 	 * 
 	 * @param p
 	 *            Player to check
-	 * @return true if the player is wearing "wrong" armour according to this
-	 *         instance, false if he is not
+	 * @return true if any slot is wrong and the player should be punished,
+	 *         false if not.
 	 */
 	public boolean isPlayerWearingWrongArmour(Player p) {
 		EntityEquipment eq = p.getEquipment();
-		if (head == null || (eq.getHelmet() == null) == head) {
-			if (chest == null || (eq.getChestplate() == null) == chest) {
-				if (pants == null || (eq.getLeggings() == null) == pants) {
-					if (boots == null || (eq.getBoots() == null) == boots) {
-						return false;
-					}
-				}
-			}
+		return checkSlot(head, eq.getHelmet())
+				|| checkSlot(chest, eq.getChestplate())
+				|| checkSlot(pants, eq.getLeggings())
+				|| checkSlot(boots, eq.getBoots());
+	}
+
+	private boolean checkSlot(LinkedList<ArmourType> slot, ItemStack equipped) {
+		if (slot == null) {
+			return false;
 		}
-		return true;
+		if (equipped != null && slot.contains(ArmourType.ANY)) {
+			return true;
+		}
+		if (equipped == null) {
+			return slot.contains(ArmourType.NONE) ? true : false;
+		}
+		String matString = equipped.getType().toString();
+		if (materialCheck(slot, ArmourType.LEATHER, matString)) {
+			return true;
+		}
+		if (materialCheck(slot, ArmourType.CHAINMAIL, matString)) {
+			return true;
+		}
+		if (materialCheck(slot, ArmourType.GOLD, matString)) {
+			return true;
+		}
+		if (materialCheck(slot, ArmourType.IRON, matString)) {
+			return true;
+		}
+		if (materialCheck(slot, ArmourType.DIAMOND, matString)) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean materialCheck(LinkedList<ArmourType> slot, ArmourType at,
+			String matString) {
+		return (slot != null && slot.contains(at) && matString.startsWith(at
+				.toString()));
 	}
 }
