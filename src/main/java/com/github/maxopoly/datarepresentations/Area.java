@@ -1,5 +1,9 @@
 package com.github.maxopoly.datarepresentations;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.Biome;
 
@@ -15,7 +19,7 @@ import com.github.maxopoly.exceptions.ConfigParseException;
  */
 public class Area {
 	public enum Shape {
-		RECTANGLE, CIRCLE, BIOME, GLOBAL;
+		RECTANGLE, CIRCLE, BIOME, GLOBAL, RING;
 	}
 
 	private Biome biome;
@@ -23,6 +27,35 @@ public class Area {
 	private Shape shape;
 	private int xSize;
 	private int zSize;
+	private int outerLimit;
+	private int innerLimit;
+
+	/**
+	 * Needed for the chunk collecting of ringshapes
+	 */
+	private HashSet<Chunk> scannedChunks;
+
+	/**
+	 * Constructor for a ring shape
+	 * 
+	 * @param shape
+	 *            must be Shape.Worldborder
+	 * @param innerLimit
+	 *            radius of the inner border of the ring
+	 * @param outerLimit
+	 *            radius of the outer border of the ring
+	 * @param center
+	 *            center of the ring
+	 */
+	public Area(Shape shape, int innerLimit, int outerLimit, Location center)
+			throws ConfigParseException {
+		if (shape != Shape.RING) {
+			throw new ConfigParseException();
+		}
+		this.innerLimit = innerLimit;
+		this.outerLimit = outerLimit;
+		this.center = center;
+	}
 
 	/**
 	 * Constructor for biome based areas
@@ -117,10 +150,82 @@ public class Area {
 			return xSize >= getXDifference(loc) && zSize >= getZDifference(loc);
 		case CIRCLE:
 			return getXZDistance(loc) <= xSize;
+		case RING:
+			double dis = loc.distance(center);
+			return dis >= innerLimit && dis <= outerLimit;
 		default:
 			return false; // hopefully never gonna happen
 
 		}
+	}
+
+	/**
+	 * Gets all the chunks in this area, only works for geometrical shapes.
+	 * Depending on the size this might take a while, so use this method with
+	 * caution
+	 * 
+	 * @return list of all chunks in the area
+	 */
+	public LinkedList<Chunk> getChunks() {
+		scannedChunks = new HashSet<Chunk>();
+		Chunk c;
+		switch (shape) {
+		case RING:
+			c = center.getWorld().getChunkAt(
+					new Location(center.getWorld(), center.getBlockX()
+							+ (outerLimit + innerLimit) / 2, 1, center
+							.getBlockZ() + (outerLimit + innerLimit) / 2));
+			return getChunksRecursive(c);
+		case RECTANGLE:
+		case CIRCLE:
+			c = center.getChunk();
+			return getChunksRecursive(c);
+		case BIOME:
+		case GLOBAL:
+		default:
+			return null;
+
+		}
+	}
+
+	private LinkedList<Chunk> getChunksRecursive(Chunk chunk) {
+		if (scannedChunks.contains(chunk)) {
+			return null;
+		} else {
+			scannedChunks.add(chunk);
+		}
+		if (!edgesInArea(chunk)) {
+			return null;
+		}
+		LinkedList<Chunk> result = new LinkedList<Chunk>();
+		LinkedList<Chunk> west = getChunksRecursive(chunk.getWorld()
+				.getChunkAt(chunk.getX() - 1, chunk.getZ()));
+		LinkedList<Chunk> east = getChunksRecursive(chunk.getWorld()
+				.getChunkAt(chunk.getX() + 1, chunk.getZ()));
+		LinkedList<Chunk> south = getChunksRecursive(chunk.getWorld()
+				.getChunkAt(chunk.getX(), chunk.getZ() + 1));
+		LinkedList<Chunk> north = getChunksRecursive(chunk.getWorld()
+				.getChunkAt(chunk.getX(), chunk.getZ() - 1));
+		if (west != null) {
+			result.addAll(west);
+		}
+		if (east != null) {
+			result.addAll(east);
+		}
+		if (south != null) {
+			result.addAll(south);
+		}
+		if (north != null) {
+			result.addAll(north);
+		}
+		return result;
+	}
+
+	private boolean edgesInArea(Chunk ch) {
+		return isInArea(ch.getBlock(0, 0, 0).getLocation())
+				|| isInArea(ch.getBlock(15, 0, 0).getLocation())
+				|| isInArea(ch.getBlock(0, 0, 15).getLocation())
+				|| isInArea(ch.getBlock(15, 0, 15).getLocation());
 	}
 
 	/**
@@ -136,11 +241,11 @@ public class Area {
 	public Location getCenter() {
 		return center;
 	}
-	
+
 	public int getxSize() {
 		return xSize;
 	}
-	
+
 	public int getzSize() {
 		return zSize;
 	}

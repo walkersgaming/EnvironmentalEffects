@@ -13,21 +13,25 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.SpawnerSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.projectiles.ProjectileSource;
 
 import com.github.maxopoly.datarepresentations.MobConfig;
-import com.github.maxopoly.repeatingEffects.MobSpawningHandler;
+import com.github.maxopoly.repeatingEffects.RandomMobSpawningHandler;
 
 public class MobListeners implements Listener {
 	Random rng;
+	HashMap<EntityType, MobConfig> spawnerConfig;
 
-	public MobListeners() {
+	public MobListeners(HashMap<EntityType, MobConfig> spawnerConfig) {
 		rng = new Random();
+		this.spawnerConfig = spawnerConfig;
 	}
 
 	@EventHandler
@@ -51,7 +55,7 @@ public class MobListeners implements Listener {
 				return;
 			}
 		}
-		MobConfig config = MobSpawningHandler.getConfig(damager);
+		MobConfig config = RandomMobSpawningHandler.getConfig(damager);
 		if (config != null) {
 			HashMap<PotionEffect, Double> debuffs = config.getOnHitDebuffs();
 			if (debuffs != null) {
@@ -71,8 +75,8 @@ public class MobListeners implements Listener {
 		Entity en = e.getEntity();
 		MobConfig config;
 		if (en instanceof Monster
-				&& (config = MobSpawningHandler.getConfig((Monster) en)) != null) {
-			MobSpawningHandler.removeMonster((Monster) en);
+				&& (config = RandomMobSpawningHandler.getConfig((Monster) en)) != null) {
+			RandomMobSpawningHandler.removeMonster((Monster) en);
 			if (((LivingEntity) en).getKiller() instanceof Player) {
 				String deathMsg = config.getDeathMessage();
 				if (deathMsg != null && !deathMsg.equals("")) {
@@ -86,6 +90,23 @@ public class MobListeners implements Listener {
 					for (ItemStack is : dropsToInsert) {
 						drops.add(is);
 					}
+				}
+			}
+		}
+	}
+
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void spawnerSpawn(SpawnerSpawnEvent e) {
+		if (spawnerConfig == null) {
+			return;
+		}
+		MobConfig mc = spawnerConfig.get(e.getEntityType());
+		if (mc != null) {
+			e.setCancelled(true);
+			LinkedList<Monster> spawned = mc.createMobAt(e.getLocation());
+			if (spawned != null) {
+				for (Monster m : spawned) {
+					RandomMobSpawningHandler.addMonster(m, mc);
 				}
 			}
 		}

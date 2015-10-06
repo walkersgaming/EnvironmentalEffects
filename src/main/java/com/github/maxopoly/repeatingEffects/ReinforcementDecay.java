@@ -47,9 +47,9 @@ public class ReinforcementDecay extends RepeatingEffect {
 			switch (a.getShape()) {
 			case CIRCLE:
 				for (int x = loc.getBlockX() - xsize; x < loc.getBlockX()
-						+ xsize; x++) {
+						+ xsize; x +=16) {
 					for (int z = loc.getBlockZ() - zsize; z < loc.getBlockZ()
-							+ zsize; z++) {
+							+ zsize; z+=16) {
 						if (Math.sqrt(x * x + z * z) > xsize) {
 							continue;
 						}

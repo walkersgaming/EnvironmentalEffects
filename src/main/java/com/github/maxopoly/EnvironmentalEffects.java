@@ -11,7 +11,7 @@ import com.github.maxopoly.listeners.MobListeners;
 import com.github.maxopoly.listeners.SyncPlayersWithInternalValues;
 import com.github.maxopoly.listeners.TerrainDamageListeners;
 import com.github.maxopoly.managers.RepeatingEffectManager;
-import com.github.maxopoly.repeatingEffects.MobSpawningHandler;
+import com.github.maxopoly.repeatingEffects.RandomMobSpawningHandler;
 
 
 public class EnvironmentalEffects extends JavaPlugin {
@@ -38,7 +38,7 @@ public class EnvironmentalEffects extends JavaPlugin {
 	}
 
 	public void onDisable() {
-		MobSpawningHandler.killAll();
+		RandomMobSpawningHandler.killAll();
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class EnvironmentalEffects extends JavaPlugin {
 				.registerEvents(new SyncPlayersWithInternalValues(manager),
 						this);
 		this.getServer().getPluginManager()
-				.registerEvents(new MobListeners(), this);
+				.registerEvents(new MobListeners(cp.spawnerConfig), this);
 		this.getServer()
 				.getPluginManager()
 				.registerEvents(

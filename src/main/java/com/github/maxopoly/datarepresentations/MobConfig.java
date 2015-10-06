@@ -107,7 +107,42 @@ public class MobConfig {
 						.entrySet()) {
 					mob.addPotionEffect(new PotionEffect(current.getKey(),
 							Integer.MAX_VALUE, current.getValue()));
-					// That buff lasts for 68 year, that should be long enough
+					// That buff lasts for 68 years, that should be long enough
+				}
+				resultMobs.add(mob);
+			}
+		}
+		return resultMobs;
+	}
+	
+	public LinkedList <Monster> createMobAt(Location loc) {
+		if (rng.nextDouble() > spawnChance) {
+			return null;
+		}
+		LinkedList<Monster> resultMobs = new LinkedList<Monster>();
+		for (int i = 0; i < amount; i++) {
+			Monster mob = (Monster) loc.getWorld().spawnEntity(loc, type);
+			if (mob != null) { // event wasn't cancelled
+				if (name != null && name != "") {
+					mob.setCustomName(name);
+					mob.setCustomNameVisible(true);
+				}
+				EntityEquipment eq = mob.getEquipment();
+				for (ItemStack is : armour) {
+					setSlot(eq, is);
+				}
+				eq.setBootsDropChance(0F);
+				eq.setLeggingsDropChance(0F);
+				eq.setChestplateDropChance(0F);
+				eq.setHelmetDropChance(0F);
+				eq.setItemInHandDropChance(0F);
+				mob.setCanPickupItems(false);
+				mob.setRemoveWhenFarAway(false);
+				for (Map.Entry<PotionEffectType, Integer> current : buffs
+						.entrySet()) {
+					mob.addPotionEffect(new PotionEffect(current.getKey(),
+							Integer.MAX_VALUE, current.getValue()));
+					// That buff lasts for 68 years, that should be long enough
 				}
 				resultMobs.add(mob);
 			}

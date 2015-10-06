@@ -11,6 +11,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -31,7 +32,7 @@ import com.github.maxopoly.repeatingEffects.DaytimeModifier;
 import com.github.maxopoly.repeatingEffects.EffectGenerator;
 import com.github.maxopoly.repeatingEffects.FireBallRain;
 import com.github.maxopoly.repeatingEffects.LightningControl;
-import com.github.maxopoly.repeatingEffects.MobSpawningHandler;
+import com.github.maxopoly.repeatingEffects.RandomMobSpawningHandler;
 import com.github.maxopoly.repeatingEffects.PotionBuff;
 import com.github.maxopoly.repeatingEffects.WeatherMachine;
 
@@ -41,6 +42,7 @@ public class ConfigParser {
 	boolean fireballTerrainDamage;
 	boolean fireballTerrainIgnition;
 	boolean disableFirespread;
+	HashMap<EntityType, MobConfig> spawnerConfig;
 
 	ConfigParser(JavaPlugin plugin) {
 		this.plugin = plugin;
@@ -256,7 +258,7 @@ public class ConfigParser {
 			}
 		}
 
-		// Initialize mobs
+		// Initialize random mob spawning
 		ConfigurationSection mobSection = config
 				.getConfigurationSection("monster");
 		if (mobSection != null) {
@@ -277,81 +279,95 @@ public class ConfigParser {
 					for (String mobkey : mobconfigsection.getKeys(false)) {
 						ConfigurationSection currentMobConfig = mobconfigsection
 								.getConfigurationSection(mobkey);
-						EntityType type = EntityType.valueOf(currentMobConfig
-								.getString("type"));
-						String name = currentMobConfig.getString("name", null);
-						int range = currentMobConfig.getInt("range", 32);
-						int amount = currentMobConfig.getInt("amount", 1);
-						int maximumTries = currentMobConfig.getInt(
-								"maximum_spawn_attempts", 5);
-						String deathmsg = currentMobConfig.getString(
-								"deathmessage", null);
-						double spawnChance = currentMobConfig
-								.getDouble("spawn_chance");
-						ConfigurationSection dropsSection = currentMobConfig
-								.getConfigurationSection("drops");
-						LinkedList<ItemStack> drops = null;
-						if (dropsSection != null) {
-							drops = getItemStacks(dropsSection);
-						}
-						ConfigurationSection armourSection = currentMobConfig
-								.getConfigurationSection("equipment");
-						LinkedList<ItemStack> armour = null;
-						if (armourSection != null) {
-							armour = getItemStacks(armourSection);
-						}
-						HashMap<PotionEffectType, Integer> buffs = new HashMap<PotionEffectType, Integer>();
-						ConfigurationSection buffSection = currentMobConfig
-								.getConfigurationSection("buffs");
-						if (buffSection != null) {
-							for (String buffkey : buffSection.getKeys(false)) {
-								ConfigurationSection currentBuffSection = buffSection
-										.getConfigurationSection(buffkey);
-								PotionEffectType pet = PotionEffectType
-										.getByName(currentBuffSection
-												.getString("type"));
-								int level = currentBuffSection.getInt("level");
-								buffs.put(pet, level);
-							}
-						}
-						ConfigurationSection onHitDebuffSection = currentMobConfig
-								.getConfigurationSection("on_hit_debuffs");
-						HashMap<PotionEffect, Double> onHitDebuffs = new HashMap<PotionEffect, Double>();
-						if (onHitDebuffSection != null) {
-							for (String debuffkey : onHitDebuffSection
-									.getKeys(false)) {
-								ConfigurationSection currentDebuffSection = onHitDebuffSection
-										.getConfigurationSection(debuffkey);
-								PotionEffectType pet = PotionEffectType
-										.getByName(currentDebuffSection
-												.getString("type"));
-								int level = currentDebuffSection
-										.getInt("level");
-								long duration = parseTime(currentDebuffSection
-										.getString("duration", "5s"));
-								double chance = currentDebuffSection.getDouble(
-										"chance", 1.0);
-								PotionEffect pe = new PotionEffect(pet,
-										(int) duration, level);
-								onHitDebuffs.put(pe, chance);
-							}
-							MobConfig mobconfig = new MobConfig(type, name,
-									buffs, armour, drops, onHitDebuffs,
-									deathmsg, spawnChance, amount, range,
-									maximumTries);
-							mobconfigs.add(mobconfig);
-						}
+						MobConfig mobconfig = parseMobConfig(currentMobConfig);
+						mobconfigs.add(mobconfig);
 					}
 				} else {
 					throw new ConfigParseException("No mobconfigs for" + key);
 				}
-				MobSpawningHandler msh = new MobSpawningHandler(plugin, areas,
-						mobconfigs, updateTime, pes);
+				RandomMobSpawningHandler msh = new RandomMobSpawningHandler(
+						plugin, areas, mobconfigs, updateTime, pes);
 				manager.add(msh);
 			}
 		}
+
+		// Intialize spawner based mob spawning
+
+		ConfigurationSection spawnerSection = config
+				.getConfigurationSection("spawner");
+		spawnerConfig = null;
+		if (spawnerSection != null) {
+			spawnerConfig = new HashMap<EntityType, MobConfig>();
+			for (String key : spawnerSection.getKeys(false)) {
+				System.out.println(key);
+				ConfigurationSection currentSection = spawnerSection
+						.getConfigurationSection(key);
+				EntityType spawn = EntityType.valueOf(currentSection
+						.getString("spawn"));
+				MobConfig mobconfig = parseMobConfig(currentSection
+						.getConfigurationSection("mobconfig"));
+				spawnerConfig.put(spawn, mobconfig);
+			}
+		}
+
 		sendConsoleMessage("Successfully parsed EE config");
 		return manager;
+	}
+
+	private MobConfig parseMobConfig(ConfigurationSection currentMobConfig)
+			throws ConfigParseException {
+		EntityType type = EntityType
+				.valueOf(currentMobConfig.getString("type"));
+		String name = currentMobConfig.getString("name", null);
+		int range = currentMobConfig.getInt("range", 32);
+		int amount = currentMobConfig.getInt("amount", 1);
+		int maximumTries = currentMobConfig.getInt("maximum_spawn_attempts", 5);
+		String deathmsg = currentMobConfig.getString("deathmessage", null);
+		double spawnChance = currentMobConfig.getDouble("spawn_chance");
+		ConfigurationSection dropsSection = currentMobConfig
+				.getConfigurationSection("drops");
+		LinkedList<ItemStack> drops = null;
+		if (dropsSection != null) {
+			drops = getItemStacks(dropsSection);
+		}
+		ConfigurationSection armourSection = currentMobConfig
+				.getConfigurationSection("equipment");
+		LinkedList<ItemStack> armour = null;
+		if (armourSection != null) {
+			armour = getItemStacks(armourSection);
+		}
+		HashMap<PotionEffectType, Integer> buffs = new HashMap<PotionEffectType, Integer>();
+		ConfigurationSection buffSection = currentMobConfig
+				.getConfigurationSection("buffs");
+		if (buffSection != null) {
+			for (String buffkey : buffSection.getKeys(false)) {
+				ConfigurationSection currentBuffSection = buffSection
+						.getConfigurationSection(buffkey);
+				PotionEffectType pet = PotionEffectType
+						.getByName(currentBuffSection.getString("type"));
+				int level = currentBuffSection.getInt("level");
+				buffs.put(pet, level);
+			}
+		}
+		ConfigurationSection onHitDebuffSection = currentMobConfig
+				.getConfigurationSection("on_hit_debuffs");
+		HashMap<PotionEffect, Double> onHitDebuffs = new HashMap<PotionEffect, Double>();
+		if (onHitDebuffSection != null) {
+			for (String debuffkey : onHitDebuffSection.getKeys(false)) {
+				ConfigurationSection currentDebuffSection = onHitDebuffSection
+						.getConfigurationSection(debuffkey);
+				PotionEffectType pet = PotionEffectType
+						.getByName(currentDebuffSection.getString("type"));
+				int level = currentDebuffSection.getInt("level");
+				long duration = parseTime(currentDebuffSection.getString(
+						"duration", "5s"));
+				double chance = currentDebuffSection.getDouble("chance", 1.0);
+				PotionEffect pe = new PotionEffect(pet, (int) duration, level);
+				onHitDebuffs.put(pe, chance);
+			}
+		}
+		return new MobConfig(type, name, buffs, armour, drops, onHitDebuffs,
+				deathmsg, spawnChance, amount, range, maximumTries);
 	}
 
 	private LinkedList<Area> parseAreas(ConfigurationSection cs,

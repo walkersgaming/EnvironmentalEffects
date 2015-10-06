@@ -21,12 +21,12 @@ import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
  * @author Max
  *
  */
-public class MobSpawningHandler extends RepeatingEffect {
+public class RandomMobSpawningHandler extends RepeatingEffect {
 
 	private LinkedList<MobConfig> mobConfigs;
 	private static HashMap<Monster, MobConfig> currentMobs = new HashMap<Monster, MobConfig>();;
 
-	public MobSpawningHandler(JavaPlugin plugin, LinkedList<Area> areas,
+	public RandomMobSpawningHandler(JavaPlugin plugin, LinkedList<Area> areas,
 			LinkedList<MobConfig> mobConfigs, long updateTime,
 			PlayerEnvironmentState pes) {
 		super(plugin, areas, updateTime, pes);
