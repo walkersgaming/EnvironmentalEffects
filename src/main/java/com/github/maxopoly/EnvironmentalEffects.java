@@ -13,23 +13,30 @@ import com.github.maxopoly.listeners.TerrainDamageListeners;
 import com.github.maxopoly.managers.RepeatingEffectManager;
 import com.github.maxopoly.repeatingEffects.RandomMobSpawningHandler;
 
-
 public class EnvironmentalEffects extends JavaPlugin {
 	private static JavaPlugin plugin;
 	private CommandHandler commandHandler;
-	private RepeatingEffectManager manager;
+	private static RepeatingEffectManager manager;
 	private ConfigParser cp;
 
 	public void onEnable() {
-		plugin=this;
+		plugin = this;
 		commandHandler = new CommandHandler(this);
 		cp = new ConfigParser(this);
 		try {
-			manager =  cp.parseConfig();
+			manager = cp.parseConfig();
 		} catch (ConfigParseException e) {
 			e.printStackTrace();
 		}
 		registerListeners();
+	}
+
+	public static EnvironmentalEffects getPlugin() {
+		return (EnvironmentalEffects) plugin;
+	}
+	
+	public static RepeatingEffectManager getManager() {
+		return manager;
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label,
@@ -51,7 +58,7 @@ public class EnvironmentalEffects extends JavaPlugin {
 		HandlerList.unregisterAll(this);
 		cp = new ConfigParser(this);
 		try {
-			manager =  cp.parseConfig();
+			manager = cp.parseConfig();
 		} catch (ConfigParseException e) {
 			e.printStackTrace();
 		}
@@ -73,8 +80,8 @@ public class EnvironmentalEffects extends JavaPlugin {
 				.getPluginManager()
 				.registerEvents(
 						new TerrainDamageListeners(cp.fireballTerrainDamage,
-								cp.fireballTerrainIgnition, cp.disableFirespread),
-						this);
+								cp.fireballTerrainIgnition,
+								cp.disableFirespread), this);
 	}
 
 	public static void sendConsoleMessage(String message) {

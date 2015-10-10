@@ -29,6 +29,7 @@ import com.github.maxopoly.exceptions.ConfigParseException;
 import com.github.maxopoly.managers.RepeatingEffectManager;
 import com.github.maxopoly.repeatingEffects.ArmourBasedDamage;
 import com.github.maxopoly.repeatingEffects.DaytimeModifier;
+import com.github.maxopoly.repeatingEffects.DispenserBuff;
 import com.github.maxopoly.repeatingEffects.EffectGenerator;
 import com.github.maxopoly.repeatingEffects.FireBallRain;
 import com.github.maxopoly.repeatingEffects.LightningControl;
@@ -315,11 +316,11 @@ public class ConfigParser {
 		ConfigurationSection titleSection = config
 				.getConfigurationSection("title");
 		if (titleSection != null) {
-			for(String key: titleSection.getKeys(false)) {
+			for (String key : titleSection.getKeys(false)) {
 				ConfigurationSection currentSection = titleSection
 						.getConfigurationSection(key);
 				String title = currentSection.getString("title");
-				String subtitle = currentSection.getString("subtitle","");
+				String subtitle = currentSection.getString("subtitle", "");
 				LinkedList<Area> areas = parseAreas(
 						currentSection.getConfigurationSection("areas"),
 						worldname);
@@ -327,8 +328,46 @@ public class ConfigParser {
 						.getString("updatetime"));
 				PlayerEnvironmentState pes = parsePlayerEnvironmentState(currentSection
 						.getConfigurationSection("player_environment_state"));
-				TitleDisplayer td = new TitleDisplayer(plugin,areas,updateTime,pes,title,subtitle);
+				TitleDisplayer td = new TitleDisplayer(plugin, areas,
+						updateTime, pes, title, subtitle);
 				manager.add(td);
+			}
+		}
+
+		// Initialize dispenser buffs
+		ConfigurationSection dispenserSection = config
+				.getConfigurationSection("dispenser");
+		if (dispenserSection != null) {
+			for (String key : dispenserSection.getKeys(false)) {
+				ConfigurationSection currentSection = dispenserSection
+						.getConfigurationSection(key);
+				LinkedList<Area> areas = parseAreas(
+						currentSection.getConfigurationSection("areas"),
+						worldname);
+				int dmg = currentSection.getInt("extradamage", 0);
+				ConfigurationSection onHitDebuffSection = currentSection
+						.getConfigurationSection("on_hit_debuffs");
+				HashMap<PotionEffect, Double> onHitDebuffs = new HashMap<PotionEffect, Double>();
+				if (onHitDebuffSection != null) {
+					for (String debuffkey : onHitDebuffSection.getKeys(false)) {
+						ConfigurationSection currentDebuffSection = onHitDebuffSection
+								.getConfigurationSection(debuffkey);
+						PotionEffectType pet = PotionEffectType
+								.getByName(currentDebuffSection
+										.getString("type"));
+						int level = currentDebuffSection.getInt("level",1);
+						long duration = parseTime(currentDebuffSection
+								.getString("duration", "5s"));
+						double chance = currentDebuffSection.getDouble(
+								"chance", 1.0);
+						PotionEffect pe = new PotionEffect(pet, (int) duration,
+								level - 1); //-1 because its an amplifier internally
+						onHitDebuffs.put(pe, chance);
+					}
+				}
+				DispenserBuff db = new DispenserBuff(plugin, areas, dmg,
+						onHitDebuffs);
+				manager.add(db);
 			}
 		}
 

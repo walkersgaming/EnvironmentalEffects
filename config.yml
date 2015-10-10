@@ -526,3 +526,38 @@ spawner:
 #should be sent
 
 title:
+
+#The dispenser section allows you to buff dispensers to deal more damage and apply debuffs. An example config:
+
+#dispenser:
+#   example1:
+#       areas:
+#           biomes:
+#            - EXTREME_HILLS
+#       extradamage: 4
+#       on_hit_debuffs:
+#          theyseenothing:
+#            type: BLINDNESS
+#            level: 1
+#            duration: 5s
+#            chance: 0.2 
+
+#extradamage is the amount of damage that is dealt additionally. One damage means half a heart here
+
+#on_hit_debuffs simply allows you to specify debuffs, similar to other effects. Level will default to 1, if not specified,
+#duration's default is 5 seconds and the chance defaults to 1.0 (100%)
+
+#Effects will only be applied if the dispenser is also in the specified area
+
+dispenser:
+   example1:
+       areas:
+           biomes:
+            - EXTREME_HILLS
+       extradamage: 4
+       on_hit_debuffs:
+         theyseenothing:
+            type: BLINDNESS
+            level: 1
+            duration: 5s
+            chance: 0.2 

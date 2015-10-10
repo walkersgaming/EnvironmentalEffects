@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -20,9 +21,12 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.SpawnerSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.projectiles.BlockProjectileSource;
 import org.bukkit.projectiles.ProjectileSource;
 
+import com.github.maxopoly.EnvironmentalEffects;
 import com.github.maxopoly.datarepresentations.MobConfig;
+import com.github.maxopoly.repeatingEffects.DispenserBuff;
 import com.github.maxopoly.repeatingEffects.RandomMobSpawningHandler;
 
 public class MobListeners implements Listener {
@@ -108,6 +112,25 @@ public class MobListeners implements Listener {
 				for (Monster m : spawned) {
 					RandomMobSpawningHandler.addMonster(m, mc);
 				}
+			}
+		}
+	}
+
+	@EventHandler
+	public void arrowHitPlayer(EntityDamageByEntityEvent e) {
+		if (e.getEntity() instanceof Player
+				&& e.getDamager() instanceof Projectile) {
+			ProjectileSource shooter = ((Projectile) e.getDamager())
+					.getShooter();
+			if (shooter instanceof BlockProjectileSource) {
+				Block disp = ((BlockProjectileSource) shooter).getBlock();
+				DispenserBuff db = (DispenserBuff) EnvironmentalEffects
+						.getManager().getEffect(DispenserBuff.class,
+								disp.getLocation());
+				if (db != null) {
+					db.applyToPlayer((Player)e.getEntity());
+				}
+
 			}
 		}
 	}
