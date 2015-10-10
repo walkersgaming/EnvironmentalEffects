@@ -1,5 +1,7 @@
 package com.github.maxopoly.listeners;
 
+import java.util.LinkedList;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,6 +11,9 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 
 import com.github.maxopoly.managers.RepeatingEffectManager;
 import com.github.maxopoly.repeatingEffects.DaytimeModifier;
+import com.github.maxopoly.repeatingEffects.PotionBuff;
+import com.github.maxopoly.repeatingEffects.RepeatingEffect;
+import com.github.maxopoly.repeatingEffects.TitleDisplayer;
 import com.github.maxopoly.repeatingEffects.WeatherMachine;
 
 public class SyncPlayersWithInternalValues implements Listener {
@@ -20,6 +25,14 @@ public class SyncPlayersWithInternalValues implements Listener {
 
 	@EventHandler
 	public void changeWeatherAndDaytimeOnLogin(PlayerJoinEvent e) {
+		// Set that player hasnt been in an area to display a title
+		LinkedList<RepeatingEffect> titledisplayers = manager
+				.getEffects(TitleDisplayer.class);
+		for (RepeatingEffect td : titledisplayers) {
+			((TitleDisplayer) td).addPlayer(e.getPlayer(), false);
+
+		}
+
 		updateValues(e.getPlayer());
 	}
 
@@ -45,6 +58,18 @@ public class SyncPlayersWithInternalValues implements Listener {
 			if (dtm != null) {
 				dtm.applyToPlayer(p);
 			}
+			TitleDisplayer td = (TitleDisplayer) manager.getEffect(
+					TitleDisplayer.class, p.getLocation());
+			if (td != null) {
+				td.applyToPlayer(p);
+				td.addPlayer(p, true);
+			}
+			PotionBuff pb = (PotionBuff) manager.getEffect(PotionBuff.class,
+					p.getLocation());
+			if (pb != null) {
+				pb.applyToPlayer(p);
+			}
+
 		}
 	}
 }

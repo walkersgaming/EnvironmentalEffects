@@ -502,3 +502,27 @@ monster:
 #look there for detailed explaination of the specific options
 
 spawner:
+
+
+#title allows you to display players titles if they enter specific areas. Titles are always displayed
+#when a player logs in or respawns and then in a given time intervall this effect will check if the player is
+#in the area. A title will not be shown again to a player until he was located outside the area and then 
+#enters the area again. An example config:
+
+#title:
+#   importantmessage:
+#       title: list of nerds
+#       subtitle: unitive
+#       updatetime: 10s
+#       areas:
+#           biomes:
+#            - PLAINS       
+
+#title is the title of the message sent to the player
+
+#subtitle is the subtitle of the title sent to the player 
+
+#updatetime is how often the effect checks whether the player is in the area currently and whether a message 
+#should be sent
+
+title:

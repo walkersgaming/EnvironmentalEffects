@@ -34,6 +34,7 @@ import com.github.maxopoly.repeatingEffects.FireBallRain;
 import com.github.maxopoly.repeatingEffects.LightningControl;
 import com.github.maxopoly.repeatingEffects.RandomMobSpawningHandler;
 import com.github.maxopoly.repeatingEffects.PotionBuff;
+import com.github.maxopoly.repeatingEffects.TitleDisplayer;
 import com.github.maxopoly.repeatingEffects.WeatherMachine;
 
 public class ConfigParser {
@@ -299,7 +300,6 @@ public class ConfigParser {
 		if (spawnerSection != null) {
 			spawnerConfig = new HashMap<EntityType, MobConfig>();
 			for (String key : spawnerSection.getKeys(false)) {
-				System.out.println(key);
 				ConfigurationSection currentSection = spawnerSection
 						.getConfigurationSection(key);
 				EntityType spawn = EntityType.valueOf(currentSection
@@ -307,6 +307,28 @@ public class ConfigParser {
 				MobConfig mobconfig = parseMobConfig(currentSection
 						.getConfigurationSection("mobconfig"));
 				spawnerConfig.put(spawn, mobconfig);
+			}
+		}
+
+		// Intitialize title displaying
+
+		ConfigurationSection titleSection = config
+				.getConfigurationSection("title");
+		if (titleSection != null) {
+			for(String key: titleSection.getKeys(false)) {
+				ConfigurationSection currentSection = titleSection
+						.getConfigurationSection(key);
+				String title = currentSection.getString("title");
+				String subtitle = currentSection.getString("subtitle","");
+				LinkedList<Area> areas = parseAreas(
+						currentSection.getConfigurationSection("areas"),
+						worldname);
+				long updateTime = parseTime(currentSection
+						.getString("updatetime"));
+				PlayerEnvironmentState pes = parsePlayerEnvironmentState(currentSection
+						.getConfigurationSection("player_environment_state"));
+				TitleDisplayer td = new TitleDisplayer(plugin,areas,updateTime,pes,title,subtitle);
+				manager.add(td);
 			}
 		}
 

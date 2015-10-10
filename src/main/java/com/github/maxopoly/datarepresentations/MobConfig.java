@@ -93,8 +93,10 @@ public class MobConfig {
 					mob.setCustomNameVisible(true);
 				}
 				EntityEquipment eq = mob.getEquipment();
-				for (ItemStack is : armour) {
-					setSlot(eq, is);
+				if (armour != null) {
+					for (ItemStack is : armour) {
+						setSlot(eq, is);
+					}
 				}
 				eq.setBootsDropChance(0F);
 				eq.setLeggingsDropChance(0F);
