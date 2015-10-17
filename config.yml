@@ -535,6 +535,7 @@ title:
 #           biomes:
 #            - EXTREME_HILLS
 #       extradamage: 4
+#       infinite_arrows: true
 #       on_hit_debuffs:
 #          theyseenothing:
 #            type: BLINDNESS
@@ -547,17 +548,9 @@ title:
 #on_hit_debuffs simply allows you to specify debuffs, similar to other effects. Level will default to 1, if not specified,
 #duration's default is 5 seconds and the chance defaults to 1.0 (100%)
 
+#infinite_arrows adds an arrow to a dispenser whenever an arrow is fired, effectively keeping them filled forever,
+#this option defaults to false. Use with caution this basically dupes arrows.
+
 #Effects will only be applied if the dispenser is also in the specified area
 
 dispenser:
-   example1:
-       areas:
-           biomes:
-            - EXTREME_HILLS
-       extradamage: 4
-       on_hit_debuffs:
-         theyseenothing:
-            type: BLINDNESS
-            level: 1
-            duration: 5s
-            chance: 0.2 

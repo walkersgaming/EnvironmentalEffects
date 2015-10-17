@@ -37,12 +37,14 @@ public class MobConfig {
 	private double spawnChance;
 	private int amount;
 	private String deathMessage;
+	private String onHitMessage;
 
 	public MobConfig(EntityType type, String name,
 			HashMap<PotionEffectType, Integer> buffs,
 			LinkedList<ItemStack> armour, LinkedList<ItemStack> drops,
 			HashMap<PotionEffect, Double> onHitDebuffs, String deathMessage,
-			double spawnChance, int amount, int range, int maxiumumTries) {
+			double spawnChance, int amount, int range, int maxiumumTries,
+			String onHitMessage) {
 		this.name = name;
 		this.type = type;
 		this.buffs = buffs;
@@ -55,6 +57,7 @@ public class MobConfig {
 		this.amount = amount;
 		this.deathMessage = deathMessage;
 		this.onHitDebuffs = onHitDebuffs;
+		this.onHitMessage = onHitMessage;
 	}
 
 	/**
@@ -76,8 +79,8 @@ public class MobConfig {
 		int tries = 0;
 		do {
 			spawnLoc = new Location(loc.getWorld(), loc.getX()
-					+ rng.nextInt(range * 2) - range, loc.getY(),
-					loc.getZ() + rng.nextInt(range * 2) - range);
+					+ rng.nextInt(range * 2) - range, loc.getY(), loc.getZ()
+					+ rng.nextInt(range * 2) - range);
 			tries++;
 		} while (loc.getWorld().getBlockAt(spawnLoc).getType() != Material.AIR
 				&& tries < maximumTries);
@@ -116,8 +119,8 @@ public class MobConfig {
 		}
 		return resultMobs;
 	}
-	
-	public LinkedList <Monster> createMobAt(Location loc) {
+
+	public LinkedList<Monster> createMobAt(Location loc) {
 		if (rng.nextDouble() > spawnChance) {
 			return null;
 		}
@@ -370,6 +373,14 @@ public class MobConfig {
 	 */
 	public void setOnHitDebuffs(HashMap<PotionEffect, Double> onHitDebuffs) {
 		this.onHitDebuffs = onHitDebuffs;
+	}
+
+	/**
+	 * @return The message sent to the player whenever he gets hit or null if
+	 *         nothing is sent
+	 */
+	public String onHitMessage() {
+		return onHitMessage;
 	}
 
 }

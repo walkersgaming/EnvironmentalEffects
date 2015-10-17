@@ -347,6 +347,8 @@ public class ConfigParser {
 				int dmg = currentSection.getInt("extradamage", 0);
 				ConfigurationSection onHitDebuffSection = currentSection
 						.getConfigurationSection("on_hit_debuffs");
+				boolean infiniteArrows = currentSection
+						.getBoolean("infinite_arrows", false);
 				HashMap<PotionEffect, Double> onHitDebuffs = new HashMap<PotionEffect, Double>();
 				if (onHitDebuffSection != null) {
 					for (String debuffkey : onHitDebuffSection.getKeys(false)) {
@@ -355,18 +357,19 @@ public class ConfigParser {
 						PotionEffectType pet = PotionEffectType
 								.getByName(currentDebuffSection
 										.getString("type"));
-						int level = currentDebuffSection.getInt("level",1);
+						int level = currentDebuffSection.getInt("level", 1);
 						long duration = parseTime(currentDebuffSection
 								.getString("duration", "5s"));
 						double chance = currentDebuffSection.getDouble(
 								"chance", 1.0);
 						PotionEffect pe = new PotionEffect(pet, (int) duration,
-								level - 1); //-1 because its an amplifier internally
+								level - 1); // -1 because its an amplifier
+											// internally
 						onHitDebuffs.put(pe, chance);
 					}
 				}
 				DispenserBuff db = new DispenserBuff(plugin, areas, dmg,
-						onHitDebuffs);
+						onHitDebuffs, infiniteArrows);
 				manager.add(db);
 			}
 		}
@@ -385,6 +388,7 @@ public class ConfigParser {
 		int maximumTries = currentMobConfig.getInt("maximum_spawn_attempts", 5);
 		String deathmsg = currentMobConfig.getString("deathmessage", null);
 		double spawnChance = currentMobConfig.getDouble("spawn_chance");
+		String onHitMessage = currentMobConfig.getString("on_hit_message");
 		ConfigurationSection dropsSection = currentMobConfig
 				.getConfigurationSection("drops");
 		LinkedList<ItemStack> drops = null;
@@ -428,7 +432,8 @@ public class ConfigParser {
 			}
 		}
 		return new MobConfig(type, name, buffs, armour, drops, onHitDebuffs,
-				deathmsg, spawnChance, amount, range, maximumTries);
+				deathmsg, spawnChance, amount, range, maximumTries,
+				onHitMessage);
 	}
 
 	private LinkedList<Area> parseAreas(ConfigurationSection cs,

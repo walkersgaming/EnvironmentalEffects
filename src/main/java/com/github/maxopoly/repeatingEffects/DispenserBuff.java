@@ -12,13 +12,16 @@ import com.github.maxopoly.datarepresentations.Area;
 
 public class DispenserBuff extends RepeatingEffect {
 	private HashMap<PotionEffect, Double> onHitDebuffs;
-	int extraDamage;
+	private int extraDamage;
+	private boolean infiniteArrows;
 
 	public DispenserBuff(JavaPlugin plugin, LinkedList<Area> areas,
-			int extraDamage, HashMap<PotionEffect, Double> onHitDebuffs) {
+			int extraDamage, HashMap<PotionEffect, Double> onHitDebuffs,
+			boolean infiniteArrows) {
 		super(plugin, areas, 24 * 60 * 60 * 30, null);
 		this.onHitDebuffs = onHitDebuffs;
 		this.extraDamage = extraDamage;
+		this.infiniteArrows = infiniteArrows;
 	}
 
 	public void applyToPlayer(Player p) {
@@ -35,5 +38,13 @@ public class DispenserBuff extends RepeatingEffect {
 
 	public HashMap<PotionEffect, Double> getDebuffs() {
 		return onHitDebuffs;
+	}
+	
+	public boolean getInfiniteArrow() {
+		return infiniteArrows;
+	}
+	
+	public int getExtraDamage() {
+		return extraDamage;
 	}
 }
