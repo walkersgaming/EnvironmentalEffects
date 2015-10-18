@@ -25,22 +25,27 @@ public class DaytimeModifier extends RepeatingEffect {
 	// would be 40 min day, 2.0 10 min etc.
 	private long previousRunTime; // in ticks
 	private long currentRunTime; // in ticks
+	private long previousRealTime;
 
 	public DaytimeModifier(JavaPlugin plugin, LinkedList<Area> areas,
-			Long startingTime, Double daySpeed, Double nightSpeed, long updateTime) {
+			Long startingTime, Double daySpeed, Double nightSpeed,
+			long updateTime) {
 		super(plugin, areas, updateTime, null);
 		this.previousRunTime = startingTime;
 		this.daySpeed = daySpeed;
 		this.nightSpeed = nightSpeed;
+		previousRealTime = System.currentTimeMillis();
 	}
 
 	public void run() {
+		long timedifference = (System.currentTimeMillis() - previousRealTime) / 50;
+		previousRealTime = System.currentTimeMillis();
 		if (previousRunTime <= 12000) { // day
 			currentRunTime = previousRunTime
-					+ (long) (getUpdateTime() * daySpeed);
+					+ (long) (timedifference * daySpeed);
 		} else { // night
 			currentRunTime = previousRunTime
-					+ (long) (getUpdateTime() * nightSpeed);
+					+ (long) (timedifference * nightSpeed);
 		}
 		if (currentRunTime > 23999) {
 			currentRunTime -= 24000L;
