@@ -335,12 +335,16 @@ public class ConfigParser {
 				LinkedList<Area> areas = parseAreas(
 						currentSection.getConfigurationSection("areas"),
 						worldname);
+				long fadeIn = parseTime(currentSection.getString("fadein"));
+				long fadeOut = parseTime(currentSection.getString("fadeout"));
+				long stay = parseTime(currentSection.getString("stay"));
 				long updateTime = parseTime(currentSection
 						.getString("updatetime"));
 				PlayerEnvironmentState pes = parsePlayerEnvironmentState(currentSection
 						.getConfigurationSection("player_environment_state"));
 				TitleDisplayer td = new TitleDisplayer(plugin, areas,
-						updateTime, pes, title, subtitle);
+						updateTime, pes, title, subtitle, (int) fadeIn,
+						(int) stay, (int) fadeOut);
 				manager.add(td);
 			}
 		}

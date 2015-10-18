@@ -519,6 +519,9 @@ spawner:
 #   importantmessage:
 #       title: list of nerds
 #       subtitle: unitive
+#       fadein: 1s
+#       stay: 2s
+#       fadeout: 1s
 #       updatetime: 10s
 #       areas:
 #           biomes:
@@ -527,6 +530,9 @@ spawner:
 #title is the title of the message sent to the player
 
 #subtitle is the subtitle of the title sent to the player 
+
+#fadein is how long the title should take to fade in, stay is how long it stays on the screen and fadeout
+#is how long it takes to fade out of the players screen
 
 #updatetime is how often the effect checks whether the player is in the area currently and whether a message 
 #should be sent

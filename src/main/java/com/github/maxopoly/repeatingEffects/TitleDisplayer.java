@@ -4,8 +4,13 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.UUID;
 
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
+import net.minecraft.server.v1_8_R3.PlayerConnection;
 
 import com.github.maxopoly.datarepresentations.Area;
 import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
@@ -13,13 +18,20 @@ import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
 public class TitleDisplayer extends RepeatingEffect {
 	private String title;
 	private String subtitle;
-	private HashMap <UUID, Boolean> alreadyShownToPlayer;
+	private int fadeIn;
+	private int stay;
+	private int fadeOut;
+	private HashMap<UUID, Boolean> alreadyShownToPlayer;
 
-	public TitleDisplayer(JavaPlugin plugin, LinkedList<Area> areas, long updateTime,
-			PlayerEnvironmentState pes, String title, String subtitle) {
+	public TitleDisplayer(JavaPlugin plugin, LinkedList<Area> areas,
+			long updateTime, PlayerEnvironmentState pes, String title,
+			String subtitle, int fadeIn, int stay, int fadeOut) {
 		super(plugin, areas, updateTime, pes);
 		this.title = title;
 		this.subtitle = subtitle;
+		this.fadeIn = fadeIn;
+		this.stay = stay;
+		this.fadeOut = fadeOut;
 		alreadyShownToPlayer = new HashMap<UUID, Boolean>();
 	}
 
@@ -30,17 +42,29 @@ public class TitleDisplayer extends RepeatingEffect {
 				sendTitle(p);
 				alreadyShownToPlayer.put(uuid, true);
 			}
-		}
-		else {
+		} else {
 			alreadyShownToPlayer.put(uuid, false);
 		}
 	}
-	
+
 	public void sendTitle(Player p) {
-		//TitleManager.sendTimings(p,20,40,20);
-		p.sendTitle(title, subtitle);
+		PlayerConnection connection = ((CraftPlayer) p).getHandle().playerConnection;
+		PacketPlayOutTitle packet = new PacketPlayOutTitle(
+				PacketPlayOutTitle.EnumTitleAction.TIMES, null, fadeIn, stay,
+				fadeOut);
+		connection.sendPacket(packet);
+		IChatBaseComponent sub = IChatBaseComponent.ChatSerializer
+				.a("{\"text\": \"" + subtitle + "\"}");
+		packet = new PacketPlayOutTitle(
+				PacketPlayOutTitle.EnumTitleAction.SUBTITLE, sub);
+		connection.sendPacket(packet);
+		IChatBaseComponent main = IChatBaseComponent.ChatSerializer
+				.a("{\"text\": \"" + title + "\"}");
+		packet = new PacketPlayOutTitle(
+				PacketPlayOutTitle.EnumTitleAction.TITLE, main);
+		connection.sendPacket(packet);
 	}
-	
+
 	public void addPlayer(Player p, boolean initialValue) {
 		alreadyShownToPlayer.put(p.getUniqueId(), initialValue);
 	}
