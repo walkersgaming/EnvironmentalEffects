@@ -51,8 +51,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
-			<artifactId>spigot-api</artifactId>
-			<version>1.8.8-R0.1-SNAPSHOT</version>
+			<artifactId>Spigot1.8.7</artifactId>
+			<version>1.8.7</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
