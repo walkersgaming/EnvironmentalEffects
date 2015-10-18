@@ -204,21 +204,27 @@ weathermachines:
 
 
 #Daytime modifiers can speed up, slow down or completly stop the minecraft ingame days. Different daytimes in different regions
-#on the same server are possible with this
+#on the same server are possible with this. It is also possible to only speed up days or nights.
 
 #Example config for a daytime_modifier:
 #daytime_modifier:
-#   permaevening:
+#   long_nights:
 #       starting_time: 20000
-#       dayspeed: 0.0
+#       dayspeed: 1.0
+#       nightspeed: 0.5
 #       areas:
 #           biomes:
 #            - GLOBAL
 
 #The starting time is the set time whenever the server is started or the plugin is reloaded. A detailied explaination 
 #of ingame time can be found here: http://minecraft.gamepedia.com/Day-night_cycle#Conversions
-#Dayspeed is a multiplier of the vanilla dayspeed. 0.0 would mean that time doesn't change at all, 1.0 would result in 
+
+#dayspeed is a multiplier of the vanilla dayspeed. 0.0 would mean that time doesn't change at all, 1.0 would result in 
 #vanilla 20min days and for example 0.0138888 would make an ingame day last 24 real hours. 
+
+#nightspeed is the multipler for ingame nights. This can be set to a different value than the one for days and can also
+#get removed completly, if it's not set the same value as for days will be used for nights
+
 #Values higher than 1.0 are possible to speed up the days, but too high values might lead to very weird behavior.
 
 daytime_modifier:

@@ -111,19 +111,30 @@ public class ConfigParser {
 				ConfigurationSection currentSection = dayTimeSection
 						.getConfigurationSection(key);
 				DaytimeModifier dtm;
-				Float daytimeSpeed = (float) currentSection
-						.getDouble("dayspeed");
+				Double daySpeed = currentSection.getDouble("dayspeed");
+				Double nightSpeed = currentSection.getDouble("nightspeed");
 				long startingTime = parseTime(currentSection
 						.getString("starting_time"));
 				LinkedList<Area> areas = parseAreas(
 						currentSection.getConfigurationSection("areas"),
 						worldname);
-				dtm = new DaytimeModifier(plugin, areas, startingTime,
-						daytimeSpeed, timeUpdate);
+				if (currentSection.contains("nightspeed")) {
+					dtm = new DaytimeModifier(plugin, areas, startingTime,
+							daySpeed, nightSpeed, timeUpdate);
+				} else {
+					dtm = new DaytimeModifier(plugin, areas, startingTime,
+							daySpeed, daySpeed, timeUpdate);
+				}
 				manager.add(dtm);
-				sendConsoleMessage("Initialized daytime modifier " + key
-						+ " starting time:" + startingTime + ", daytime speed:"
-						+ daytimeSpeed);
+				sendConsoleMessage("Initialized daytime modifier "
+						+ key
+						+ " starting time:"
+						+ startingTime
+						+ ", day speed:"
+						+ daySpeed
+						+ " night speed:"
+						+ (currentSection.contains("nightspeed") ? nightSpeed
+								: daySpeed));
 			}
 		} else {
 			sendConsoleMessage("No daytime config found for biome daytime will be vanilla!");
@@ -347,8 +358,8 @@ public class ConfigParser {
 				int dmg = currentSection.getInt("extradamage", 0);
 				ConfigurationSection onHitDebuffSection = currentSection
 						.getConfigurationSection("on_hit_debuffs");
-				boolean infiniteArrows = currentSection
-						.getBoolean("infinite_arrows", false);
+				boolean infiniteArrows = currentSection.getBoolean(
+						"infinite_arrows", false);
 				HashMap<PotionEffect, Double> onHitDebuffs = new HashMap<PotionEffect, Double>();
 				if (onHitDebuffSection != null) {
 					for (String debuffkey : onHitDebuffSection.getKeys(false)) {
