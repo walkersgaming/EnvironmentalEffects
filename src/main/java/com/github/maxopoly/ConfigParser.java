@@ -35,6 +35,7 @@ import com.github.maxopoly.repeatingEffects.FireBallRain;
 import com.github.maxopoly.repeatingEffects.LightningControl;
 import com.github.maxopoly.repeatingEffects.RandomMobSpawningHandler;
 import com.github.maxopoly.repeatingEffects.PotionBuff;
+import com.github.maxopoly.repeatingEffects.ReinforcementDecay;
 import com.github.maxopoly.repeatingEffects.TitleDisplayer;
 import com.github.maxopoly.repeatingEffects.WeatherMachine;
 
@@ -389,6 +390,24 @@ public class ConfigParser {
 			}
 		}
 
+		// Initialize reinforcement decay
+		ConfigurationSection reinforcementSection = config
+				.getConfigurationSection("reinforcement_decay");
+		if (reinforcementSection != null) {
+			for (String key : reinforcementSection.getKeys(false)) {
+				ConfigurationSection currentSection = reinforcementSection
+						.getConfigurationSection(key);
+				LinkedList<Area> areas = parseAreas(
+						currentSection.getConfigurationSection("areas"),
+						worldname);
+				int amount = currentSection.getInt("amount");
+				long updateTime = currentSection.getInt("updatetime");
+				ReinforcementDecay rd = new ReinforcementDecay(plugin, areas,
+						updateTime, amount);
+				manager.add(rd);
+			}
+		}
+
 		sendConsoleMessage("Successfully parsed EE config");
 		return manager;
 	}
@@ -548,9 +567,13 @@ public class ConfigParser {
 				break;
 			case 'h': // hours
 				long hours = getLastNumber(arg);
-				result += 20 * 3600;
+				result += 20 * 3600 * hours;
 				length = String.valueOf(hours).length() + 1;
 				break;
+			case 'd': // days, mostly here to define a 'never'
+				long days = getLastNumber(arg);
+				result += 20 * 3600 * 24 * days;
+				length = String.valueOf(days).length() + 1;
 			default:
 				throw new ConfigParseException(arg.charAt(arg.length() - 1)
 						+ " is not a valid time description character");

@@ -114,6 +114,13 @@
 #           center:
 #               x: 1337
 #               z: 1337
+#       exampleName4:
+#           shape: RING
+#           inner_radius: 50
+#           outer_radius: 100
+#           center:
+#               x: 1337
+#               z: 1337
     
 
 #Some effects also allow you to specify specific environmental conditions for the player, which have to be fulfilled so the
@@ -569,3 +576,32 @@ title:
 #Effects will only be applied if the dispenser is also in the specified area
 
 dispenser:
+
+#Reinforcement decay allows to decay reinforcements created by Citadel (https://github.com/civcraft/citadel).
+
+#An example config:
+
+#reinforcement_decay:
+#   worldborderdecay:
+#       amount: 25
+#       areas:
+#           locations:
+#               worldborder:
+#                   shape: RING
+#                   updatetime: 2d
+#                   inner_radius: 14900
+#                   outer_radius: 15020
+#                   center:
+#                       x: 0
+#                       z: 0
+
+#amount specifies which amount of damage is dealt to the reinforcement on each run. "Overkilling" a reinforcement is no 
+#problem codewise here.
+
+#updatetime specifies how often damage is dealt. Be aware that the first time damage is dealt, is right when EE is activated
+#and not after the time specified here, this only applies starting with the second run. Also this value should be set very
+#careful, for example world border decay should only be done on restart, because it takes up a lot of server resources and
+#causes massive lag if its run while the server is running and players are online. For smaller areas it should be fine to run
+#this more often though.
+
+reinforcement_decay:

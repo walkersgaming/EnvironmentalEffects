@@ -1,7 +1,9 @@
 package com.github.maxopoly.repeatingEffects;
 
 import java.util.LinkedList;
+import java.util.List;
 
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -11,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.github.maxopoly.datarepresentations.Area;
 
 import vg.civcraft.mc.citadel.Citadel;
+import vg.civcraft.mc.citadel.ReinforcementManager;
 import vg.civcraft.mc.citadel.reinforcement.Reinforcement;
 
 /**
@@ -25,7 +28,7 @@ public class ReinforcementDecay extends RepeatingEffect {
 
 	public ReinforcementDecay(JavaPlugin plugin, LinkedList<Area> areas,
 			long updateTime, int reinforcementBreakPerRun) {
-		super(plugin, areas, updateTime,null);
+		super(plugin, areas, updateTime, null);
 		this.reinforcementBreakPerRun = reinforcementBreakPerRun;
 	}
 
@@ -40,58 +43,17 @@ public class ReinforcementDecay extends RepeatingEffect {
 	 * reinforcementBreakPerRun
 	 */
 	public void run() {
+		ReinforcementManager rm = Citadel.getReinforcementManager();
 		for (Area a : areas) {
-			int xsize = a.getxSize();
-			int zsize = a.getzSize();
-			Location loc = a.getCenter();
-			switch (a.getShape()) {
-			case CIRCLE:
-				for (int x = loc.getBlockX() - xsize; x < loc.getBlockX()
-						+ xsize; x +=16) {
-					for (int z = loc.getBlockZ() - zsize; z < loc.getBlockZ()
-							+ zsize; z+=16) {
-						if (Math.sqrt(x * x + z * z) > xsize) {
-							continue;
-						}
-						for (int y = 1; y < 256; y++) {
-							Block current = loc.getWorld().getBlockAt(
-									new Location(loc.getWorld(), x, y, z));
-							if (current.getType() != Material.AIR) {
-								Reinforcement r = Citadel
-										.getReinforcementManager()
-										.getReinforcement(current);
-								if (r != null) {
-									r.setDurability(r.getDurability()
-											- reinforcementBreakPerRun);
-								}
-							}
-						}
-					}
+			LinkedList<Chunk> chunks = a.getChunks();
+			for (Chunk c : chunks) {
+				List<Reinforcement> reins = rm.getReinforcementsByChunk(c);
+				for (Reinforcement re : reins) {
+					re.setDurability(re.getDurability()
+							- reinforcementBreakPerRun);
 				}
-				break;
-			case RECTANGLE:
-				for (int x = loc.getBlockX() - xsize; x < loc.getBlockX()
-						+ xsize; x++) {
-					for (int z = loc.getBlockZ() - zsize; z < loc.getBlockZ()
-							+ zsize; z++) {
-						for (int y = 1; y < 256; y++) {
-							Block current = loc.getWorld().getBlockAt(
-									new Location(loc.getWorld(), x, y, z));
-							Reinforcement r = Citadel.getReinforcementManager()
-									.getReinforcement(current);
-							if (r != null) {
-								r.setDurability(r.getDurability()
-										- reinforcementBreakPerRun);
-							}
-						}
-					}
-				}
-				break;
-			case GLOBAL:
-			case BIOME:
-				return;
-
 			}
 		}
+
 	}
 }
