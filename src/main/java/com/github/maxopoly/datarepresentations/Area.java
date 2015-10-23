@@ -151,7 +151,7 @@ public class Area {
 		case CIRCLE:
 			return getXZDistance(loc) <= xSize;
 		case RING:
-			double dis = loc.distance(center);
+			double dis = getXZDistance(loc);
 			return dis >= innerLimit && dis <= outerLimit;
 		default:
 			return false; // hopefully never gonna happen
@@ -178,16 +178,27 @@ public class Area {
 			return getChunksRecursive(c);
 		case RECTANGLE:
 		case CIRCLE:
-			c = center.getChunk();
-			return getChunksRecursive(c);
+			return getChunksRecursive(center.getChunk());
 		case BIOME:
+			// no implementation, this method simply shouldnt be called with
+			// biome
 		case GLOBAL:
+			// TODO worldborder integration to make this possible
 		default:
 			return null;
 
 		}
 	}
 
+	/**
+	 * Collects all chunks directly connected to the given chunk, by other
+	 * chunks, which are all in the area this instance describes recursive
+	 * 
+	 * @param chunk
+	 *            Chunk to start with
+	 * @return List of all adjacent chunks in the area, which have a direction
+	 *         connection to the given chunk
+	 */
 	private LinkedList<Chunk> getChunksRecursive(Chunk chunk) {
 		if (scannedChunks.contains(chunk)) {
 			return null;

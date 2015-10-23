@@ -47,7 +47,7 @@
 
 #Every effect by this plugin will be active in specific areas and require you to specify the areas for the effect. 
 #Effects without areas won't do anything and might as well be removed from the config, because they are just eating 
-#up unused computing power. Possible areas are: BIOME, CIRCLE, RECTANGLE and GLOBAL, all effects are active from bedrock 
+#up unused computing power. Possible areas are: BIOME, CIRCLE, RECTANGLE, RING and GLOBAL, all effects are active from bedrock 
 #to skylimit and areas for a single effect can be combined as much as wanted.
 
 #BIOMES means the effect is active in a specific biome (or multiple). Use the spigot identifier for biomes to 
@@ -61,6 +61,9 @@
 #RECTANGLE will require you to specify a xsize, a zsize and a center location. The xsize and zsize describe the size of the
 #rectangle, starting at the central location, which means the final rectangle will have a total size of (2*xSize)*(2*zSize), 
 #centred on the given location. For specifying the central location the same rules apply as for a CIRCLE
+
+#RING will require you to specify an inner_radius, an outer_radius and a center. This shape can be used for worldborder effects,
+#if inner_radius is a bit less and outer_radius a bit more than the radius of the world.
 
 #GLOBAL simply means the effect will be applied to every player on the map, dont combine global with any other area descriptions,
 #it will lead to exception. To use global, simply put "GLOBAL" into the biomes list.

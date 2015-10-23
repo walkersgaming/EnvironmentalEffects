@@ -481,15 +481,30 @@ public class ConfigParser {
 				ConfigurationSection currentSection = locs
 						.getConfigurationSection(current);
 				Shape shape = Shape.valueOf(currentSection.getString("shape"));
-				int xSize = currentSection.getInt("xsize");
-				int zSize = currentSection.getInt("zsize");
-				Location center = parseLocation(
-						currentSection.getConfigurationSection("center"),
-						worldname);
-				Area temp = new Area(shape, center, xSize, zSize);
-				if (temp != null) {
-					areas.add(temp);
+				Area temp = null;
+				Location center;
+				switch (shape) {
+				case CIRCLE:
+				case RECTANGLE:
+					int xSize = currentSection.getInt("xsize");
+					int zSize = currentSection.getInt("zsize");
+					center = parseLocation(
+							currentSection.getConfigurationSection("center"),
+							worldname);
+					temp = new Area(shape, center, xSize, zSize);
+					break;
+				case RING:
+					int innerRadius = currentSection.getInt("inner_limit");
+					int outerRadius = currentSection.getInt("outer_limit");
+					center = parseLocation(
+							currentSection.getConfigurationSection("center"),
+							worldname);
+					temp = new Area(shape, innerRadius, outerRadius, center);
+					break;
+				default:
+					throw new ConfigParseException();
 				}
+				areas.add(temp);
 			}
 		}
 		return areas;
