@@ -7,8 +7,9 @@ import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Monster;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -71,7 +72,7 @@ public class MobConfig {
 	 *            center of the square in which the mob will be spawned
 	 * @return list of all mobs successfully spawned by this method
 	 */
-	public LinkedList<Monster> createMob(Location loc) {
+	public LinkedList<Entity> createMob(Location loc) {
 		if (rng.nextDouble() > spawnChance) {
 			return null;
 		}
@@ -87,9 +88,9 @@ public class MobConfig {
 		if (tries >= maximumTries) {
 			return null;
 		}
-		LinkedList<Monster> resultMobs = new LinkedList<Monster>();
+		LinkedList<Entity> resultMobs = new LinkedList<Entity>();
 		for (int i = 0; i < amount; i++) {
-			Monster mob = (Monster) loc.getWorld().spawnEntity(spawnLoc, type);
+			LivingEntity mob = (LivingEntity) loc.getWorld().spawnEntity(spawnLoc, type);
 			if (mob != null) { // event wasn't cancelled
 				if (name != null && name != "") {
 					mob.setCustomName(name);
@@ -120,13 +121,13 @@ public class MobConfig {
 		return resultMobs;
 	}
 
-	public LinkedList<Monster> createMobAt(Location loc) {
+	public LinkedList<Entity> createMobAt(Location loc) {
 		if (rng.nextDouble() > spawnChance) {
 			return null;
 		}
-		LinkedList<Monster> resultMobs = new LinkedList<Monster>();
+		LinkedList<Entity> resultMobs = new LinkedList<Entity>();
 		for (int i = 0; i < amount; i++) {
-			Monster mob = (Monster) loc.getWorld().spawnEntity(loc, type);
+			LivingEntity mob = (LivingEntity) loc.getWorld().spawnEntity(loc, type);
 			if (mob != null) { // event wasn't cancelled
 				if (name != null && name != "") {
 					mob.setCustomName(name);

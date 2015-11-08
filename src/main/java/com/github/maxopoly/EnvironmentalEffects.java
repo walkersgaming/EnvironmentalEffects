@@ -54,6 +54,7 @@ public class EnvironmentalEffects extends JavaPlugin {
 	 */
 	public void reload() {
 		sendConsoleMessage("Reloading config");
+		RandomMobSpawningHandler.killAll();
 		this.getServer().getScheduler().cancelTasks(this);
 		HandlerList.unregisterAll(this);
 		cp = new ConfigParser(this);

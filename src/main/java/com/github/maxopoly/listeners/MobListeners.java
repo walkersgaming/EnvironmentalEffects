@@ -50,7 +50,7 @@ public class MobListeners implements Listener {
 	public void monsterSpawn(CreatureSpawnEvent e) {
 		if (cancelAllOther
 				&& e.getSpawnReason() == SpawnReason.NATURAL
-				&& e.getEntity() instanceof Monster) {
+				&& e.getEntity() instanceof LivingEntity) {
 			e.setCancelled(true);
 		}
 
@@ -61,15 +61,15 @@ public class MobListeners implements Listener {
 		if (e.getEntityType() != EntityType.PLAYER) {
 			return;
 		}
-		Monster damager = null;
-		if (e.getDamager() instanceof Monster) {
+		Entity damager = null;
+		if (e.getDamager() instanceof LivingEntity) {
 			damager = (Monster) e.getDamager();
 		} else {
 			if (e.getDamager() instanceof Projectile) {
 				ProjectileSource ps = ((Projectile) e.getDamager())
 						.getShooter();
-				if (ps instanceof Monster) {
-					damager = (Monster) ps;
+				if (ps instanceof LivingEntity) {
+					damager = (LivingEntity) ps;
 				} else {
 					return;
 				}
@@ -96,19 +96,18 @@ public class MobListeners implements Listener {
 	public void monsterDeath(EntityDeathEvent e) {
 		Entity en = e.getEntity();
 		MobConfig config;
-		if (en instanceof Monster
-				&& (config = RandomMobSpawningHandler.getConfig((Monster) en)) != null) {
-			RandomMobSpawningHandler.removeMonster((Monster) en);
+		if (en instanceof LivingEntity
+				&& (config = RandomMobSpawningHandler.getConfig(en)) != null) {
+			RandomMobSpawningHandler.removeEntity(en);
 			if (((LivingEntity) en).getKiller() instanceof Player) {
 				String deathMsg = config.getDeathMessage();
 				if (deathMsg != null && !deathMsg.equals("")) {
 					((LivingEntity) en).getKiller().sendMessage(deathMsg);
 				}
-
-				List<ItemStack> drops = e.getDrops();
-				drops.clear();
 				LinkedList<ItemStack> dropsToInsert = config.getDrops();
 				if (dropsToInsert != null) {
+					List<ItemStack> drops = e.getDrops();
+					drops.clear();
 					for (ItemStack is : dropsToInsert) {
 						drops.add(is);
 					}
@@ -125,10 +124,10 @@ public class MobListeners implements Listener {
 		MobConfig mc = spawnerConfig.get(e.getEntityType());
 		if (mc != null) {
 			e.setCancelled(true);
-			LinkedList<Monster> spawned = mc.createMobAt(e.getLocation());
+			LinkedList<Entity> spawned = mc.createMobAt(e.getLocation());
 			if (spawned != null) {
-				for (Monster m : spawned) {
-					RandomMobSpawningHandler.addMonster(m, mc);
+				for (Entity m : spawned) {
+					RandomMobSpawningHandler.addEntity(m, mc);
 				}
 			}
 		}

@@ -2,8 +2,11 @@ package com.github.maxopoly.repeatingEffects;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
+import java.util.UUID;
 
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,7 +27,7 @@ import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
 public class RandomMobSpawningHandler extends RepeatingEffect {
 
 	private LinkedList<MobConfig> mobConfigs;
-	private static HashMap<Monster, MobConfig> currentMobs = new HashMap<Monster, MobConfig>();;
+	private static HashMap<UUID, MobConfig> currentMobs = new HashMap<UUID, MobConfig>();;
 
 	public RandomMobSpawningHandler(JavaPlugin plugin, LinkedList<Area> areas,
 			LinkedList<MobConfig> mobConfigs, long updateTime,
@@ -43,42 +46,70 @@ public class RandomMobSpawningHandler extends RepeatingEffect {
 	public void applyToPlayer(Player p) {
 		if (conditionsMet(p)) {
 			for (MobConfig mc : mobConfigs) {
-				LinkedList<Monster> resultedMobs = mc
+				LinkedList<Entity> resultedMobs = mc
 						.createMob(p.getLocation());
 				if (resultedMobs != null) {
-					for (Monster mob : resultedMobs) {
+					for (Entity mob : resultedMobs) {
 						if (mob != null) {
-							addMonster(mob, mc);
+							addEntity(mob, mc);
 						}
 					}
 				}
 			}
 		}
 	}
-	
+
 	/**
-	 * Kills all mobs currently handled by any MobSpawningHandler. This is run every time the 
-	 * this plugin (or in most cases the server) is disabled, because this plugin is currently not 
-	 * hooked up to a database to make drops and effects consistent over restarts.
+	 * Kills all mobs currently handled by any MobSpawningHandler. This is run
+	 * every time the this plugin (or in most cases the server) is disabled,
+	 * because this plugin is currently not hooked up to a database to make
+	 * drops and effects consistent over restarts.
 	 */
 	public static void killAll() {
-		for(Map.Entry<Monster,MobConfig> current:currentMobs.entrySet()) {
-			current.getKey().remove();
+		for (World w : Bukkit.getWorlds()) {
+			for (Entity e : w.getEntities()) {
+				if (currentMobs.containsKey(e.getUniqueId())) {
+					e.remove();
+					currentMobs.remove(e.getUniqueId());
+				}
+			}
 		}
-		
+
 	}
 
-	public static MobConfig getConfig(Monster mob) {
-		MobConfig mb = currentMobs.get(mob);
+	/**
+	 * Gets the stored mob config for a given entity
+	 * 
+	 * @param e
+	 *            Entity whose config is wanted
+	 * @return The config of the given entity if one exists or null if no config
+	 *         for this entity exists
+	 */
+	public static MobConfig getConfig(Entity e) {
+		MobConfig mb = currentMobs.get(e.getUniqueId());
 		return mb;
 	}
 
-	public static void addMonster(Monster mob, MobConfig config) {
-		currentMobs.put(mob, config);
+	/**
+	 * Adds an entity together with a config to the internal tracking
+	 * 
+	 * @param e
+	 *            Entity to add
+	 * @param config
+	 *            Config to add
+	 */
+	public static void addEntity(Entity e, MobConfig config) {
+		currentMobs.put(e.getUniqueId(), config);
 	}
-	
-	public static void removeMonster(Monster mob) {
-		currentMobs.remove(mob);
+
+	/**
+	 * Removes an entity and it's config from the internal tracking
+	 * 
+	 * @param e
+	 *            Entity to remove
+	 */
+	public static void removeEntity(Entity e) {
+		currentMobs.remove(e.getUniqueId());
 	}
 
 }
