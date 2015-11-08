@@ -141,4 +141,16 @@ public abstract class RepeatingEffect implements Runnable {
 		return isInArea(p.getLocation());
 	}
 
+	/**
+	 * @return Whether this instance applies globally
+	 */
+	public boolean isGlobal() {
+		for (Area a : areas) {
+			if (a.isGlobal()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

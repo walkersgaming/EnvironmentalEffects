@@ -160,6 +160,13 @@ public class Area {
 	}
 
 	/**
+	 * @return Whether this instance is global
+	 */
+	public boolean isGlobal() {
+		return shape == Shape.GLOBAL;
+	}
+
+	/**
 	 * Gets all the chunks in this area, only works for geometrical shapes.
 	 * Depending on the size this might take a while, so use this method with
 	 * caution

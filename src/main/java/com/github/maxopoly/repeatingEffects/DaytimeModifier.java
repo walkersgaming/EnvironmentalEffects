@@ -2,6 +2,7 @@ package com.github.maxopoly.repeatingEffects;
 
 import java.util.LinkedList;
 
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -50,8 +51,14 @@ public class DaytimeModifier extends RepeatingEffect {
 		if (currentRunTime > 23999) {
 			currentRunTime -= 24000L;
 		}
-		for (Player p : getCurrentPlayers()) {
-			applyToPlayer(p);
+		if (isGlobal()) {
+			for (World w : plugin.getServer().getWorlds()) {
+				w.setTime(currentRunTime);
+			}
+		} else {
+			for (Player p : getCurrentPlayers()) {
+				applyToPlayer(p);
+			}
 		}
 		previousRunTime = currentRunTime;
 	}
