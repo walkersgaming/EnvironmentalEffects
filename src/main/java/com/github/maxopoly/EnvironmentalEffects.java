@@ -75,7 +75,7 @@ public class EnvironmentalEffects extends JavaPlugin {
 				.registerEvents(new SyncPlayersWithInternalValues(manager),
 						this);
 		this.getServer().getPluginManager()
-				.registerEvents(new MobListeners(cp.spawnerConfig), this);
+				.registerEvents(new MobListeners(cp.spawnerConfig, cp.cancelAllOtherSpawns), this);
 		this.getServer()
 				.getPluginManager()
 				.registerEvents(

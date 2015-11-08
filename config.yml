@@ -189,6 +189,10 @@ disable_fireball_terrainignition: true
 #Completly disables passive fire spread if set to true. Player can still ignite individual blocks if this is enabled
 firespread_disabled: true
 
+#Enable this if you want to cancel any vanilla random spawning. This will not cancel any spawning done by any plugin and
+#will not prevent all other spawn causes like reinforcements, breeding, lightning etc.
+cancel_natural_spawns: false
+
 #Name of the main world this is supposed to work on. This plugin only supports a single world per server yet,
 #mob spawning and possibly some other features won't work in worlds other than the main world set here
 worldname: world

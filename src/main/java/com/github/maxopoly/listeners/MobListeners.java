@@ -19,11 +19,12 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.entity.SpawnerSpawnEvent;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.projectiles.BlockProjectileSource;
@@ -35,12 +36,24 @@ import com.github.maxopoly.repeatingEffects.DispenserBuff;
 import com.github.maxopoly.repeatingEffects.RandomMobSpawningHandler;
 
 public class MobListeners implements Listener {
-	Random rng;
-	HashMap<EntityType, MobConfig> spawnerConfig;
+	private Random rng;
+	private HashMap<EntityType, MobConfig> spawnerConfig;
+	private boolean cancelAllOther;
 
-	public MobListeners(HashMap<EntityType, MobConfig> spawnerConfig) {
+	public MobListeners(HashMap<EntityType, MobConfig> spawnerConfig, boolean cancelAllOther) {
 		rng = new Random();
 		this.spawnerConfig = spawnerConfig;
+		this.cancelAllOther = cancelAllOther;
+	}
+
+	@EventHandler
+	public void monsterSpawn(CreatureSpawnEvent e) {
+		if (cancelAllOther
+				&& e.getSpawnReason() == SpawnReason.NATURAL
+				&& e.getEntity() instanceof Monster) {
+			e.setCancelled(true);
+		}
+
 	}
 
 	@EventHandler
@@ -144,13 +157,14 @@ public class MobListeners implements Listener {
 	public void dupeArrows(ProjectileLaunchEvent e) {
 		if (e.getEntity() instanceof Arrow
 				&& e.getEntity().getShooter() instanceof BlockProjectileSource) {
-			BlockProjectileSource sourceblock = (BlockProjectileSource) ((Arrow) e.getEntity())
-					.getShooter();
+			BlockProjectileSource sourceblock = (BlockProjectileSource) ((Arrow) e
+					.getEntity()).getShooter();
 			DispenserBuff db = (DispenserBuff) EnvironmentalEffects
 					.getManager().getEffect(DispenserBuff.class,
 							sourceblock.getBlock().getLocation());
 			if (db != null && db.getInfiniteArrow()) {
-				((Dispenser)(sourceblock.getBlock().getState())).getInventory().addItem(new ItemStack(Material.ARROW));
+				((Dispenser) (sourceblock.getBlock().getState()))
+						.getInventory().addItem(new ItemStack(Material.ARROW));
 			}
 
 		}

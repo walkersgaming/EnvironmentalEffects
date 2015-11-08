@@ -45,6 +45,7 @@ public class ConfigParser {
 	boolean fireballTerrainDamage;
 	boolean fireballTerrainIgnition;
 	boolean disableFirespread;
+	boolean cancelAllOtherSpawns;
 	HashMap<EntityType, MobConfig> spawnerConfig;
 
 	ConfigParser(JavaPlugin plugin) {
@@ -78,6 +79,8 @@ public class ConfigParser {
 				+ String.valueOf(disableFirespread));
 		String worldname = config.getString("worldname");
 		sendConsoleMessage("Worldname is:" + worldname);
+		cancelAllOtherSpawns = config.getBoolean("cancel_natural_spawns");
+		sendConsoleMessage("Cancel natural spawns: " + cancelAllOtherSpawns);
 
 		// Intialize weather machines
 		ConfigurationSection weatherSection = config
@@ -142,31 +145,27 @@ public class ConfigParser {
 		}
 
 		// Initialize effects
-		ConfigurationSection effectSection = config
-				.getConfigurationSection("effects");
-		if (effectSection != null) {
-			for (String currentEffect : effectSection.getKeys(false)) {
-				ConfigurationSection detailsCurrentEffect = effectSection
-						.getConfigurationSection(currentEffect);
-				Effect effectType = Effect.valueOf(detailsCurrentEffect
-						.getString("effect_type"));
-				double speed = detailsCurrentEffect.getDouble("speed");
-				int amount = detailsCurrentEffect.getInt("amount");
-				long delay = parseTime(detailsCurrentEffect.getString("delay"));
-				LinkedList<Area> areas = parseAreas(
-						detailsCurrentEffect.getConfigurationSection("areas"),
-						worldname);
-				PlayerEnvironmentState pes = parsePlayerEnvironmentState(detailsCurrentEffect
-						.getConfigurationSection("player_environment_state"));
-				EffectGenerator eg = new EffectGenerator(plugin, areas,
-						effectType, amount, (float) speed, delay, pes);
-				manager.add(eg);
-				sendConsoleMessage("Initialized effect handler for "
-						+ currentEffect + "type: " + effectType.getName()
-						+ " ,speed: " + speed + ", amount: " + amount
-						+ ", delay: " + delay);
-			}
-		}
+		/*
+		 * ConfigurationSection effectSection = config
+		 * .getConfigurationSection("effects"); if (effectSection != null) { for
+		 * (String currentEffect : effectSection.getKeys(false)) {
+		 * ConfigurationSection detailsCurrentEffect = effectSection
+		 * .getConfigurationSection(currentEffect); Effect effectType =
+		 * Effect.valueOf(detailsCurrentEffect .getString("effect_type"));
+		 * double speed = detailsCurrentEffect.getDouble("speed"); int amount =
+		 * detailsCurrentEffect.getInt("amount"); long delay =
+		 * parseTime(detailsCurrentEffect.getString("delay")); LinkedList<Area>
+		 * areas = parseAreas(
+		 * detailsCurrentEffect.getConfigurationSection("areas"), worldname);
+		 * PlayerEnvironmentState pes =
+		 * parsePlayerEnvironmentState(detailsCurrentEffect
+		 * .getConfigurationSection("player_environment_state"));
+		 * EffectGenerator eg = new EffectGenerator(plugin, areas, effectType,
+		 * amount, (float) speed, delay, pes); manager.add(eg);
+		 * sendConsoleMessage("Initialized effect handler for " + currentEffect
+		 * + "type: " + effectType.getName() + " ,speed: " + speed +
+		 * ", amount: " + amount + ", delay: " + delay); } }
+		 */
 
 		// Intialize cool fireballs
 		ConfigurationSection fireballSection = config
