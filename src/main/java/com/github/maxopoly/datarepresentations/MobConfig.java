@@ -1,6 +1,7 @@
 package com.github.maxopoly.datarepresentations;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
@@ -39,6 +40,9 @@ public class MobConfig {
 	private int amount;
 	private String deathMessage;
 	private String onHitMessage;
+	private LinkedList<Material> spawnOnBlocks;
+	private LinkedList<Material> doNotSpawnOnBlocks;
+	private LinkedList<Material> spawnInBlocks;
 
 	public MobConfig(EntityType type, String name,
 			HashMap<PotionEffectType, Integer> buffs,
@@ -76,21 +80,14 @@ public class MobConfig {
 		if (rng.nextDouble() > spawnChance) {
 			return null;
 		}
-		Location spawnLoc;
-		int tries = 0;
-		do {
-			spawnLoc = new Location(loc.getWorld(), loc.getX()
-					+ rng.nextInt(range * 2) - range, loc.getY(), loc.getZ()
-					+ rng.nextInt(range * 2) - range);
-			tries++;
-		} while (loc.getWorld().getBlockAt(spawnLoc).getType() != Material.AIR
-				&& tries < maximumTries);
-		if (tries >= maximumTries) {
+		Location spawnLoc = findSpawningLocation(loc);
+		if (spawnLoc == null) {
 			return null;
 		}
 		LinkedList<Entity> resultMobs = new LinkedList<Entity>();
 		for (int i = 0; i < amount; i++) {
-			LivingEntity mob = (LivingEntity) loc.getWorld().spawnEntity(spawnLoc, type);
+			LivingEntity mob = (LivingEntity) loc.getWorld().spawnEntity(
+					spawnLoc, type);
 			if (mob != null) { // event wasn't cancelled
 				if (name != null && name != "") {
 					mob.setCustomName(name);
@@ -112,7 +109,7 @@ public class MobConfig {
 				for (Map.Entry<PotionEffectType, Integer> current : buffs
 						.entrySet()) {
 					mob.addPotionEffect(new PotionEffect(current.getKey(),
-							Integer.MAX_VALUE, current.getValue()));
+							Integer.MAX_VALUE, current.getValue(), false, false));
 					// That buff lasts for 68 years, that should be long enough
 				}
 				resultMobs.add(mob);
@@ -121,13 +118,81 @@ public class MobConfig {
 		return resultMobs;
 	}
 
+	/**
+	 * The possible states while searching for feasible spawning locations
+	 *
+	 */
+	private enum BlockCountState {
+		NOTHING, FOUNDBASEBLOCK, ONEAIR;
+	}
+
+	public Location findSpawningLocation(Location loc) {
+		for (int i = 0; i < maximumTries; i++) {
+			int x = loc.getBlockX() + rng.nextInt(range * 2) - range;
+			int z = loc.getBlockZ() + rng.nextInt(range * 2) - range;
+			BlockCountState bcs = BlockCountState.NOTHING;
+			LinkedList<Integer> yLevels = new LinkedList<Integer>();
+			for (int y = Math.max(0, loc.getBlockY() - 32); y <= Math.min(255,
+					loc.getBlockY() + 32); y++) {
+				Material m = loc.getWorld().getBlockAt(x, y, z).getType();
+				switch (bcs) {
+				case NOTHING:
+					if ((spawnOnBlocks == null && m != Material.AIR && (doNotSpawnOnBlocks == null || !doNotSpawnOnBlocks
+							.contains(m)))
+							|| (spawnOnBlocks != null && spawnOnBlocks
+									.contains(m))) {
+						bcs = BlockCountState.FOUNDBASEBLOCK;
+					}
+					break;
+				case FOUNDBASEBLOCK:
+					if (spawnInBlocks == null && m == Material.AIR
+							|| spawnInBlocks != null
+							&& spawnInBlocks.contains(m)) {
+						bcs = BlockCountState.ONEAIR;
+						break;
+					}
+					if ((spawnOnBlocks == null && m != Material.AIR && (doNotSpawnOnBlocks == null || !doNotSpawnOnBlocks
+							.contains(m)))
+							|| (spawnOnBlocks != null && spawnOnBlocks
+									.contains(m))) {
+						break;
+					} else {
+						bcs = BlockCountState.NOTHING;
+					}
+				case ONEAIR:
+					if (spawnInBlocks == null && m == Material.AIR
+							|| spawnInBlocks != null
+							&& spawnInBlocks.contains(m)) {
+						yLevels.add(y - 1);
+						bcs = BlockCountState.NOTHING;
+						break;
+					}
+					if ((spawnOnBlocks == null && m != Material.AIR && (doNotSpawnOnBlocks == null || !doNotSpawnOnBlocks
+							.contains(m)))
+							|| (spawnOnBlocks != null && spawnOnBlocks
+									.contains(m))) {
+						bcs = BlockCountState.FOUNDBASEBLOCK;
+					} else {
+						bcs = BlockCountState.NOTHING;
+					}
+				}
+			}
+			if (yLevels.size() > 0) {
+				return new Location(loc.getWorld(), x, yLevels.get(rng
+						.nextInt(yLevels.size())), z);
+			}
+		}
+		return null;
+	}
+
 	public LinkedList<Entity> createMobAt(Location loc) {
 		if (rng.nextDouble() > spawnChance) {
 			return null;
 		}
 		LinkedList<Entity> resultMobs = new LinkedList<Entity>();
 		for (int i = 0; i < amount; i++) {
-			LivingEntity mob = (LivingEntity) loc.getWorld().spawnEntity(loc, type);
+			LivingEntity mob = (LivingEntity) loc.getWorld().spawnEntity(loc,
+					type);
 			if (mob != null) { // event wasn't cancelled
 				if (name != null && name != "") {
 					mob.setCustomName(name);
