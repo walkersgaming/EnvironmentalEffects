@@ -200,7 +200,7 @@ public class MobConfig {
 					if (spawnInBlocks == null && m == Material.AIR
 							|| spawnInBlocks != null
 							&& spawnInBlocks.contains(m)) {
-						yLevels.add(y - 1);
+						yLevels.add(y);
 						bcs = BlockCountState.NOTHING;
 						break;
 					}
