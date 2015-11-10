@@ -77,9 +77,10 @@ public class ConfigParser {
 		disableFirespread = config.getBoolean("firespread_disabled", false);
 		sendConsoleMessage("Disabling fire spread: "
 				+ String.valueOf(disableFirespread));
-		String worldname = config.getString("worldname");
+		String worldname = config.getString("worldname", "world");
 		sendConsoleMessage("Worldname is:" + worldname);
-		cancelAllOtherSpawns = config.getBoolean("cancel_natural_spawns");
+		cancelAllOtherSpawns = config
+				.getBoolean("cancel_natural_spawns", false);
 		sendConsoleMessage("Cancel natural spawns: " + cancelAllOtherSpawns);
 
 		// Intialize weather machines
@@ -235,6 +236,9 @@ public class ConfigParser {
 				int range = currentSection.getInt("range", 32);
 				LightningControl lc = new LightningControl(plugin, areas,
 						frequency, pes, dealDamage, range);
+				sendConsoleMessage("Loaded lightning effect " + key
+						+ ", frequency:" + frequency + ",dealDamage:"
+						+ dealDamage + ",range:" + range);
 				manager.add(lc);
 			}
 		}
@@ -267,6 +271,9 @@ public class ConfigParser {
 						boots);
 				ArmourBasedDamage abd = new ArmourBasedDamage(plugin, areas,
 						frequency, pes, armourState, dmgMsg, dmg);
+				sendConsoleMessage("Loaded armour based damage " + key
+						+ ";frequency:" + frequency + ",damageMessage:"
+						+ dmgMsg + ",damage:" + dmg);
 				manager.add(abd);
 			}
 		}
@@ -300,6 +307,8 @@ public class ConfigParser {
 				}
 				RandomMobSpawningHandler msh = new RandomMobSpawningHandler(
 						plugin, areas, mobconfigs, updateTime, pes);
+				sendConsoleMessage("Created mob spawning " + key
+						+ ";frequency:" + updateTime);
 				manager.add(msh);
 			}
 		}
@@ -318,6 +327,8 @@ public class ConfigParser {
 						.getString("spawn"));
 				MobConfig mobconfig = parseMobConfig(currentSection
 						.getConfigurationSection("mobconfig"));
+				sendConsoleMessage("Successfully parsed mob spawner config for "
+						+ spawn.toString());
 				spawnerConfig.put(spawn, mobconfig);
 			}
 		}
@@ -335,9 +346,11 @@ public class ConfigParser {
 				LinkedList<Area> areas = parseAreas(
 						currentSection.getConfigurationSection("areas"),
 						worldname);
-				long fadeIn = parseTime(currentSection.getString("fadein"));
-				long fadeOut = parseTime(currentSection.getString("fadeout"));
-				long stay = parseTime(currentSection.getString("stay"));
+				long fadeIn = parseTime(currentSection
+						.getString("fadein", "1s"));
+				long fadeOut = parseTime(currentSection.getString("fadeout",
+						"1s"));
+				long stay = parseTime(currentSection.getString("stay", "1s"));
 				long updateTime = parseTime(currentSection
 						.getString("updatetime"));
 				PlayerEnvironmentState pes = parsePlayerEnvironmentState(currentSection
@@ -345,6 +358,10 @@ public class ConfigParser {
 				TitleDisplayer td = new TitleDisplayer(plugin, areas,
 						updateTime, pes, title, subtitle, (int) fadeIn,
 						(int) stay, (int) fadeOut);
+				sendConsoleMessage("Loaded title displayer " + key + ";title:"
+						+ title + ",subtitle:" + subtitle + ",fadein:" + fadeIn
+						+ ",stay:" + stay + ",fadeout:" + fadeOut
+						+ ",updatetime:" + updateTime);
 				manager.add(td);
 			}
 		}
@@ -385,6 +402,8 @@ public class ConfigParser {
 				}
 				DispenserBuff db = new DispenserBuff(plugin, areas, dmg,
 						onHitDebuffs, infiniteArrows);
+				sendConsoleMessage("Loaded dispenser buff " + key + ";damage:"
+						+ dmg + ",infinitearrows:" + infiniteArrows);
 				manager.add(db);
 			}
 		}
@@ -404,6 +423,8 @@ public class ConfigParser {
 				ReinforcementDecay rd = new ReinforcementDecay(plugin, areas,
 						updateTime, amount);
 				manager.add(rd);
+				sendConsoleMessage("Loaded reinforcement decayer " + key
+						+ ";amount:" + amount + ",frequency:" + updateTime);
 			}
 		}
 
@@ -476,6 +497,11 @@ public class ConfigParser {
 				15);
 		boolean alternativeVersion = currentMobConfig.getBoolean(
 				"alternative_version", false);
+		sendConsoleMessage("Successfully parsed mobconfig, type:"
+				+ type.toString() + ",name:" + name + ",spawnChance:"
+				+ spawnChance + ",amount:" + amount + ",minimumLightLevel:"
+				+ minimumLightLevel + ",maximumLightLevel:" + maximumLightLevel
+				+ ",alternativeVersion:" + alternativeVersion);
 		return new MobConfig(type, name, buffs, armour, drops, onHitDebuffs,
 				deathmsg, spawnChance, amount, range, maximumTries,
 				onHitMessage, blocksToSpawnOn, blocksNotToSpawnOn,

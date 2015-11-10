@@ -583,7 +583,7 @@ spawner:
 #subtitle is the subtitle of the title sent to the player 
 
 #fadein is how long the title should take to fade in, stay is how long it stays on the screen and fadeout
-#is how long it takes to fade out of the players screen
+#is how long it takes to fade out of the players screen, default is one second for each of them
 
 #updatetime is how often the effect checks whether the player is in the area currently and whether a message 
 #should be sent
