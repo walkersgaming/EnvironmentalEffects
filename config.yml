@@ -413,6 +413,12 @@ armour_based_damage:
 #                       level: 1
 #                       duration: 5s
 #                       chance: 0.2  
+#               blocks_to_spawn_on:
+#                - STONE
+#                - DIRT
+#               blocks_to_spawn_in:
+#                - AIR
+#                - WATER
 
 #First of all, just for like every other effect, you can have as many instances of this active as you want. 
 #The update time decides how often the plugins attempts to spawn mobs next to every player, this is the same 
@@ -462,6 +468,18 @@ armour_based_damage:
 #to specify a type (same thing as for potion buffs), it's level, the duration, the level and a chance to apply it upon hitting 
 #a player. If the duration is not set, it will default to 5 seconds and if the chance is not set, it will default to 1.0. 
 #Chance is a double, where 1.0 is 100 % and 0.0 is 0%
+
+#blocks_to_spawn_on allows you to specify on which blocks this mob is allowed to spawn. If you remove this option, the mob will
+#be able to spawn on any block. Simply list the material of the acceptable blocks here, use spigots enum identifers.
+
+#blocks_not_to_spawn_on is not in the example above, but it gives you exactly the opposite of options than blocks_to_spawn_on.
+#Like for the option above, this works by simply listing materials. If you specify this option, it will be assumed that the 
+#mob isn't allowed to spawn on any blocks other than the ones specified in this list. Only either specify which blocks to 
+#spawn on or which blocks not to spawn on, doing both makes absolutely no sense.
+
+#blocks_to_spawn_in allows you to give a list of blocks in which the mob is allowed to spawn. If this option is not given, the mob
+#will only spawn inside air, but this option can be used to for example specify water as valid spawning room. If you do use this
+#option, you will have to explicitly add air, if you want it to be a block to spawn in.
 
 #General advice on the balancing of mobs: If you want to spawn monster during the day, give them fire res. Skeletons wont spawn
 #with a bow unless you give them one and strength does not apply to arrows, work with power enchants on the bow instead. Also

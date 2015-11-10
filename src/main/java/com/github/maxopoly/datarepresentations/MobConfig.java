@@ -49,7 +49,9 @@ public class MobConfig {
 			LinkedList<ItemStack> armour, LinkedList<ItemStack> drops,
 			HashMap<PotionEffect, Double> onHitDebuffs, String deathMessage,
 			double spawnChance, int amount, int range, int maxiumumTries,
-			String onHitMessage) {
+			String onHitMessage, LinkedList<Material> spawnOnBlocks,
+			LinkedList<Material> doNotSpawnOnBlocks,
+			LinkedList<Material> spawnInBlocks) {
 		this.name = name;
 		this.type = type;
 		this.buffs = buffs;
@@ -63,6 +65,9 @@ public class MobConfig {
 		this.deathMessage = deathMessage;
 		this.onHitDebuffs = onHitDebuffs;
 		this.onHitMessage = onHitMessage;
+		this.spawnOnBlocks = spawnOnBlocks;
+		this.spawnInBlocks = spawnInBlocks;
+		this.doNotSpawnOnBlocks = doNotSpawnOnBlocks;
 	}
 
 	/**
@@ -447,6 +452,31 @@ public class MobConfig {
 	 */
 	public String onHitMessage() {
 		return onHitMessage;
+	}
+
+	/**
+	 * @return Which blocks were specified as material to spawn on, null if
+	 *         nothing was specified and every block except the for the
+	 *         forbidden ones are valid
+	 */
+	public LinkedList<Material> getBlocksToSpawnOn() {
+		return spawnOnBlocks;
+	}
+
+	/**
+	 * @return Which blocks are explicitly forbidden for this mob to spawn on or
+	 *         null if nothing was specified
+	 */
+	public LinkedList<Material> getBlockNotToSpawnOn() {
+		return doNotSpawnOnBlocks;
+	}
+
+	/**
+	 * @return Which blocks are considered "air" or space to spawn in for this
+	 *         mobconfig, null if nothing was specified and only air is accepted
+	 */
+	public LinkedList<Material> getBlockToSpawnIn() {
+		return spawnInBlocks;
 	}
 
 }

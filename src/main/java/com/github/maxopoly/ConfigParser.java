@@ -464,9 +464,28 @@ public class ConfigParser {
 				onHitDebuffs.put(pe, chance);
 			}
 		}
+		LinkedList<Material> blocksToSpawnOn = convertMaterialList(currentMobConfig
+				.getStringList("blocks_to_spawn_on"));
+		LinkedList<Material> blocksNotToSpawnOn = convertMaterialList(currentMobConfig
+				.getStringList("blocks_not_to_spawn_on"));
+		LinkedList<Material> blocksToSpawnIn = convertMaterialList(currentMobConfig
+				.getStringList("blocks_to_spawn_in"));
 		return new MobConfig(type, name, buffs, armour, drops, onHitDebuffs,
 				deathmsg, spawnChance, amount, range, maximumTries,
-				onHitMessage);
+				onHitMessage, blocksToSpawnOn, blocksNotToSpawnOn,
+				blocksToSpawnIn);
+	}
+
+	public LinkedList<Material> convertMaterialList(List<String> input) {
+		if (input == null || input.size() == 0) {
+			return null;
+		}
+		LinkedList<Material> output = new LinkedList<Material>();
+		for (String s : input) {
+			output.add(Material.valueOf(s));
+		}
+		return output;
+
 	}
 
 	private LinkedList<Area> parseAreas(ConfigurationSection cs,
