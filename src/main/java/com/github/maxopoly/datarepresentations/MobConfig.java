@@ -8,9 +8,12 @@ import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -45,6 +48,7 @@ public class MobConfig {
 	private LinkedList<Material> spawnInBlocks;
 	private int minimumLightLevel;
 	private int maximumLightLevel;
+	private boolean alternateVersion;
 
 	public MobConfig(EntityType type, String name,
 			HashMap<PotionEffectType, Integer> buffs,
@@ -54,7 +58,7 @@ public class MobConfig {
 			String onHitMessage, LinkedList<Material> spawnOnBlocks,
 			LinkedList<Material> doNotSpawnOnBlocks,
 			LinkedList<Material> spawnInBlocks, int minimumLightLevel,
-			int maximumLightLevel) {
+			int maximumLightLevel, boolean alternativeVersion) {
 		this.name = name;
 		this.type = type;
 		this.buffs = buffs;
@@ -73,6 +77,7 @@ public class MobConfig {
 		this.doNotSpawnOnBlocks = doNotSpawnOnBlocks;
 		this.minimumLightLevel = minimumLightLevel;
 		this.maximumLightLevel = maximumLightLevel;
+		this.alternateVersion = alternativeVersion;
 	}
 
 	/**
@@ -116,6 +121,23 @@ public class MobConfig {
 				eq.setItemInHandDropChance(0F);
 				mob.setCanPickupItems(false);
 				mob.setRemoveWhenFarAway(false);
+
+				switch (type) {
+				case SKELETON:
+					if (alternateVersion) {
+						((Skeleton) mob).setSkeletonType(SkeletonType.WITHER);
+					} else {
+						((Skeleton) mob).setSkeletonType(SkeletonType.NORMAL);
+					}
+					break;
+				case CREEPER:
+					if (alternateVersion) {
+						((Creeper) mob).setPowered(true);
+					} else {
+						((Creeper) mob).setPowered(false);
+					}
+				}
+
 				for (Map.Entry<PotionEffectType, Integer> current : buffs
 						.entrySet()) {
 					mob.addPotionEffect(new PotionEffect(current.getKey(),
