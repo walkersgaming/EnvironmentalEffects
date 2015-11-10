@@ -181,13 +181,13 @@ timeupdate: 200
 #Keeps fireballs from dealing terrain damage if set to true. This might be needed if the fireballl rain is heavily used
 #to prevent the whole world being destroyed slowly. But then again this makes the effect very boring, because it makes it 
 #almost invisble
-disable_fireball_terraindamage: true
+disable_fireball_terraindamage: false
 
 #Keeps fireballs from igniting terrain if set to true
-disable_fireball_terrainignition: true
+disable_fireball_terrainignition: false
 
 #Completly disables passive fire spread if set to true. Player can still ignite individual blocks if this is enabled
-firespread_disabled: true
+firespread_disabled: false
 
 #Enable this if you want to cancel any vanilla random spawning. This will not cancel any spawning done by any plugin and
 #will not prevent all other spawn causes like reinforcements, breeding, lightning etc.
