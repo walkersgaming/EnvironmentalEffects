@@ -110,9 +110,14 @@ public abstract class RepeatingEffect implements Runnable {
 	 * 
 	 * @param p
 	 *            player to check
-	 * @return true if the player fulfills all the criteria, false if not
+	 * @return true if the player fulfills all the criteria, false if not or if
+	 *         the player has the permission to bypass effects
 	 */
 	public boolean conditionsMet(Player p) {
+		if (p.hasPermission("EE.admin")) {
+			return false;
+			// this permission allows to ignore any effects
+		}
 		return environmentConditionMet(p) && isPlayerInArea(p);
 	}
 
