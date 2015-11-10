@@ -381,6 +381,7 @@ armour_based_damage:
 #               amount: 2
 #               maximum_spawn_attempts: 10
 #               deathmessage: Y you hardscope
+#               on_hit_message: MOM GET THE CAMERA
 #               spawn_chance: 0.5
 #               drops:
 #                   Special_IngredientXYZ:
@@ -419,6 +420,8 @@ armour_based_damage:
 #               blocks_to_spawn_in:
 #                - AIR
 #                - WATER
+#               minimum_light_level: 4
+#               maximum_light_level: 8
 
 #First of all, just for like every other effect, you can have as many instances of this active as you want. 
 #The update time decides how often the plugins attempts to spawn mobs next to every player, this is the same 
@@ -446,6 +449,9 @@ armour_based_damage:
 
 #deathmessage is the message that is sent to the player who kills the monster. If this option is removed or left empty, 
 #no message will be sent.
+
+#on_hit_message allows you to specify a message, which is sent to a player whenever he is hit by the mob.
+#Remove this option or leave it empty if no message should be sent.
 
 #spawn_chance is the chance to even spawn something every updatetime. This is a double, where 1.0 means it should always
 #try to spawn and 0.0 means it should never try to spawn. This chance does not take into account that there might be no 
@@ -480,6 +486,14 @@ armour_based_damage:
 #blocks_to_spawn_in allows you to give a list of blocks in which the mob is allowed to spawn. If this option is not given, the mob
 #will only spawn inside air, but this option can be used to for example specify water as valid spawning room. If you do use this
 #option, you will have to explicitly add air, if you want it to be a block to spawn in.
+
+#maximum_light_level lets you specify the maximum light level at which this mob will spawn. The block with the block coords of 
+#the spawn is the one on which the light check is performed on (in the case of 2 block high mobs thats the feet block), this
+#value is inclusive and if it is not specified it will default to 15, which means nothing will be prevented because of too much 
+#light (15 is the maximum possible)
+
+#minimum_light_level works just like maximum_light_level, but instead allows you to specify a minimum required light level for
+#a mob to spawn. Range for this is 0-15 and this will default to 0 if nothing is specified
 
 #General advice on the balancing of mobs: If you want to spawn monster during the day, give them fire res. Skeletons wont spawn
 #with a bow unless you give them one and strength does not apply to arrows, work with power enchants on the bow instead. Also

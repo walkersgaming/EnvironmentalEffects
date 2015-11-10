@@ -43,6 +43,8 @@ public class MobConfig {
 	private LinkedList<Material> spawnOnBlocks;
 	private LinkedList<Material> doNotSpawnOnBlocks;
 	private LinkedList<Material> spawnInBlocks;
+	private int minimumLightLevel;
+	private int maximumLightLevel;
 
 	public MobConfig(EntityType type, String name,
 			HashMap<PotionEffectType, Integer> buffs,
@@ -51,7 +53,8 @@ public class MobConfig {
 			double spawnChance, int amount, int range, int maxiumumTries,
 			String onHitMessage, LinkedList<Material> spawnOnBlocks,
 			LinkedList<Material> doNotSpawnOnBlocks,
-			LinkedList<Material> spawnInBlocks) {
+			LinkedList<Material> spawnInBlocks, int minimumLightLevel,
+			int maximumLightLevel) {
 		this.name = name;
 		this.type = type;
 		this.buffs = buffs;
@@ -68,6 +71,8 @@ public class MobConfig {
 		this.spawnOnBlocks = spawnOnBlocks;
 		this.spawnInBlocks = spawnInBlocks;
 		this.doNotSpawnOnBlocks = doNotSpawnOnBlocks;
+		this.minimumLightLevel = minimumLightLevel;
+		this.maximumLightLevel = maximumLightLevel;
 	}
 
 	/**
@@ -153,8 +158,13 @@ public class MobConfig {
 					if (spawnInBlocks == null && m == Material.AIR
 							|| spawnInBlocks != null
 							&& spawnInBlocks.contains(m)) {
-						bcs = BlockCountState.ONEAIR;
-						break;
+						int light = loc.getWorld().getBlockAt(x, y, z)
+								.getLightLevel();
+						if (light >= minimumLightLevel
+								&& light <= maximumLightLevel) {
+							bcs = BlockCountState.ONEAIR;
+							break;
+						}
 					}
 					if ((spawnOnBlocks == null && m != Material.AIR && (doNotSpawnOnBlocks == null || !doNotSpawnOnBlocks
 							.contains(m)))
@@ -477,6 +487,20 @@ public class MobConfig {
 	 */
 	public LinkedList<Material> getBlockToSpawnIn() {
 		return spawnInBlocks;
+	}
+
+	/**
+	 * @return The maximum light level at which this mob can spawn
+	 */
+	public int getMaximumLightLevel() {
+		return maximumLightLevel;
+	}
+
+	/**
+	 * @return The minimum light level required for this mob to spawn
+	 */
+	public int getMinimumLightLevel() {
+		return minimumLightLevel;
 	}
 
 }

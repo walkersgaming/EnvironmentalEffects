@@ -470,10 +470,12 @@ public class ConfigParser {
 				.getStringList("blocks_not_to_spawn_on"));
 		LinkedList<Material> blocksToSpawnIn = convertMaterialList(currentMobConfig
 				.getStringList("blocks_to_spawn_in"));
+		int minimumLightLevel = currentMobConfig.getInt("minimum_light_level",0);
+		int maximumLightLevel = currentMobConfig.getInt("maximum_light_level",15);
 		return new MobConfig(type, name, buffs, armour, drops, onHitDebuffs,
 				deathmsg, spawnChance, amount, range, maximumTries,
 				onHitMessage, blocksToSpawnOn, blocksNotToSpawnOn,
-				blocksToSpawnIn);
+				blocksToSpawnIn, minimumLightLevel, maximumLightLevel);
 	}
 
 	public LinkedList<Material> convertMaterialList(List<String> input) {
