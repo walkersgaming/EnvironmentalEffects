@@ -63,7 +63,7 @@ public class MobListeners implements Listener {
 		}
 		Entity damager = null;
 		if (e.getDamager() instanceof LivingEntity) {
-			damager = (Monster) e.getDamager();
+			damager = (LivingEntity) e.getDamager();
 		} else {
 			if (e.getDamager() instanceof Projectile) {
 				ProjectileSource ps = ((Projectile) e.getDamager())
