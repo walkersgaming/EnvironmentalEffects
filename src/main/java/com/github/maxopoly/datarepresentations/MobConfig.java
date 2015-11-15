@@ -1,7 +1,6 @@
 package com.github.maxopoly.datarepresentations;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
@@ -173,33 +172,42 @@ public class MobConfig {
 							.contains(m)))
 							|| (spawnOnBlocks != null && spawnOnBlocks
 									.contains(m))) {
-						bcs = BlockCountState.FOUNDBASEBLOCK;
-					}
-					break;
-				case FOUNDBASEBLOCK:
-					if (spawnInBlocks == null && m == Material.AIR
-							|| spawnInBlocks != null
-							&& spawnInBlocks.contains(m)) {
 						int light = loc.getWorld().getBlockAt(x, y, z)
 								.getLightLevel();
 						if (light >= minimumLightLevel
 								&& light <= maximumLightLevel) {
-							bcs = BlockCountState.ONEAIR;
-							break;
+							bcs = BlockCountState.FOUNDBASEBLOCK;
 						}
+					}
+					break;
+				case FOUNDBASEBLOCK:
+					if ((spawnInBlocks == null && m == Material.AIR)
+							|| (spawnInBlocks != null && spawnInBlocks
+									.contains(m))) {
+						bcs = BlockCountState.ONEAIR;
+						break;
 					}
 					if ((spawnOnBlocks == null && m != Material.AIR && (doNotSpawnOnBlocks == null || !doNotSpawnOnBlocks
 							.contains(m)))
 							|| (spawnOnBlocks != null && spawnOnBlocks
 									.contains(m))) {
+						int light = loc.getWorld().getBlockAt(x, y, z)
+								.getLightLevel();
+						if (light >= minimumLightLevel
+								&& light <= maximumLightLevel) {
+							// another good base block, just leave the counter
+							// as it is
+						} else {
+							bcs = BlockCountState.NOTHING;
+						}
 						break;
 					} else {
 						bcs = BlockCountState.NOTHING;
 					}
 				case ONEAIR:
-					if (spawnInBlocks == null && m == Material.AIR
-							|| spawnInBlocks != null
-							&& spawnInBlocks.contains(m)) {
+					if ((spawnInBlocks == null && m == Material.AIR)
+							|| (spawnInBlocks != null && spawnInBlocks
+									.contains(m))) {
 						yLevels.add(y);
 						bcs = BlockCountState.NOTHING;
 						break;
@@ -208,7 +216,16 @@ public class MobConfig {
 							.contains(m)))
 							|| (spawnOnBlocks != null && spawnOnBlocks
 									.contains(m))) {
-						bcs = BlockCountState.FOUNDBASEBLOCK;
+						int light = loc.getWorld().getBlockAt(x, y, z)
+								.getLightLevel();
+						if (light >= minimumLightLevel
+								&& light <= maximumLightLevel) {
+							//base block
+							bcs = BlockCountState.FOUNDBASEBLOCK;
+						} else {
+							bcs = BlockCountState.NOTHING;
+						}
+						break;
 					} else {
 						bcs = BlockCountState.NOTHING;
 					}
