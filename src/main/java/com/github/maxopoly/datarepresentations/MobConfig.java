@@ -168,7 +168,7 @@ public class MobConfig {
 				Material m = loc.getWorld().getBlockAt(x, y, z).getType();
 				switch (bcs) {
 				case NOTHING:
-					if ((spawnOnBlocks == null && m != Material.AIR && (doNotSpawnOnBlocks == null || !doNotSpawnOnBlocks
+					if ((spawnOnBlocks == null && m.isSolid() && (doNotSpawnOnBlocks == null || !doNotSpawnOnBlocks
 							.contains(m)))
 							|| (spawnOnBlocks != null && spawnOnBlocks
 									.contains(m))) {
@@ -187,7 +187,7 @@ public class MobConfig {
 						bcs = BlockCountState.ONEAIR;
 						break;
 					}
-					if ((spawnOnBlocks == null && m != Material.AIR && (doNotSpawnOnBlocks == null || !doNotSpawnOnBlocks
+					if ((spawnOnBlocks == null && m.isSolid() && (doNotSpawnOnBlocks == null || !doNotSpawnOnBlocks
 							.contains(m)))
 							|| (spawnOnBlocks != null && spawnOnBlocks
 									.contains(m))) {
@@ -212,7 +212,7 @@ public class MobConfig {
 						bcs = BlockCountState.NOTHING;
 						break;
 					}
-					if ((spawnOnBlocks == null && m != Material.AIR && (doNotSpawnOnBlocks == null || !doNotSpawnOnBlocks
+					if ((spawnOnBlocks == null && m.isSolid() && (doNotSpawnOnBlocks == null || !doNotSpawnOnBlocks
 							.contains(m)))
 							|| (spawnOnBlocks != null && spawnOnBlocks
 									.contains(m))) {
