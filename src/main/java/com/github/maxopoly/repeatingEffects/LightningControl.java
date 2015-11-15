@@ -38,8 +38,7 @@ public class LightningControl extends RepeatingEffect {
 					- (range);
 			int z = (int) p.getLocation().getZ() + rng.nextInt(range * 2)
 					- (range);
-			Location loc = new Location(p.getWorld(), x, p.getLocation()
-					.getBlockY(), z);
+			Location loc = p.getWorld().getHighestBlockAt(x, z).getLocation();
 			if (dealDamage) {
 				p.getWorld().spigot().strikeLightning(loc, false);
 			} else {
