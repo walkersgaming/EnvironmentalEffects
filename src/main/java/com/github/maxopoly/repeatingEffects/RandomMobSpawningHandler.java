@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.maxopoly.datarepresentations.Area;
 import com.github.maxopoly.datarepresentations.MobConfig;
@@ -28,10 +27,10 @@ public class RandomMobSpawningHandler extends RepeatingEffect {
 	private LinkedList<MobConfig> mobConfigs;
 	private static HashMap<UUID, MobConfig> currentMobs = new HashMap<UUID, MobConfig>();;
 
-	public RandomMobSpawningHandler(JavaPlugin plugin, LinkedList<Area> areas,
-			LinkedList<MobConfig> mobConfigs, long updateTime,
-			PlayerEnvironmentState pes) {
-		super(plugin, areas, updateTime, pes);
+	public RandomMobSpawningHandler(LinkedList<Area> includedAreas,
+			LinkedList<Area> excludedAreas, LinkedList<MobConfig> mobConfigs,
+			long updateTime, PlayerEnvironmentState pes) {
+		super(includedAreas, excludedAreas, updateTime, pes);
 		this.mobConfigs = mobConfigs;
 	}
 
@@ -45,8 +44,7 @@ public class RandomMobSpawningHandler extends RepeatingEffect {
 	public void applyToPlayer(Player p) {
 		if (conditionsMet(p)) {
 			for (MobConfig mc : mobConfigs) {
-				LinkedList<Entity> resultedMobs = mc
-						.createMob(p.getLocation());
+				LinkedList<Entity> resultedMobs = mc.createMob(p.getLocation());
 				if (resultedMobs != null) {
 					for (Entity mob : resultedMobs) {
 						if (mob != null) {

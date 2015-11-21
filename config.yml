@@ -121,7 +121,21 @@
 #           center:
 #               x: 1337
 #               z: 1337
-    
+   
+#Additionally to specifying areas for effects to apply in, you can also exclude specific areas from an effect. An exclusion will
+#always override an inclusion. Adding the option excluded_areas is possible for every effect except for reinforcement decay.
+#The semantic is identical with the one for including areas, an example:
+
+#areas:
+#   biomes:
+#    - GLOBAL
+#excluded_areas:
+#   biomes:
+#    - OCEAN
+
+#This effect will apply everywhere except in oceans. You can combine any possible descriptons for areas in any way you want here,
+#for example specific regions specified by coordinates could also be excluded here. The option excluded_areas will always be on
+#the same level as the areas option in the config of any given effect.
 
 #Some effects also allow you to specify specific environmental conditions for the player, which have to be fulfilled so the
 #effect is applied. Only some allow this and if it is allowed the example next to the config section will show it. An example:

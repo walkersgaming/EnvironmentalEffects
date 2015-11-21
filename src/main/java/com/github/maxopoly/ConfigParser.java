@@ -97,7 +97,11 @@ public class ConfigParser {
 				LinkedList<Area> areas = parseAreas(
 						currentWeatherSection.getConfigurationSection("areas"),
 						worldname);
-				WeatherMachine wm = new WeatherMachine(plugin, areas,
+				LinkedList<Area> excludedAreas = parseAreas(
+						currentWeatherSection
+								.getConfigurationSection("excluded_areas"),
+						worldname);
+				WeatherMachine wm = new WeatherMachine(areas, excludedAreas,
 						rainChance, minRainDuration, rainUpdate);
 				manager.add(wm);
 				sendConsoleMessage("Initialized weather machine for " + key
@@ -123,12 +127,16 @@ public class ConfigParser {
 				LinkedList<Area> areas = parseAreas(
 						currentSection.getConfigurationSection("areas"),
 						worldname);
+				LinkedList<Area> excludedAreas = parseAreas(
+						currentSection
+								.getConfigurationSection("excluded_areas"),
+						worldname);
 				if (currentSection.contains("nightspeed")) {
-					dtm = new DaytimeModifier(plugin, areas, startingTime,
-							daySpeed, nightSpeed, timeUpdate);
+					dtm = new DaytimeModifier(areas, excludedAreas,
+							startingTime, daySpeed, nightSpeed, timeUpdate);
 				} else {
-					dtm = new DaytimeModifier(plugin, areas, startingTime,
-							daySpeed, daySpeed, timeUpdate);
+					dtm = new DaytimeModifier(areas, excludedAreas,
+							startingTime, daySpeed, daySpeed, timeUpdate);
 				}
 				manager.add(dtm);
 				sendConsoleMessage("Initialized daytime modifier "
@@ -181,10 +189,14 @@ public class ConfigParser {
 				LinkedList<Area> areas = parseAreas(
 						currentSection.getConfigurationSection("areas"),
 						worldname);
+				LinkedList<Area> excludedAreas = parseAreas(
+						currentSection
+								.getConfigurationSection("excluded_areas"),
+						worldname);
 				PlayerEnvironmentState pes = parsePlayerEnvironmentState(currentSection
 						.getConfigurationSection("player_environment_state"));
-				FireBallRain fbr = new FireBallRain(plugin, areas, frequency,
-						range, pes);
+				FireBallRain fbr = new FireBallRain(areas, excludedAreas,
+						frequency, range, pes);
 				manager.add(fbr);
 				sendConsoleMessage("Loaded fireball rain " + key
 						+ "; frequency:" + frequency + ", range:" + range);
@@ -205,10 +217,14 @@ public class ConfigParser {
 				LinkedList<Area> areas = parseAreas(
 						currentSection.getConfigurationSection("areas"),
 						worldname);
+				LinkedList<Area> excludedAreas = parseAreas(
+						currentSection
+								.getConfigurationSection("excluded_areas"),
+						worldname);
 				PlayerEnvironmentState pes = parsePlayerEnvironmentState(currentSection
 						.getConfigurationSection("player_environment_state"));
-				PotionBuff pb = new PotionBuff(plugin, areas, pet, level,
-						duration, pes);
+				PotionBuff pb = new PotionBuff(areas, excludedAreas, pet,
+						level, duration, pes);
 				manager.add(pb);
 				sendConsoleMessage("Loaded potion buff " + key + " type:"
 						+ pet.toString() + ",level:" + level + " duration:"
@@ -227,6 +243,10 @@ public class ConfigParser {
 				LinkedList<Area> areas = parseAreas(
 						currentSection.getConfigurationSection("areas"),
 						worldname);
+				LinkedList<Area> excludedAreas = parseAreas(
+						currentSection
+								.getConfigurationSection("excluded_areas"),
+						worldname);
 				long frequency = parseTime(currentSection
 						.getString("frequency"));
 				PlayerEnvironmentState pes = parsePlayerEnvironmentState(currentSection
@@ -234,8 +254,8 @@ public class ConfigParser {
 				boolean dealDamage = currentSection.getBoolean("deal_damage",
 						true);
 				int range = currentSection.getInt("range", 32);
-				LightningControl lc = new LightningControl(plugin, areas,
-						frequency, pes, dealDamage, range);
+				LightningControl lc = new LightningControl(areas,
+						excludedAreas, frequency, pes, dealDamage, range);
 				sendConsoleMessage("Loaded lightning effect " + key
 						+ ", frequency:" + frequency + ",dealDamage:"
 						+ dealDamage + ",range:" + range);
@@ -253,6 +273,10 @@ public class ConfigParser {
 				LinkedList<Area> areas = parseAreas(
 						currentSection.getConfigurationSection("areas"),
 						worldname);
+				LinkedList<Area> excludedAreas = parseAreas(
+						currentSection
+								.getConfigurationSection("excluded_areas"),
+						worldname);
 				long frequency = parseTime(currentSection
 						.getString("frequency"));
 				PlayerEnvironmentState pes = parsePlayerEnvironmentState(currentSection
@@ -269,8 +293,8 @@ public class ConfigParser {
 				LinkedList<ArmourType> boots = parseArmourTypeList(as, "boots");
 				ArmourState armourState = new ArmourState(head, chest, pants,
 						boots);
-				ArmourBasedDamage abd = new ArmourBasedDamage(plugin, areas,
-						frequency, pes, armourState, dmgMsg, dmg);
+				ArmourBasedDamage abd = new ArmourBasedDamage(areas,
+						excludedAreas, frequency, pes, armourState, dmgMsg, dmg);
 				sendConsoleMessage("Loaded armour based damage " + key
 						+ ";frequency:" + frequency + ",damageMessage:"
 						+ dmgMsg + ",damage:" + dmg);
@@ -292,6 +316,10 @@ public class ConfigParser {
 						.getString("updatetime"));
 				PlayerEnvironmentState pes = parsePlayerEnvironmentState(currentSection
 						.getConfigurationSection("player_environment_state"));
+				LinkedList<Area> excludedAreas = parseAreas(
+						currentSection
+								.getConfigurationSection("excluded_areas"),
+						worldname);
 				LinkedList<MobConfig> mobconfigs = new LinkedList<MobConfig>();
 				ConfigurationSection mobconfigsection = currentSection
 						.getConfigurationSection("mobconfig");
@@ -306,7 +334,7 @@ public class ConfigParser {
 					throw new ConfigParseException("No mobconfigs for" + key);
 				}
 				RandomMobSpawningHandler msh = new RandomMobSpawningHandler(
-						plugin, areas, mobconfigs, updateTime, pes);
+						areas, excludedAreas, mobconfigs, updateTime, pes);
 				sendConsoleMessage("Created mob spawning " + key
 						+ ";frequency:" + updateTime);
 				manager.add(msh);
@@ -346,6 +374,10 @@ public class ConfigParser {
 				LinkedList<Area> areas = parseAreas(
 						currentSection.getConfigurationSection("areas"),
 						worldname);
+				LinkedList<Area> excludedAreas = parseAreas(
+						currentSection
+								.getConfigurationSection("excluded_areas"),
+						worldname);
 				long fadeIn = parseTime(currentSection
 						.getString("fadein", "1s"));
 				long fadeOut = parseTime(currentSection.getString("fadeout",
@@ -355,7 +387,7 @@ public class ConfigParser {
 						.getString("updatetime"));
 				PlayerEnvironmentState pes = parsePlayerEnvironmentState(currentSection
 						.getConfigurationSection("player_environment_state"));
-				TitleDisplayer td = new TitleDisplayer(plugin, areas,
+				TitleDisplayer td = new TitleDisplayer(areas, excludedAreas,
 						updateTime, pes, title, subtitle, (int) fadeIn,
 						(int) stay, (int) fadeOut);
 				sendConsoleMessage("Loaded title displayer " + key + ";title:"
@@ -375,6 +407,10 @@ public class ConfigParser {
 						.getConfigurationSection(key);
 				LinkedList<Area> areas = parseAreas(
 						currentSection.getConfigurationSection("areas"),
+						worldname);
+				LinkedList<Area> excludedAreas = parseAreas(
+						currentSection
+								.getConfigurationSection("excluded_areas"),
 						worldname);
 				int dmg = currentSection.getInt("extradamage", 0);
 				ConfigurationSection onHitDebuffSection = currentSection
@@ -400,7 +436,7 @@ public class ConfigParser {
 						onHitDebuffs.put(pe, chance);
 					}
 				}
-				DispenserBuff db = new DispenserBuff(plugin, areas, dmg,
+				DispenserBuff db = new DispenserBuff(areas, excludedAreas, dmg,
 						onHitDebuffs, infiniteArrows);
 				sendConsoleMessage("Loaded dispenser buff " + key + ";damage:"
 						+ dmg + ",infinitearrows:" + infiniteArrows);
@@ -420,7 +456,7 @@ public class ConfigParser {
 						worldname);
 				int amount = currentSection.getInt("amount");
 				long updateTime = currentSection.getInt("updatetime");
-				ReinforcementDecay rd = new ReinforcementDecay(plugin, areas,
+				ReinforcementDecay rd = new ReinforcementDecay(areas,
 						updateTime, amount);
 				manager.add(rd);
 				sendConsoleMessage("Loaded reinforcement decayer " + key
@@ -524,8 +560,7 @@ public class ConfigParser {
 	private LinkedList<Area> parseAreas(ConfigurationSection cs,
 			String worldname) throws ConfigParseException {
 		if (cs == null) {
-			throw new ConfigParseException(
-					"No area was specified for an effect");
+			return null;
 		}
 		LinkedList<Area> areas = new LinkedList<Area>();
 		List<String> biomes = cs.getStringList("biomes");

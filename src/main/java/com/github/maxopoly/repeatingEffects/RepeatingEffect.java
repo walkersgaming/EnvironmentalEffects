@@ -6,8 +6,8 @@ import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.maxopoly.EnvironmentalEffects;
 import com.github.maxopoly.datarepresentations.Area;
 import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
 
@@ -23,18 +23,21 @@ public abstract class RepeatingEffect implements Runnable {
 	/**
 	 * needed as reference for internal scheduling of events
 	 */
-	final protected JavaPlugin plugin;
+	final protected EnvironmentalEffects plugin;
 	protected Collection<? extends Player> currentPlayers;
 	protected long updateTime;
-	protected LinkedList<Area> areas;
+	protected LinkedList<Area> includedAreas;
+	protected LinkedList<Area> excludedAreas;
 	protected PlayerEnvironmentState pes;
 	protected Random rng;
 
-	public RepeatingEffect(JavaPlugin plugin, LinkedList<Area> areas,
-			long updateTime, PlayerEnvironmentState pes) {
-		this.plugin = plugin;
+	public RepeatingEffect(LinkedList<Area> includedAreas,
+			LinkedList<Area> excludedAreas, long updateTime,
+			PlayerEnvironmentState pes) {
+		this.plugin = EnvironmentalEffects.getPlugin();
 		this.updateTime = updateTime;
-		this.areas = areas;
+		this.includedAreas = includedAreas;
+		this.excludedAreas = excludedAreas;
 		this.rng = new Random();
 		this.pes = pes;
 		plugin.getServer().getScheduler()
@@ -68,7 +71,8 @@ public abstract class RepeatingEffect implements Runnable {
 	}
 
 	/**
-	 * Changes how often the effect is updated for each player
+	 * Changes how often the effect is updated for each player. Be aware that
+	 * this will not affect the already scheduled task
 	 * 
 	 * @param updateTime
 	 *            how often the effect should be updated (in ticks)
@@ -88,7 +92,7 @@ public abstract class RepeatingEffect implements Runnable {
 
 	/**
 	 * Checks whether the given location is inside any of the areas in which
-	 * effects are applied by this instance
+	 * effects are applied by this instance and not in a restricted area
 	 * 
 	 * @param loc
 	 *            location be compared with the areas
@@ -96,7 +100,26 @@ public abstract class RepeatingEffect implements Runnable {
 	 *         instance, false if not
 	 */
 	public boolean isInArea(Location loc) {
-		for (Area a : areas) {
+		for (Area a : includedAreas) {
+			if (a.isInArea(loc) && !isInRestrictedArea(loc)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Checks whether a given location is in the area which is restricted for
+	 * this effect
+	 * 
+	 * @param loc
+	 * @return
+	 */
+	public boolean isInRestrictedArea(Location loc) {
+		if (excludedAreas == null) {
+			return false;
+		}
+		for (Area a : excludedAreas) {
 			if (a.isInArea(loc)) {
 				return true;
 			}
@@ -150,7 +173,7 @@ public abstract class RepeatingEffect implements Runnable {
 	 * @return Whether this instance applies globally
 	 */
 	public boolean isGlobal() {
-		for (Area a : areas) {
+		for (Area a : includedAreas) {
 			if (a.isGlobal()) {
 				return true;
 			}

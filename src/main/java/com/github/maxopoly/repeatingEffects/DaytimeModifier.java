@@ -28,10 +28,10 @@ public class DaytimeModifier extends RepeatingEffect {
 	private long currentRunTime; // in ticks
 	private long previousRealTime;
 
-	public DaytimeModifier(JavaPlugin plugin, LinkedList<Area> areas,
-			Long startingTime, Double daySpeed, Double nightSpeed,
-			long updateTime) {
-		super(plugin, areas, updateTime, null);
+	public DaytimeModifier(LinkedList<Area> includedAreas,
+			LinkedList<Area> excludedAreas, Long startingTime, Double daySpeed,
+			Double nightSpeed, long updateTime) {
+		super(includedAreas, excludedAreas, updateTime, null);
 		this.previousRunTime = startingTime;
 		this.daySpeed = daySpeed;
 		this.nightSpeed = nightSpeed;
