@@ -10,13 +10,12 @@ import com.github.maxopoly.exceptions.ConfigParseException;
 import com.github.maxopoly.listeners.MobListeners;
 import com.github.maxopoly.listeners.SyncPlayersWithInternalValues;
 import com.github.maxopoly.listeners.TerrainDamageListeners;
-import com.github.maxopoly.managers.RepeatingEffectManager;
 import com.github.maxopoly.repeatingEffects.RandomMobSpawningHandler;
 
 public class EnvironmentalEffects extends JavaPlugin {
 	private static JavaPlugin plugin;
 	private CommandHandler commandHandler;
-	private static RepeatingEffectManager manager;
+	private static EffectManager manager;
 	private ConfigParser cp;
 
 	public void onEnable() {
@@ -35,7 +34,7 @@ public class EnvironmentalEffects extends JavaPlugin {
 		return (EnvironmentalEffects) plugin;
 	}
 	
-	public static RepeatingEffectManager getManager() {
+	public static EffectManager getManager() {
 		return manager;
 	}
 
@@ -76,7 +75,7 @@ public class EnvironmentalEffects extends JavaPlugin {
 				.registerEvents(new SyncPlayersWithInternalValues(manager),
 						this);
 		this.getServer().getPluginManager()
-				.registerEvents(new MobListeners(cp.spawnerConfig, cp.cancelAllOtherSpawns), this);
+				.registerEvents(new MobListeners(cp.cancelAllOtherSpawns), this);
 		this.getServer()
 				.getPluginManager()
 				.registerEvents(

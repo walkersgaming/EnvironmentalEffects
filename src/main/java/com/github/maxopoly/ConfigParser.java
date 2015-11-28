@@ -4,14 +4,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -26,11 +24,11 @@ import com.github.maxopoly.datarepresentations.MobConfig;
 import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
 import com.github.maxopoly.datarepresentations.Area.Shape;
 import com.github.maxopoly.exceptions.ConfigParseException;
-import com.github.maxopoly.managers.RepeatingEffectManager;
+import com.github.maxopoly.listeners.effects.SpawnerSpawnModifier;
+import com.github.maxopoly.listeners.effects.TerrainRestriction;
 import com.github.maxopoly.repeatingEffects.ArmourBasedDamage;
 import com.github.maxopoly.repeatingEffects.DaytimeModifier;
 import com.github.maxopoly.repeatingEffects.DispenserBuff;
-import com.github.maxopoly.repeatingEffects.EffectGenerator;
 import com.github.maxopoly.repeatingEffects.FireBallRain;
 import com.github.maxopoly.repeatingEffects.LightningControl;
 import com.github.maxopoly.repeatingEffects.RandomMobSpawningHandler;
@@ -41,22 +39,21 @@ import com.github.maxopoly.repeatingEffects.WeatherMachine;
 
 public class ConfigParser {
 	JavaPlugin plugin;
-	private RepeatingEffectManager manager;
+	private EffectManager manager;
 	boolean fireballTerrainDamage;
 	boolean fireballTerrainIgnition;
 	boolean disableFirespread;
 	boolean cancelAllOtherSpawns;
-	HashMap<EntityType, MobConfig> spawnerConfig;
 
 	ConfigParser(JavaPlugin plugin) {
 		this.plugin = plugin;
-		this.manager = new RepeatingEffectManager();
+		this.manager = new EffectManager();
 	}
 
 	/**
 	 * Parses the config, creates everything needed and adds it to the manager
 	 */
-	public RepeatingEffectManager parseConfig() throws ConfigParseException {
+	public EffectManager parseConfig() throws ConfigParseException {
 		sendConsoleMessage("Initializing config");
 		plugin.saveDefaultConfig();
 		plugin.reloadConfig();
@@ -345,19 +342,32 @@ public class ConfigParser {
 
 		ConfigurationSection spawnerSection = config
 				.getConfigurationSection("spawner");
-		spawnerConfig = null;
 		if (spawnerSection != null) {
-			spawnerConfig = new HashMap<EntityType, MobConfig>();
 			for (String key : spawnerSection.getKeys(false)) {
+				HashMap<EntityType, MobConfig> spawnerConfig = new HashMap<EntityType, MobConfig>();
 				ConfigurationSection currentSection = spawnerSection
 						.getConfigurationSection(key);
-				EntityType spawn = EntityType.valueOf(currentSection
-						.getString("spawn"));
-				MobConfig mobconfig = parseMobConfig(currentSection
-						.getConfigurationSection("mobconfig"));
-				sendConsoleMessage("Successfully parsed mob spawner config for "
-						+ spawn.toString());
-				spawnerConfig.put(spawn, mobconfig);
+				LinkedList<Area> areas = parseAreas(
+						currentSection.getConfigurationSection("areas"),
+						worldname);
+				LinkedList<Area> excludedAreas = parseAreas(
+						currentSection
+								.getConfigurationSection("excluded_areas"),
+						worldname);
+				for (String mappingKey : currentSection
+						.getConfigurationSection("mobs").getKeys(false)) {
+					ConfigurationSection currentSubSection = currentSection
+							.getConfigurationSection("mobs")
+							.getConfigurationSection(mappingKey);
+					EntityType spawn = EntityType.valueOf(currentSubSection
+							.getString("spawn"));
+					MobConfig mobconfig = parseMobConfig(currentSubSection);
+					spawnerConfig.put(spawn, mobconfig);
+				}
+				SpawnerSpawnModifier ssm = new SpawnerSpawnModifier(areas,
+						excludedAreas, spawnerConfig);
+				sendConsoleMessage("Successfully parsed mob spawner config "
+						+ key);
 			}
 		}
 
@@ -461,6 +471,37 @@ public class ConfigParser {
 				manager.add(rd);
 				sendConsoleMessage("Loaded reinforcement decayer " + key
 						+ ";amount:" + amount + ",frequency:" + updateTime);
+			}
+		}
+
+		// Initialize block prevention
+		ConfigurationSection blockPreventionSection = config
+				.getConfigurationSection("block_prevention");
+		if (blockPreventionSection != null) {
+			for (String key : blockPreventionSection.getKeys(false)) {
+				ConfigurationSection currentSection = blockPreventionSection
+						.getConfigurationSection(key);
+				LinkedList<Area> areas = parseAreas(
+						currentSection.getConfigurationSection("areas"),
+						worldname);
+				LinkedList<Area> excludedAreas = parseAreas(
+						currentSection
+								.getConfigurationSection("excluded_areas"),
+						worldname);
+				PlayerEnvironmentState pes = parsePlayerEnvironmentState(currentSection
+						.getConfigurationSection("player_environment_state"));
+				boolean preventPlacing = currentSection.getBoolean(
+						"preventPlacing", false);
+				boolean preventBreaking = currentSection.getBoolean(
+						"preventBreaking", false);
+				boolean preventBuckets = currentSection.getBoolean(
+						"preventBuckets", false);
+				boolean preventIgnitions = currentSection.getBoolean(
+						"preventIgnitions", false);
+				TerrainRestriction trl = new TerrainRestriction(areas,
+						excludedAreas, pes, preventPlacing, preventBreaking,
+						preventIgnitions, preventBuckets);
+				manager.add(trl);
 			}
 		}
 

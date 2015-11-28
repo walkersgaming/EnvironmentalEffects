@@ -521,12 +521,22 @@ armour_based_damage:
 monster:
 
 
-#The spawner config part allows you to replace mobs spawned by mob spawners with custom mobs. An example config could look like this:
+#The spawner config part allows you to replace mobs spawned by mob spawners in specific areas with custom mobs. An example 
+#config could look like this:
 
 #spawner:
 #  skeletons:
-#    spawn: SKELETON
-#    mobconfig:
+#    areas:
+#         locations:
+#             ble:
+#                   shape: CIRCLE
+#                   xsize: 50
+#                   center:
+#                       x: 1000
+#                       z: 2000
+#    mobs:
+#       spooky:
+#               spawn: SKELETON
 #               type: SKELETON
 #               name: xX420QU1CKSC0P3R420Xx
 #               range: 64
@@ -566,10 +576,12 @@ monster:
 #                       duration: 5s
 #                       chance: 0.2 
 
-#spawn specifies which type of mob should be replace if it spawns from spawners, use spigot identifiers here. A full list
+#Under mobs you can add an option for as many entities as you want.
+
+#spawn specifies which type of mob should be replaced if it spawns from spawners, use spigot identifiers here. A full list
 #of those can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
 
-#mobconfig simply asks you to specify a mob config the same way it needs to be done for the random based mob spawning,
+#Everything else in the given option is used to specify a mob config the same way it needs to be done for the random based mob spawning,
 #look there for detailed explaination of the specific options
 
 spawner:
@@ -639,11 +651,11 @@ dispenser:
 #reinforcement_decay:
 #   worldborderdecay:
 #       amount: 25
+#       updatetime: 2d
 #       areas:
 #           locations:
 #               worldborder:
 #                   shape: RING
-#                   updatetime: 2d
 #                   inner_radius: 14900
 #                   outer_radius: 15020
 #                   center:
@@ -660,3 +672,33 @@ dispenser:
 #this more often though.
 
 reinforcement_decay:
+
+#Block prevention allows you to prevent block breaks, bucket use, block ignitions and block placements, similar to worldguard
+#An example config:
+
+#block_prevention:
+#   youshallnotdostuffatnighthere:
+#       areas:
+#           locations:
+#               holy:
+#                   shape: CIRCLE
+#                   xsize: 50
+#                   center:
+#                       x: 1000
+#                       z: 2000
+#       player_environment_state:
+#           night: true  
+#       preventPlacing: true
+#       preventBreaking: true
+#       preventBuckets: true
+#       preventIgnitions: true
+
+#All of the booleans set for this effect are optional, if they are not set they will default to false
+
+#preventPlacing disallows placing blocks in the area if it's set to true                
+
+#preventBreaking disallows breaking blocks in the area if it's set to true    
+
+#preventBuckets disallows the use of buckets in the area if it's set to true    
+
+#preventIgnitions disallows player caused block ignitions in the area if it's set to true            
