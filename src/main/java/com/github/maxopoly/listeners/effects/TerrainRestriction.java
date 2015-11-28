@@ -8,7 +8,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.player.PlayerBucketEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerBucketFillEvent;
 
 import com.github.maxopoly.Effect;
 import com.github.maxopoly.datarepresentations.Area;
@@ -30,8 +31,7 @@ public class TerrainRestriction extends Effect implements Listener {
 		this.preventBreaking = preventBreaking;
 		this.preventBuckets = preventBuckets;
 		this.preventPlacement = preventPlacement;
-		plugin.getServer().getPluginManager()
-		.registerEvents(this, plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	@EventHandler
@@ -51,7 +51,15 @@ public class TerrainRestriction extends Effect implements Listener {
 	}
 
 	@EventHandler
-	public void bucketPlace(PlayerBucketEvent e) {
+	public void bucketPlace(PlayerBucketEmptyEvent e) {
+		if (preventBuckets && conditionsMet(e.getPlayer())) {
+			e.getPlayer().sendMessage(preventionMessage);
+			e.setCancelled(true);
+		}
+	}
+
+	@EventHandler
+	public void bucketFill(PlayerBucketFillEvent e) {
 		if (preventBuckets && conditionsMet(e.getPlayer())) {
 			e.getPlayer().sendMessage(preventionMessage);
 			e.setCancelled(true);

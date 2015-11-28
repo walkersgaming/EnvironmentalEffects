@@ -30,7 +30,6 @@ public class SyncPlayersWithInternalValues implements Listener {
 				.getEffects(TitleDisplayer.class);
 		for (Effect td : titledisplayers) {
 			((TitleDisplayer) td).addPlayer(e.getPlayer(), false);
-
 		}
 
 		updateValues(e.getPlayer());
