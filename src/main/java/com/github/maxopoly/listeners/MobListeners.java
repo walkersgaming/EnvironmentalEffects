@@ -38,7 +38,6 @@ public class MobListeners implements Listener {
 
 	public MobListeners(boolean cancelAllOther) {
 		rng = new Random();
-		this.spawnerConfig = spawnerConfig;
 		this.cancelAllOther = cancelAllOther;
 	}
 
