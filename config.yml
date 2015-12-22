@@ -244,6 +244,8 @@ weathermachines:
 #           biomes:
 #            - GLOBAL
 
+daytime_modifier:
+
 #The starting time is the set time whenever the server is started or the plugin is reloaded. A detailied explaination 
 #of ingame time can be found here: http://minecraft.gamepedia.com/Day-night_cycle#Conversions
 
@@ -254,8 +256,6 @@ weathermachines:
 #get removed completly, if it's not set the same value as for days will be used for nights
 
 #Values higher than 1.0 are possible to speed up the days, but too high values might lead to very weird behavior.
-
-daytime_modifier:
 
 
 #lightning effects allow you to create as much lightning around players as you want. An example config:
@@ -616,6 +616,7 @@ spawner:
 
 title:
 
+
 #The dispenser section allows you to buff dispensers to deal more damage and apply debuffs. An example config:
 
 #dispenser:
@@ -673,6 +674,7 @@ dispenser:
 
 reinforcement_decay:
 
+
 #Block prevention allows you to prevent block breaks, bucket use, block ignitions and block placements, similar to worldguard
 #An example config:
 
@@ -692,6 +694,7 @@ reinforcement_decay:
 #       preventBreaking: true
 #       preventBuckets: true
 #       preventIgnitions: true
+#       preventPearls: true
 
 #All of the booleans set for this effect are optional, if they are not set they will default to false
 
@@ -701,4 +704,8 @@ reinforcement_decay:
 
 #preventBuckets disallows the use of buckets in the area if it's set to true    
 
-#preventIgnitions disallows player caused block ignitions in the area if it's set to true            
+#preventIgnitions disallows player caused block ignitions in the area if it's set to true        
+
+#preventPearls prevents pearling from and into the specified area
+
+block_prevention:    

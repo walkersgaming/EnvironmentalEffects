@@ -498,9 +498,11 @@ public class ConfigParser {
 						"preventBuckets", false);
 				boolean preventIgnitions = currentSection.getBoolean(
 						"preventIgnitions", false);
+				boolean preventPearls = currentSection.getBoolean(
+						"preventPearls", false);
 				TerrainRestriction trl = new TerrainRestriction(areas,
 						excludedAreas, pes, preventPlacing, preventBreaking,
-						preventIgnitions, preventBuckets);
+						preventIgnitions, preventBuckets, preventPearls);
 				manager.add(trl);
 			}
 		}
