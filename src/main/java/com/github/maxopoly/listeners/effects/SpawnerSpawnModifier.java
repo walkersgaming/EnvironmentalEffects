@@ -32,7 +32,7 @@ public class SpawnerSpawnModifier extends Effect implements Listener {
 		MobConfig mc = spawnerConfig.get(e.getEntityType());
 		if (isInArea(e.getLocation()) && mc != null) {
 			e.setCancelled(true);
-			LinkedList<Entity> spawned = mc.createMobAt(e.getLocation());
+			LinkedList<Entity> spawned = mc.createMob(e.getLocation());
 			if (spawned != null) {
 				for (Entity m : spawned) {
 					RandomMobSpawningHandler.addEntity(m, mc);

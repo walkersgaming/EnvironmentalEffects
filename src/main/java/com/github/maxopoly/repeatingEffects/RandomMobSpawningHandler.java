@@ -1,16 +1,31 @@
 package com.github.maxopoly.repeatingEffects;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import com.github.maxopoly.Effect;
+import com.github.maxopoly.EffectManager;
+import com.github.maxopoly.EnvironmentalEffects;
 import com.github.maxopoly.datarepresentations.Area;
 import com.github.maxopoly.datarepresentations.MobConfig;
+import com.github.maxopoly.datarepresentations.MobLureDenier;
 import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
 
 /**
@@ -109,4 +124,75 @@ public class RandomMobSpawningHandler extends RepeatingEffect {
 		currentMobs.remove(e.getUniqueId());
 	}
 
+	/**
+	 * @return All mob configs contained in this instance
+	 */
+	public List<MobConfig> getAllConfigs() {
+		return mobConfigs;
+	}
+
+	public static void saveMobs() {
+		EnvironmentalEffects ee = EnvironmentalEffects.getPlugin();
+		File save = new File(ee.getDataFolder().getAbsolutePath()
+				+ File.separator + "mobSaves.txt");
+		if (save.exists()) {
+			save.delete();
+		}
+		try {
+			save.createNewFile();
+			FileWriter fw = new FileWriter(save);
+			BufferedWriter buff = new BufferedWriter(fw);
+			for (Entry<UUID, MobConfig> entry : currentMobs.entrySet()) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(entry.getKey().toString() + "#"
+						+ entry.getValue().getIdentifier());
+				buff.write(sb.toString());
+				buff.newLine();
+			}
+			buff.flush();
+			buff.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void loadMobs() {
+		EnvironmentalEffects ee = EnvironmentalEffects.getPlugin();
+		File save = new File(ee.getDataFolder().getAbsolutePath()
+				+ File.separator + "mobSaves.txt");
+		if (!save.exists()) {
+			return;
+		}
+		Map<String, MobConfig> configs = new HashMap<String, MobConfig>();
+		EffectManager manager = EnvironmentalEffects.getManager();
+		for (Effect e : manager.getEffects(RandomMobSpawningHandler.class)) {
+			RandomMobSpawningHandler rmsh = (RandomMobSpawningHandler) e;
+			for (MobConfig mc : rmsh.getAllConfigs()) {
+				configs.put(mc.getIdentifier(), mc);
+			}
+		}
+		try {
+			FileReader fr = new FileReader(save);
+			BufferedReader reader = new BufferedReader(fr);
+			String line = reader.readLine();
+			while (line != null && !line.equals("")) {
+				String[] content = line.split("#");
+				UUID uuid = UUID.fromString(content[0]);
+				MobConfig conf = configs.get(content[1]);
+				if (conf != null) {
+					currentMobs.put(uuid, conf);
+				} else {
+					ee.getLogger().log(
+							Level.SEVERE,
+							"Could not find config " + content[1]
+									+ ", failed to load it's mobs");
+				}
+				line = reader.readLine();
+			}
+			reader.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		save.delete();
+	}
 }

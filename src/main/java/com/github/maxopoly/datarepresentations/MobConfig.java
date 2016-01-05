@@ -18,6 +18,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import com.github.maxopoly.EnvironmentalEffects;
+
 /**
  * A complete configuration how a specific monster (here often referred to as
  * "mob") should be spawned. Each mob spawned will be stored in memory with a
@@ -45,11 +47,13 @@ public class MobConfig {
 	private LinkedList<Material> spawnOnBlocks;
 	private LinkedList<Material> doNotSpawnOnBlocks;
 	private LinkedList<Material> spawnInBlocks;
+	private int lureRange;
 	private int minimumLightLevel;
 	private int maximumLightLevel;
 	private boolean alternateVersion;
+	private String identifer;
 
-	public MobConfig(EntityType type, String name,
+	public MobConfig(String identifier, EntityType type, String name,
 			HashMap<PotionEffectType, Integer> buffs,
 			LinkedList<ItemStack> armour, LinkedList<ItemStack> drops,
 			HashMap<PotionEffect, Double> onHitDebuffs, String deathMessage,
@@ -57,8 +61,9 @@ public class MobConfig {
 			String onHitMessage, LinkedList<Material> spawnOnBlocks,
 			LinkedList<Material> doNotSpawnOnBlocks,
 			LinkedList<Material> spawnInBlocks, int minimumLightLevel,
-			int maximumLightLevel, boolean alternativeVersion) {
+			int maximumLightLevel, boolean alternativeVersion, int lureRange) {
 		this.name = name;
+		this.identifer = identifier;
 		this.type = type;
 		this.buffs = buffs;
 		this.armour = armour;
@@ -77,6 +82,7 @@ public class MobConfig {
 		this.minimumLightLevel = minimumLightLevel;
 		this.maximumLightLevel = maximumLightLevel;
 		this.alternateVersion = alternativeVersion;
+		this.lureRange = lureRange;
 	}
 
 	/**
@@ -100,52 +106,12 @@ public class MobConfig {
 		}
 		LinkedList<Entity> resultMobs = new LinkedList<Entity>();
 		for (int i = 0; i < amount; i++) {
-			LivingEntity mob = (LivingEntity) loc.getWorld().spawnEntity(
-					spawnLoc, type);
-			if (mob != null) { // event wasn't cancelled
-				if (name != null && name != "") {
-					mob.setCustomName(name);
-					mob.setCustomNameVisible(true);
-				}
-				EntityEquipment eq = mob.getEquipment();
-				if (armour != null) {
-					for (ItemStack is : armour) {
-						setSlot(eq, is);
-					}
-				}
-				eq.setBootsDropChance(0F);
-				eq.setLeggingsDropChance(0F);
-				eq.setChestplateDropChance(0F);
-				eq.setHelmetDropChance(0F);
-				eq.setItemInHandDropChance(0F);
-				mob.setCanPickupItems(false);
-				mob.setRemoveWhenFarAway(false);
-
-				switch (type) {
-				case SKELETON:
-					if (alternateVersion) {
-						((Skeleton) mob).setSkeletonType(SkeletonType.WITHER);
-					} else {
-						((Skeleton) mob).setSkeletonType(SkeletonType.NORMAL);
-					}
-					break;
-				case CREEPER:
-					if (alternateVersion) {
-						((Creeper) mob).setPowered(true);
-					} else {
-						((Creeper) mob).setPowered(false);
-					}
-				}
-
-				for (Map.Entry<PotionEffectType, Integer> current : buffs
-						.entrySet()) {
-					mob.addPotionEffect(new PotionEffect(current.getKey(),
-							Integer.MAX_VALUE, current.getValue(), false, false));
-					// That buff lasts for 68 years, that should be long enough
-				}
+			LivingEntity mob = (LivingEntity) createMobAt(spawnLoc);
+			if (mob != null) {
 				resultMobs.add(mob);
 			}
 		}
+
 		return resultMobs;
 	}
 
@@ -172,34 +138,28 @@ public class MobConfig {
 							.contains(m)))
 							|| (spawnOnBlocks != null && spawnOnBlocks
 									.contains(m))) {
-						int light = loc.getWorld().getBlockAt(x, y, z)
-								.getLightLevel();
-						if (light >= minimumLightLevel
-								&& light <= maximumLightLevel) {
-							bcs = BlockCountState.FOUNDBASEBLOCK;
-						}
+						bcs = BlockCountState.FOUNDBASEBLOCK;
 					}
 					break;
 				case FOUNDBASEBLOCK:
 					if ((spawnInBlocks == null && m == Material.AIR)
 							|| (spawnInBlocks != null && spawnInBlocks
 									.contains(m))) {
-						bcs = BlockCountState.ONEAIR;
+						int light = loc.getWorld().getBlockAt(x, y, z)
+								.getLightLevel();
+						
+						if (light >= minimumLightLevel
+								&& light <= maximumLightLevel) {
+							bcs = BlockCountState.ONEAIR;
+						}
 						break;
 					}
 					if ((spawnOnBlocks == null && m.isSolid() && (doNotSpawnOnBlocks == null || !doNotSpawnOnBlocks
 							.contains(m)))
 							|| (spawnOnBlocks != null && spawnOnBlocks
 									.contains(m))) {
-						int light = loc.getWorld().getBlockAt(x, y, z)
-								.getLightLevel();
-						if (light >= minimumLightLevel
-								&& light <= maximumLightLevel) {
-							// another good base block, just leave the counter
-							// as it is
-						} else {
-							bcs = BlockCountState.NOTHING;
-						}
+						// another good base block, just leave the counter
+						// as it is
 						break;
 					} else {
 						bcs = BlockCountState.NOTHING;
@@ -216,15 +176,8 @@ public class MobConfig {
 							.contains(m)))
 							|| (spawnOnBlocks != null && spawnOnBlocks
 									.contains(m))) {
-						int light = loc.getWorld().getBlockAt(x, y, z)
-								.getLightLevel();
-						if (light >= minimumLightLevel
-								&& light <= maximumLightLevel) {
-							//base block
-							bcs = BlockCountState.FOUNDBASEBLOCK;
-						} else {
-							bcs = BlockCountState.NOTHING;
-						}
+						// base block
+						bcs = BlockCountState.FOUNDBASEBLOCK;
 						break;
 					} else {
 						bcs = BlockCountState.NOTHING;
@@ -239,40 +192,63 @@ public class MobConfig {
 		return null;
 	}
 
-	public LinkedList<Entity> createMobAt(Location loc) {
+	public Entity createMobAt(Location loc) {
 		if (rng.nextDouble() > spawnChance) {
 			return null;
 		}
-		LinkedList<Entity> resultMobs = new LinkedList<Entity>();
-		for (int i = 0; i < amount; i++) {
-			LivingEntity mob = (LivingEntity) loc.getWorld().spawnEntity(loc,
-					type);
-			if (mob != null) { // event wasn't cancelled
-				if (name != null && name != "") {
-					mob.setCustomName(name);
-					mob.setCustomNameVisible(true);
-				}
-				EntityEquipment eq = mob.getEquipment();
+		LivingEntity mob = (LivingEntity) loc.getWorld().spawnEntity(loc, type);
+		if (mob != null) { // event wasn't cancelled
+			if (name != null && name != "") {
+				mob.setCustomName(name);
+				mob.setCustomNameVisible(true);
+			}
+			EntityEquipment eq = mob.getEquipment();
+			if (armour != null) {
 				for (ItemStack is : armour) {
 					setSlot(eq, is);
 				}
-				eq.setBootsDropChance(0F);
-				eq.setLeggingsDropChance(0F);
-				eq.setChestplateDropChance(0F);
-				eq.setHelmetDropChance(0F);
-				eq.setItemInHandDropChance(0F);
-				mob.setCanPickupItems(false);
-				mob.setRemoveWhenFarAway(false);
-				for (Map.Entry<PotionEffectType, Integer> current : buffs
-						.entrySet()) {
-					mob.addPotionEffect(new PotionEffect(current.getKey(),
-							Integer.MAX_VALUE, current.getValue()));
-					// That buff lasts for 68 years, that should be long enough
+			}
+			eq.setBootsDropChance(0F);
+			eq.setLeggingsDropChance(0F);
+			eq.setChestplateDropChance(0F);
+			eq.setHelmetDropChance(0F);
+			eq.setItemInHandDropChance(0F);
+			mob.setCanPickupItems(false);
+			mob.setRemoveWhenFarAway(false);
+
+			switch (type) {
+			case SKELETON:
+				if (alternateVersion) {
+					((Skeleton) mob).setSkeletonType(SkeletonType.WITHER);
+				} else {
+					((Skeleton) mob).setSkeletonType(SkeletonType.NORMAL);
 				}
-				resultMobs.add(mob);
+				break;
+			case CREEPER:
+				if (alternateVersion) {
+					((Creeper) mob).setPowered(true);
+				} else {
+					((Creeper) mob).setPowered(false);
+				}
+			}
+
+			for (Map.Entry<PotionEffectType, Integer> current : buffs
+					.entrySet()) {
+				mob.addPotionEffect(new PotionEffect(current.getKey(),
+						Integer.MAX_VALUE, current.getValue(), false, false));
+				// That buff lasts for 68 years, that should be long enough
+			}
+			if (lureRange != -1) {
+				EnvironmentalEffects
+						.getPlugin()
+						.getServer()
+						.getScheduler()
+						.scheduleSyncDelayedTask(
+								EnvironmentalEffects.getPlugin(),
+								new MobLureDenier(lureRange, mob, loc));
 			}
 		}
-		return resultMobs;
+		return mob;
 	}
 
 	/**
@@ -368,6 +344,14 @@ public class MobConfig {
 	}
 
 	/**
+	 * @return The distance a mob can move away from it's spawn before it gets
+	 *         teleported back or -1 if no such behavior is wanted
+	 */
+	public int getLureRange() {
+		return lureRange;
+	}
+
+	/**
 	 * Sets how often this config tries to find a suitable location to spawn a
 	 * mob (no blocks in the way)
 	 * 
@@ -386,6 +370,16 @@ public class MobConfig {
 	 */
 	public int getRange() {
 		return range;
+	}
+
+	/**
+	 * To persist mobs and their special effects past restarts, the uuid of each
+	 * mob is stored together with the identifier of it's mobconfig
+	 * 
+	 * @return Identifier of this config
+	 */
+	public String getIdentifier() {
+		return identifer;
 	}
 
 	/**

@@ -520,6 +520,7 @@ public class ConfigParser {
 		int amount = currentMobConfig.getInt("amount", 1);
 		int maximumTries = currentMobConfig.getInt("maximum_spawn_attempts", 5);
 		String deathmsg = currentMobConfig.getString("deathmessage", null);
+		String identifier = currentMobConfig.getString("identifier");
 		double spawnChance = currentMobConfig.getDouble("spawn_chance");
 		String onHitMessage = currentMobConfig.getString("on_hit_message");
 		ConfigurationSection dropsSection = currentMobConfig
@@ -576,16 +577,17 @@ public class ConfigParser {
 				15);
 		boolean alternativeVersion = currentMobConfig.getBoolean(
 				"alternative_version", false);
+		int lureRange = currentMobConfig.getInt("lurerange",-1);
 		sendConsoleMessage("Successfully parsed mobconfig, type:"
 				+ type.toString() + ",name:" + name + ",spawnChance:"
 				+ spawnChance + ",amount:" + amount + ",minimumLightLevel:"
 				+ minimumLightLevel + ",maximumLightLevel:" + maximumLightLevel
 				+ ",alternativeVersion:" + alternativeVersion);
-		return new MobConfig(type, name, buffs, armour, drops, onHitDebuffs,
+		return new MobConfig(identifier, type, name, buffs, armour, drops, onHitDebuffs,
 				deathmsg, spawnChance, amount, range, maximumTries,
 				onHitMessage, blocksToSpawnOn, blocksNotToSpawnOn,
 				blocksToSpawnIn, minimumLightLevel, maximumLightLevel,
-				alternativeVersion);
+				alternativeVersion,lureRange);
 	}
 
 	public LinkedList<Material> convertMaterialList(List<String> input) {
@@ -628,6 +630,8 @@ public class ConfigParser {
 			for (String current : locs.getKeys(false)) {
 				ConfigurationSection currentSection = locs
 						.getConfigurationSection(current);
+				int minimumY = currentSection.getInt("minimum_y", 0);
+				int maximumY = currentSection.getInt("maximum_y", 255);
 				Shape shape = Shape.valueOf(currentSection.getString("shape"));
 				Area temp = null;
 				Location center;
@@ -639,7 +643,7 @@ public class ConfigParser {
 					center = parseLocation(
 							currentSection.getConfigurationSection("center"),
 							worldname);
-					temp = new Area(shape, center, xSize, zSize);
+					temp = new Area(shape, center, xSize, zSize,minimumY,maximumY);
 					break;
 				case RING:
 					int innerRadius = currentSection.getInt("inner_limit");
@@ -647,7 +651,7 @@ public class ConfigParser {
 					center = parseLocation(
 							currentSection.getConfigurationSection("center"),
 							worldname);
-					temp = new Area(shape, innerRadius, outerRadius, center);
+					temp = new Area(shape, innerRadius, outerRadius, center,minimumY,maximumY);
 					break;
 				default:
 					throw new ConfigParseException();

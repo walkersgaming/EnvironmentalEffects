@@ -27,6 +27,7 @@ public class EnvironmentalEffects extends JavaPlugin {
 		} catch (ConfigParseException e) {
 			e.printStackTrace();
 		}
+		RandomMobSpawningHandler.loadMobs();
 		registerListeners();
 	}
 
@@ -44,7 +45,7 @@ public class EnvironmentalEffects extends JavaPlugin {
 	}
 
 	public void onDisable() {
-		RandomMobSpawningHandler.killAll();
+		RandomMobSpawningHandler.saveMobs();
 	}
 
 	/**
@@ -53,7 +54,7 @@ public class EnvironmentalEffects extends JavaPlugin {
 	 */
 	public void reload() {
 		sendConsoleMessage("Reloading config");
-		RandomMobSpawningHandler.killAll();
+		RandomMobSpawningHandler.saveMobs();
 		this.getServer().getScheduler().cancelTasks(this);
 		HandlerList.unregisterAll(this);
 		cp = new ConfigParser(this);
@@ -62,6 +63,7 @@ public class EnvironmentalEffects extends JavaPlugin {
 		} catch (ConfigParseException e) {
 			e.printStackTrace();
 		}
+		RandomMobSpawningHandler.loadMobs();
 		registerListeners();
 
 	}
