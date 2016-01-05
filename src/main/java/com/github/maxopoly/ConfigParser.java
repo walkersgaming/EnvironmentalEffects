@@ -521,6 +521,9 @@ public class ConfigParser {
 		int maximumTries = currentMobConfig.getInt("maximum_spawn_attempts", 5);
 		String deathmsg = currentMobConfig.getString("deathmessage", null);
 		String identifier = currentMobConfig.getString("identifier");
+		if (identifier == null) {
+			identifier = currentMobConfig.getName();
+		}
 		double spawnChance = currentMobConfig.getDouble("spawn_chance");
 		String onHitMessage = currentMobConfig.getString("on_hit_message");
 		ConfigurationSection dropsSection = currentMobConfig
