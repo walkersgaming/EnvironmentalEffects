@@ -1,5 +1,6 @@
 package com.github.maxopoly.listeners.effects;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -39,5 +40,9 @@ public class SpawnerSpawnModifier extends Effect implements Listener {
 				}
 			}
 		}
+	}
+	
+	public Collection<MobConfig> getConfigs() {
+		return spawnerConfig.values();
 	}
 }

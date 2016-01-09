@@ -27,6 +27,7 @@ import com.github.maxopoly.datarepresentations.Area;
 import com.github.maxopoly.datarepresentations.MobConfig;
 import com.github.maxopoly.datarepresentations.MobLureDenier;
 import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
+import com.github.maxopoly.listeners.effects.SpawnerSpawnModifier;
 
 /**
  * Manages the spawning of completly configurable mobs. All of the mobs are kept
@@ -168,6 +169,12 @@ public class RandomMobSpawningHandler extends RepeatingEffect {
 		for (Effect e : manager.getEffects(RandomMobSpawningHandler.class)) {
 			RandomMobSpawningHandler rmsh = (RandomMobSpawningHandler) e;
 			for (MobConfig mc : rmsh.getAllConfigs()) {
+				configs.put(mc.getIdentifier(), mc);
+			}
+		}
+		for(Effect e : manager.getEffects(SpawnerSpawnModifier.class)) {
+			SpawnerSpawnModifier ssm = (SpawnerSpawnModifier) e;
+			for(MobConfig mc: ssm.getConfigs()) {
 				configs.put(mc.getIdentifier(), mc);
 			}
 		}
