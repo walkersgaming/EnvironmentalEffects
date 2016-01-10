@@ -54,6 +54,7 @@ public class Area {
 		if (shape != Shape.RING) {
 			throw new ConfigParseException();
 		}
+		this.shape = shape;
 		this.innerLimit = innerLimit;
 		this.outerLimit = outerLimit;
 		this.center = center;
