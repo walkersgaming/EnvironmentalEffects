@@ -1,6 +1,7 @@
 name: EnvironmentalEffects
 version: 1.0
 author: [Maxopoly]
+depend: [CivModCore]
 main: com.github.maxopoly.EnvironmentalEffects
 commands:
     ee:

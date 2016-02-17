@@ -37,6 +37,8 @@ import com.github.maxopoly.repeatingEffects.ReinforcementDecay;
 import com.github.maxopoly.repeatingEffects.TitleDisplayer;
 import com.github.maxopoly.repeatingEffects.WeatherMachine;
 
+import static vg.civcraft.mc.civmodcore.util.ConfigParsing.parseTime;
+
 public class ConfigParser {
 	JavaPlugin plugin;
 	private EffectManager manager;
@@ -670,66 +672,6 @@ public class ConfigParser {
 		long y = c.getLong("y", 0L);
 		long z = c.getLong("z");
 		return new Location(plugin.getServer().getWorld(worldname), x, y, z);
-	}
-
-	private long parseTime(String arg) throws ConfigParseException {
-		long result = 0;
-		boolean set = true;
-		try {
-			result += Long.parseLong(arg);
-		} catch (NumberFormatException e) {
-			set = false;
-		}
-		if (set) {
-			return result;
-		}
-		while (!arg.equals("")) {
-			int length = 0;
-			switch (arg.charAt(arg.length() - 1)) {
-			case 't': // ticks
-				long ticks = getLastNumber(arg);
-				result += ticks;
-				length = String.valueOf(ticks).length() + 1;
-				break;
-			case 's': // seconds
-				long seconds = getLastNumber(arg);
-				result += 20 * seconds; // 20 ticks in a second
-				length = String.valueOf(seconds).length() + 1;
-				break;
-			case 'm': // minutes
-				long minutes = getLastNumber(arg);
-				result += 20 * 60 * minutes;
-				length = String.valueOf(minutes).length() + 1;
-				break;
-			case 'h': // hours
-				long hours = getLastNumber(arg);
-				result += 20 * 3600 * hours;
-				length = String.valueOf(hours).length() + 1;
-				break;
-			case 'd': // days, mostly here to define a 'never'
-				long days = getLastNumber(arg);
-				result += 20 * 3600 * 24 * days;
-				length = String.valueOf(days).length() + 1;
-			default:
-				throw new ConfigParseException(arg.charAt(arg.length() - 1)
-						+ " is not a valid time description character");
-			}
-			arg = arg.substring(0, arg.length() - length);
-		}
-		return result;
-	}
-
-	private long getLastNumber(String arg) {
-		StringBuilder number = new StringBuilder();
-		for (int i = arg.length() - 2; i >= 0; i--) {
-			if (Character.isDigit(arg.charAt(i))) {
-				number.insert(0, arg.substring(i, i + 1));
-			} else {
-				break;
-			}
-		}
-		long result = Long.parseLong(number.toString());
-		return result;
 	}
 
 	private LinkedList<ItemStack> getItemStacks(ConfigurationSection cs) {
