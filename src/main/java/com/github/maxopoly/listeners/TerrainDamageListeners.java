@@ -1,10 +1,11 @@
 package com.github.maxopoly.listeners;
 
-
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
 public class TerrainDamageListeners implements Listener {
@@ -42,6 +43,15 @@ public class TerrainDamageListeners implements Listener {
 	public void firespreadNerf(BlockIgniteEvent e) {
 		if (e.getCause() == BlockIgniteEvent.IgniteCause.SPREAD) {
 			e.setCancelled(disableFirespread);
+		}
+	}
+
+	@EventHandler
+	public void fireSpreadNerf2(BlockSpreadEvent e) {
+		if (disableFirespread) {
+			if (e.getBlock() != null && e.getBlock().getType() == Material.FIRE) {
+				e.setCancelled(true);
+			}
 		}
 	}
 
