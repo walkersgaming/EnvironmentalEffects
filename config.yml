@@ -452,6 +452,7 @@ armour_based_damage:
 #               item_in_dropchance: 0.1
 #               despawn_on_chunk_unload: false
 #               can_pickup_items: true
+#               y_spawn_range: 48
 
 #First of all, just for like every other effect, you can have as many instances of this active as you want. 
 #The update time decides how often the plugins attempts to spawn mobs next to every player, this is the same 
@@ -550,6 +551,8 @@ armour_based_damage:
 #despawn_on_chunk_unload is a bool to specify whether the mob will despawn when the chunk it's in is unloaded, default is true
 
 #can_pickup_items is a bool to specify whether the mob can pickup items, default is false
+
+#y_spawn_range specifies how far above or below the player the mob may spawn at a maximum. Default for this value is 32
 
 #General advice on the balancing of mobs: If you want to spawn monster during the day, give them fire res. Skeletons wont spawn
 #with a bow unless you give them one and strength does not apply to arrows, work with power enchants on the bow instead. Also
