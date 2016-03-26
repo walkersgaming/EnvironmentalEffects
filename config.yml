@@ -404,7 +404,6 @@ armour_based_damage:
 #               deathmessage: Y you hardscope
 #               on_hit_message: MOM GET THE CAMERA
 #               spawn_chance: 0.5
-#               lurerange: 50
 #               drops:
 #                   Special_IngredientXYZ:
 #                       material: BONE
@@ -445,6 +444,14 @@ armour_based_damage:
 #               minimum_light_level: 4
 #               maximum_light_level: 8
 #               alternative_version: true
+#               health: 100
+#               helmet_dropchance: 0.1
+#               chestplate_dropchance: 0.1
+#               leggins_dropchance: 0.1
+#               boots_dropchance: 0.1
+#               item_in_dropchance: 0.1
+#               despawn_on_chunk_unload: false
+#               can_pickup_items: true
 
 #First of all, just for like every other effect, you can have as many instances of this active as you want. 
 #The update time decides how often the plugins attempts to spawn mobs next to every player, this is the same 
@@ -484,9 +491,6 @@ armour_based_damage:
 #spawn_chance is the chance to even spawn something every updatetime. This is a double, where 1.0 means it should always
 #try to spawn and 0.0 means it should never try to spawn. This chance does not take into account that there might be no 
 #location for the monster to spawn in and that the spawning could fail because of that.
-
-#lurerange allows you to bind mobs to specific location. If you specify this option, mobs will be teleported back to their 
-#spawn location if they walk more than the specified distance away from it.
 
 #drops is a list of items, which are dropped by the monster upon death. This part is also optional, if it doesnt exist 
 #the drops will be vanilla. A monster spawned by this plugin will only drop it's "special" drops as defined in this 
@@ -529,6 +533,23 @@ armour_based_damage:
 #alternative_version is a bool that allows you to specify whether you want to spawn a special version of a monster. Set this to 
 #true for skeletons to spawn wither skeletons or for creepers to spawn charged creepers. For all other mob types this option 
 #can be removed and it will be ignored if its set anyway
+
+#health allows you to modify the maximum health of the mob. Note that 2 health equal one heart in minecraft and that if this option
+#is not specified, it will default to the normal health of the mob type specified
+
+#helmet_dropchance is the chance for the mob to drop it's helmet when dying, default is 0.0
+
+#chestplate_dropchance is the chance for the mob to drop it's chestplate when dying, default is 0.0
+
+#leggins_dropchance is the chance for the mob to drop it's leggins when dying, default is 0.0
+
+#boots_dropchance is the chance for the mob to drop it's boots when dying, default is 0.0
+
+#item_in_dropchance is the chance for the mob to drop it's holding it it's hand when dying, default is 0.0
+
+#despawn_on_chunk_unload is a bool to specify whether the mob will despawn when the chunk it's in is unloaded, default is true
+
+#can_pickup_items is a bool to specify whether the mob can pickup items, default is false
 
 #General advice on the balancing of mobs: If you want to spawn monster during the day, give them fire res. Skeletons wont spawn
 #with a bow unless you give them one and strength does not apply to arrows, work with power enchants on the bow instead. Also

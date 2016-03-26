@@ -52,6 +52,11 @@ public class MobConfig {
 	private int maximumLightLevel;
 	private boolean alternateVersion;
 	private String identifer;
+	private double helmetDropChance, chestDropChance, pantsDropChance,
+			bootsDropChance, inHandDropChance;
+	private boolean despawnOnChunkUnload;
+	private boolean canPickupItems;
+	private int health;
 
 	public MobConfig(String identifier, EntityType type, String name,
 			HashMap<PotionEffectType, Integer> buffs,
@@ -61,7 +66,11 @@ public class MobConfig {
 			String onHitMessage, LinkedList<Material> spawnOnBlocks,
 			LinkedList<Material> doNotSpawnOnBlocks,
 			LinkedList<Material> spawnInBlocks, int minimumLightLevel,
-			int maximumLightLevel, boolean alternativeVersion, int lureRange) {
+			int maximumLightLevel, boolean alternativeVersion, int lureRange,
+			double helmetDropChance, double chestDropChance,
+			double pantsDropChance, double bootsDropChance,
+			double inHandDropChance, boolean despawnOnChunkOnLoad,
+			boolean canPickUpItems, int health) {
 		this.name = name;
 		this.identifer = identifier;
 		this.type = type;
@@ -83,6 +92,14 @@ public class MobConfig {
 		this.maximumLightLevel = maximumLightLevel;
 		this.alternateVersion = alternativeVersion;
 		this.lureRange = lureRange;
+		this.helmetDropChance = helmetDropChance;
+		this.chestDropChance = chestDropChance;
+		this.pantsDropChance = pantsDropChance;
+		this.bootsDropChance = bootsDropChance;
+		this.inHandDropChance = inHandDropChance;
+		this.despawnOnChunkUnload = despawnOnChunkOnLoad;
+		this.canPickupItems = canPickUpItems;
+		this.health = health;
 	}
 
 	/**
@@ -147,7 +164,7 @@ public class MobConfig {
 									.contains(m))) {
 						int light = loc.getWorld().getBlockAt(x, y, z)
 								.getLightLevel();
-						
+
 						if (light >= minimumLightLevel
 								&& light <= maximumLightLevel) {
 							bcs = BlockCountState.ONEAIR;
@@ -208,13 +225,17 @@ public class MobConfig {
 					setSlot(eq, is);
 				}
 			}
-			eq.setBootsDropChance(0F);
-			eq.setLeggingsDropChance(0F);
-			eq.setChestplateDropChance(0F);
-			eq.setHelmetDropChance(0F);
-			eq.setItemInHandDropChance(0F);
-			mob.setCanPickupItems(false);
-			mob.setRemoveWhenFarAway(false);
+			if (health != -1) {
+				mob.setMaxHealth(health);
+				mob.setHealth(health);
+			}
+			eq.setBootsDropChance((float) bootsDropChance);
+			eq.setLeggingsDropChance((float) pantsDropChance);
+			eq.setChestplateDropChance((float) chestDropChance);
+			eq.setHelmetDropChance((float) helmetDropChance);
+			eq.setItemInHandDropChance((float) inHandDropChance);
+			mob.setCanPickupItems(canPickupItems);
+			mob.setRemoveWhenFarAway(despawnOnChunkUnload);
 
 			switch (type) {
 			case SKELETON:
@@ -238,15 +259,12 @@ public class MobConfig {
 						Integer.MAX_VALUE, current.getValue(), false, false));
 				// That buff lasts for 68 years, that should be long enough
 			}
-			if (lureRange != -1) {
-				EnvironmentalEffects
-						.getPlugin()
-						.getServer()
-						.getScheduler()
-						.scheduleSyncDelayedTask(
-								EnvironmentalEffects.getPlugin(),
-								new MobLureDenier(lureRange, mob, loc));
-			}
+			/*
+			 * if (lureRange != -1) { EnvironmentalEffects .getPlugin()
+			 * .getServer() .getScheduler() .scheduleSyncDelayedTask(
+			 * EnvironmentalEffects.getPlugin(), new MobLureDenier(lureRange,
+			 * mob, loc)); }
+			 */
 		}
 		return mob;
 	}

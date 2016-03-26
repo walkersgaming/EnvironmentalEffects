@@ -583,6 +583,14 @@ public class ConfigParser {
 		boolean alternativeVersion = currentMobConfig.getBoolean(
 				"alternative_version", false);
 		int lureRange = currentMobConfig.getInt("lurerange",-1);
+		double helmetDropChance = currentMobConfig.getDouble("helmet_dropchance", 0.0);
+		double chestDropChance = currentMobConfig.getDouble("chestplate_dropchance", 0.0);
+		double pantsDropChance = currentMobConfig.getDouble("leggings_dropchance", 0.0); 
+		double bootsDropChance = currentMobConfig.getDouble("boots_dropchance", 0.0);
+		double inHandDropChance = currentMobConfig.getDouble("item_in_hand_dropchance", 0.0);
+		boolean despawnOnChunkUnload =  currentMobConfig.getBoolean("despawn_on_chunk_unload", true);
+		boolean canPickUpItems = currentMobConfig.getBoolean("can_pickup_items", false);
+		int health = currentMobConfig.getInt("health", -1);
 		sendConsoleMessage("Successfully parsed mobconfig, type:"
 				+ type.toString() + ",name:" + name + ",spawnChance:"
 				+ spawnChance + ",amount:" + amount + ",minimumLightLevel:"
@@ -592,7 +600,10 @@ public class ConfigParser {
 				deathmsg, spawnChance, amount, range, maximumTries,
 				onHitMessage, blocksToSpawnOn, blocksNotToSpawnOn,
 				blocksToSpawnIn, minimumLightLevel, maximumLightLevel,
-				alternativeVersion,lureRange);
+				alternativeVersion,lureRange, helmetDropChance, chestDropChance,
+				pantsDropChance, bootsDropChance,
+				 inHandDropChance, despawnOnChunkUnload,
+				canPickUpItems, health);
 	}
 
 	public LinkedList<Material> convertMaterialList(List<String> input) {
@@ -648,7 +659,8 @@ public class ConfigParser {
 					center = parseLocation(
 							currentSection.getConfigurationSection("center"),
 							worldname);
-					temp = new Area(shape, center, xSize, zSize,minimumY,maximumY);
+					temp = new Area(shape, center, xSize, zSize, minimumY,
+							maximumY);
 					break;
 				case RING:
 					int innerRadius = currentSection.getInt("inner_limit");
@@ -656,7 +668,8 @@ public class ConfigParser {
 					center = parseLocation(
 							currentSection.getConfigurationSection("center"),
 							worldname);
-					temp = new Area(shape, innerRadius, outerRadius, center,minimumY,maximumY);
+					temp = new Area(shape, innerRadius, outerRadius, center,
+							minimumY, maximumY);
 					break;
 				default:
 					throw new ConfigParseException();
@@ -681,6 +694,10 @@ public class ConfigParser {
 					.getConfigurationSection(key);
 			Material material = Material.getMaterial(currentSection
 					.getString("material"));
+			if (material == null) {
+				sendConsoleMessage("Material was null for "
+						+ currentSection.toString());
+			}
 			int amount = currentSection.getInt("amount", 1);
 			ItemStack item = new ItemStack(material, amount);
 			ItemMeta meta = item.getItemMeta();
