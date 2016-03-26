@@ -55,10 +55,9 @@ public class DaytimeModifier extends RepeatingEffect {
 			for (World w : plugin.getServer().getWorlds()) {
 				w.setTime(currentRunTime);
 			}
-		} else {
-			for (Player p : getCurrentPlayers()) {
-				applyToPlayer(p);
-			}
+		}
+		for (Player p : getCurrentPlayers()) {
+			applyToPlayer(p);
 		}
 		previousRunTime = currentRunTime;
 	}
