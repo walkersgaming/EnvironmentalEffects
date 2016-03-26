@@ -591,6 +591,7 @@ public class ConfigParser {
 		boolean despawnOnChunkUnload =  currentMobConfig.getBoolean("despawn_on_chunk_unload", true);
 		boolean canPickUpItems = currentMobConfig.getBoolean("can_pickup_items", false);
 		int health = currentMobConfig.getInt("health", -1);
+		int ySpawnRange = currentMobConfig.getInt("y_spawn_range", 32);
 		sendConsoleMessage("Successfully parsed mobconfig, type:"
 				+ type.toString() + ",name:" + name + ",spawnChance:"
 				+ spawnChance + ",amount:" + amount + ",minimumLightLevel:"
@@ -603,7 +604,7 @@ public class ConfigParser {
 				alternativeVersion,lureRange, helmetDropChance, chestDropChance,
 				pantsDropChance, bootsDropChance,
 				 inHandDropChance, despawnOnChunkUnload,
-				canPickUpItems, health);
+				canPickUpItems, health, ySpawnRange);
 	}
 
 	public LinkedList<Material> convertMaterialList(List<String> input) {

@@ -18,8 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.github.maxopoly.EnvironmentalEffects;
-
 /**
  * A complete configuration how a specific monster (here often referred to as
  * "mob") should be spawned. Each mob spawned will be stored in memory with a
@@ -57,6 +55,7 @@ public class MobConfig {
 	private boolean despawnOnChunkUnload;
 	private boolean canPickupItems;
 	private int health;
+	private int ySpawnRange;
 
 	public MobConfig(String identifier, EntityType type, String name,
 			HashMap<PotionEffectType, Integer> buffs,
@@ -70,7 +69,7 @@ public class MobConfig {
 			double helmetDropChance, double chestDropChance,
 			double pantsDropChance, double bootsDropChance,
 			double inHandDropChance, boolean despawnOnChunkOnLoad,
-			boolean canPickUpItems, int health) {
+			boolean canPickUpItems, int health, int ySpawnRange) {
 		this.name = name;
 		this.identifer = identifier;
 		this.type = type;
@@ -100,6 +99,7 @@ public class MobConfig {
 		this.despawnOnChunkUnload = despawnOnChunkOnLoad;
 		this.canPickupItems = canPickUpItems;
 		this.health = health;
+		this.ySpawnRange = ySpawnRange;
 	}
 
 	/**
@@ -146,8 +146,8 @@ public class MobConfig {
 			int z = loc.getBlockZ() + rng.nextInt(range * 2) - range;
 			BlockCountState bcs = BlockCountState.NOTHING;
 			LinkedList<Integer> yLevels = new LinkedList<Integer>();
-			for (int y = Math.max(0, loc.getBlockY() - 32); y <= Math.min(255,
-					loc.getBlockY() + 32); y++) {
+			for (int y = Math.max(0, loc.getBlockY() - ySpawnRange); y <= Math.min(255,
+					loc.getBlockY() + ySpawnRange); y++) {
 				Material m = loc.getWorld().getBlockAt(x, y, z).getType();
 				switch (bcs) {
 				case NOTHING:
