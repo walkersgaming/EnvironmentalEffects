@@ -122,17 +122,11 @@ monster:
     biomes:
      - BIRCH_FOREST
      - BIRCH_FOREST_HILLS
-     - MUTATED_BIRCH_FOREST
-     - MUTATED_BIRCH_FOREST_HILLS
   mobconfig:
    OPskeletons:
      identifier: firewatchskelly
      type: SKELETON
      name: RabidFireWatch
-     range: 32
-     amount: 1
-     maximum_spawn_attempts: 10
-#      deathmessage: Y you hardscope
      on_hit_message: YOU KILLED MY BIRCH. YOU BETTER RUN
      spawn_chance: 0.44
      drops:
@@ -177,21 +171,13 @@ monster:
       - STONE
       - DIRT
       - GRASS
-      - GRASS_PATH
       - STATIONARY_LAVA
      blocks_to_spawn_in:
       - AIR
       - WATER
       - STATIONARY_LAVA
-     minimum_light_level: 0
-     maximum_light_level: 15
-     alternative_version: false
      health: 320
-     helmet_dropchance: 0
      chestplate_dropchance: 0.04
-     leggins_dropchance: 0
-     boots_dropchance: 0
-     item_in_dropchance: 0
      despawn_on_chunk_unload: true
      can_pickup_items: false
      y_spawn_range: 16
