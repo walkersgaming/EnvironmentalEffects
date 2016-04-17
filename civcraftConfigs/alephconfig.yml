@@ -145,6 +145,9 @@ monster:
         KB5:
          enchant: KNOCKBACK
          level: 5
+        S2:
+         enchant: DAMAGE_ALL
+         level: 2
       firechest451:
        material: DIAMOND_CHESTPLATE
        enchants:
@@ -161,6 +164,9 @@ monster:
       CantDrown:
        type: WATER_BREATHING
        level: 2
+      Fast1:
+       type: SPEED
+       level: 1
      on_hit_debuffs:
       RunForestRun:
        type: SPEED
