@@ -116,3 +116,82 @@ monster:
      blocks_to_spawn_in:
       - WATER
       - STATIONARY_WATER
+ BirchForest:
+  updatetime: 1m
+  areas:
+    biomes:
+     - BIRCH_FOREST
+     - BIRCH_FOREST_HILLS
+     - MUTATED_BIRCH_FOREST
+     - MUTATED_BIRCH_FOREST_HILLS
+  mobconfig:
+   OPskeletons:
+     identifier: firewatchskelly
+     type: SKELETON
+     name: RabidFireWatch
+     range: 32
+     amount: 1
+     maximum_spawn_attempts: 10
+#      deathmessage: Y you hardscope
+     on_hit_message: YOU KILLED MY BIRCH. YOU BETTER RUN
+     spawn_chance: 0.44
+     drops:
+      PowBone:
+       material: BONE
+       amount: 6
+       lore: Pow wow
+       enchants:
+        KB1:
+         enchant: KNOCKBACK
+         level: 1
+     equipment:
+      watch:
+       material: WATCH
+       enchants:
+        KB5:
+         enchant: KNOCKBACK
+         level: 5
+      firechest451:
+       material: DIAMOND_CHESTPLATE
+       enchants:
+        Prot451:
+         enchant: PROTECTION_FIRE
+         level: 451
+      fireBoots:
+       material: LEATHER_BOOTS
+       enchants:
+        FeatherFall4:
+         enchant: PROTECTION_FALL
+         level: 4
+     buffs:
+      CantDrown:
+       type: WATER_BREATHING
+       level: 2
+     on_hit_debuffs:
+      RunForestRun:
+       type: SPEED
+       level: 1
+       duration: 1s
+       chance: 1.0 
+     blocks_to_spawn_on:
+      - STONE
+      - DIRT
+      - GRASS
+      - GRASS_PATH
+      - STATIONARY_LAVA
+     blocks_to_spawn_in:
+      - AIR
+      - WATER
+      - STATIONARY_LAVA
+     minimum_light_level: 0
+     maximum_light_level: 15
+     alternative_version: false
+     health: 320
+     helmet_dropchance: 0
+     chestplate_dropchance: 0.04
+     leggins_dropchance: 0
+     boots_dropchance: 0
+     item_in_dropchance: 0
+     despawn_on_chunk_unload: true
+     can_pickup_items: false
+     y_spawn_range: 16
