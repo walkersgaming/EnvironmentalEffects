@@ -40,6 +40,53 @@ monster:
      spawn_chance: 0.0666
      identifier: skeleton
      maximum_light_level: 7
+   GlassSkulls:
+     type: SKELETON
+     identifier: skeletonFast
+#     name: Bruce Edwards Ivins
+     spawn_chance: 0.1
+     health: 12
+     minimum_light_level: 0
+     maximum_light_level: 4
+     helmet_dropchance: 0
+     chestplate_dropchance: 0
+     leggins_dropchance: 0
+     boots_dropchance: 0
+     item_in_dropchance: 0.2
+     despawn_on_chunk_unload: false
+     can_pickup_items: false
+     y_spawn_range: 16
+     alternative_version: false
+     drops:
+      Bone:
+       material: BONE
+       amount: 2
+     equipment:
+      sharpBone:
+       material: BONE
+       enchants:
+        S1:
+         enchant: DAMAGE_ALL
+         level: 1
+      ArrowChainChest3:
+       material: CHAINMAIL_CHESTPLATE
+       enchants:
+        Arrow2:
+         enchant: PROTECTION_PROJECTILE
+         level: 3
+      buffs:
+       CantDrown:
+        type: WATER_BREATHING
+        level: 2
+       FastBone:
+        type: SPEED
+        level: 2
+     on_hit_debuffs:
+      amthrax:
+       type: POISON
+       level: 2
+       duration: 5s
+       chance: 1.0 
    spiders:
      type: SPIDER 
      spawn_chance: 0.0666
