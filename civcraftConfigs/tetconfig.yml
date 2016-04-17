@@ -1,0 +1,166 @@
+worldname: Tet
+cancel_natural_spawns: true
+firespread_disabled: true
+
+weathermachines:
+  ocean:
+    rain_chance: 0.5
+    minimum_rain_duration: 3h
+    areas:
+      biomes:
+       - OCEAN
+       - DEEP_OCEAN
+  land:
+    rain_chance: 0.8
+    minimum_rain_duration: 6h
+    areas:
+      biomes:
+       - JUNGLE
+       - BEACH
+  volcano:
+    rain_chance: 0.0
+    minimum_rain_duration: 1d
+    areas:
+      biomes:
+       - JUNGLE_HILLS
+       
+daytime_modifier:
+  global:
+    dayspeed: 0.33
+    starting_time: 0
+    areas:
+      biomes:
+       - GLOBAL
+
+monster:
+ normalsection:
+  updatetime: 15s
+  areas:
+    biomes:
+     - JUNGLE
+     - BEACH
+  mobconfig:
+    zombies:
+      type: ZOMBIE
+      spawn_chance: 0.0666      
+      identifier: zombie
+      maximum_light_level: 7
+    skeletons:
+      type: SKELETON
+      spawn_chance: 0.0666
+      identifier: skeleton
+      maximum_light_level: 7
+    spiders:
+      type: SPIDER 
+      spawn_chance: 0.0666
+      identifier: spiders
+      maximum_light_level: 7
+    creepers:
+      type: CREEPER 
+      spawn_chance: 0.0222
+      identifier: creeper
+      maximum_light_level: 7
+    dropcreepers:
+      type: CREEPER 
+      spawn_chance: 0.01
+      name: Drop Creeper
+      identifier: dropcreeper
+      maximum_light_level: 7
+      blocks_to_spawn_on:
+      - LEAVES
+    witches:
+      type: WITCH
+      spawn_chance: 0.0666
+      identifier: witch
+      maximum_light_level: 7
+    enderman:
+      type: ENDERMAN
+      spawn_chance: 0.0111
+      identifier: enderman
+      maximum_light_level: 7
+    chicken:
+      type: CHICKEN
+      spawn_chance: 0.2
+      identifier: chicken
+      minimum_light_level: 8
+      blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+    horse:
+      type: HORSE
+      spawn_chance: 0.001
+      identifier: horse
+      minimum_light_level: 8
+      blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+    pig:
+      type: PIG
+      spawn_chance: 0.05
+      identifier: pig
+      minimum_light_level: 8
+      blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+    rabbit:
+      type: RABBIT
+      spawn_chance: 0.02
+      identifier: rabbit
+      minimum_light_level: 8
+      blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+    sheep:
+      type: SHEEP
+      spawn_chance: 0.04
+      identifier: sheep
+      minimum_light_level: 8
+      blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+    ocelots:
+      type: OCELOT
+      spawn_chance: 0.05
+      identifier: ocelot
+      minimum_light_level: 8
+        
+ ocean:
+  updatetime: 10s
+  areas:
+    biomes:
+     - OCEAN
+     - DEEP_OCEAN
+  mobconfig:
+    squids:
+      type: SQUID
+      spawn_chance: 0.4
+      identifier: squid
+      blocks_to_spawn_in:
+       - WATER
+       - STATIONARY_WATER
+    guardians:
+      type: GUARDIAN
+      spawn_chance: 0.5
+      identifier: squid
+      blocks_to_spawn_in:
+       - WATER
+       - STATIONARY_WATER
+ volcanos:
+  updatetime: 10s
+  areas:
+    biomes:
+     - JUNGLE_HILLS
+  mobconfig:
+    blaze:
+      type: BLAZE
+      spawn_chance: 0.2
+      identifier: blazes
+    direblaze:
+      type: BLAZE
+      name: Dire Blaze
+      spawn_chance: 0.02
+      identifier: direblazes
+      buffs:
+            Renenseanse:
+                       type: RESISTANCE
+                       level: 1      

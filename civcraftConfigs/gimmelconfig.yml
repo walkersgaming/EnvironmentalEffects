@@ -1,0 +1,193 @@
+worldname: Gimmel
+cancel_natural_spawns: true
+
+weathermachines:
+  global:
+    rain_chance: 0.2
+    minimum_rain_duration: 3h
+    areas:
+      biomes:
+       - PLAINS
+  desert:
+    rain_chance: 0.0
+    minimum_rain_duration: 3h
+    areas:
+      biomes:
+       - DESERT
+ 
+daytime_modifier:
+  global:
+    dayspeed: 0.33
+    starting_time: 0
+    areas:
+      biomes:
+       - GLOBAL
+
+monster:
+ normalsection:
+  updatetime: 15s
+  areas:
+    biomes:
+     - PLAINS
+  mobconfig:
+   zombies:
+     type: ZOMBIE
+     spawn_chance: 0.0666     
+     identifier: zombie
+     maximum_light_level: 7
+   skeletons:
+     type: SKELETON
+     spawn_chance: 0.0666
+     identifier: skeleton
+     maximum_light_level: 7
+   spiders:
+     type: SPIDER 
+     spawn_chance: 0.0666
+     identifier: spiders
+     maximum_light_level: 7
+   creepers:
+     type: CREEPER 
+     spawn_chance: 0.0222
+     identifier: creeper
+     maximum_light_level: 7
+   witches:
+     type: WITCH
+     spawn_chance: 0.0666
+     identifier: witch
+     maximum_light_level: 7
+   enderman:
+     type: ENDERMAN
+     spawn_chance: 0.0111
+     identifier: enderman
+     maximum_light_level: 7
+   chicken:
+     type: CHICKEN
+     spawn_chance: 0.05
+     identifier: chicken
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+   cow:
+     type: COW
+     spawn_chance: 0.05
+     identifier: cow
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+   horse:
+     type: HORSE
+     spawn_chance: 0.01
+     identifier: horse
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+   pig:
+     type: PIG
+     spawn_chance: 0.05
+     identifier: pig
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+   rabbit:
+     type: RABBIT
+     spawn_chance: 0.03
+     identifier: rabbit
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+   sheep:
+     type: SHEEP
+     spawn_chance: 0.04
+     identifier: sheep
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS     
+   squid:
+     type: SQUID
+     spawn_chance: 0.33
+     identifier: squid
+     blocks_to_spawn_in:
+      - WATER
+      - STATIONARY_WATER
+
+ desertsection:
+  updatetime: 1m
+  areas:
+    biomes:
+     - DESERT
+  mobconfig:
+   skeletons:
+     type: SKELETON
+     spawn_chance: 0.07    
+     identifier: skeleton
+     maximum_light_level: 7
+   ozymandias:
+     type: SKELETON
+     name: Ozymandias
+     spawn_chance: 0.1     
+     identifier: ozymandias
+     maximum_light_level: 7
+     drops:
+            helmet:
+                   material: CHAINMAIL_HELMET
+                   enchants:
+                           Sharp:
+                               enchant: THORNS
+                               level: 3
+                               lore: Helmet of Ozymandias
+     buffs:
+      fireres:
+          type: FIRE_RESISTANCE
+          level: 1
+      armor:
+          type: DAMAGE_RESISTANCE
+          level: 1
+     on_hit_debuffs:
+           pain:
+             type: CONFUSION
+             level: 1
+             duration: 5s
+             chance: 0.5
+           weakness:
+             type: WEAKNESS
+             level: 1
+             duration: 7
+             chance: 0.5
+     equipment:
+           sword:
+             material: DIAMOND_SWORD
+             enchants:
+                   Sharp:
+                      enchant: DAMAGE_ALL
+                      level: 1
+     deathmessage: Look on my works, ye Mighty, and despair! Nothing beside remains.
+   creepers:
+     type: CREEPER 
+     spawn_chance: 0.0222
+     identifier: creeper
+     maximum_light_level: 7
+   solarcreepers:
+     type: CREEPER 
+     spawn_chance: 0.01
+     name: Solar Creeper
+     identifier: solarcreeper
+     maximum_light_level: 7
+     buffs:
+          speed2:
+               type: SPEED
+               level: 2
+     alternative_version: true
+   horse:
+     type: HORSE
+     spawn_chance: 0.01
+     identifier: horse
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS

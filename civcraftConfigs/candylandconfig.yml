@@ -1,0 +1,55 @@
+worldname: Candyland
+cancel_natural_spawns: true
+firespread_disabled: true
+
+weathermachines:
+  global:
+    rain_chance: 0.0
+    minimum_rain_duration: 1d
+    areas:
+      biomes:
+       - GLOBAL
+daytime_modifier:
+  global:
+    dayspeed: 0.0
+    starting_time: 18000
+    areas:
+      biomes:
+       - GLOBAL
+
+monster:
+ normalsection:
+  updatetime: 5s
+  areas:
+    biomes: 
+     - SKY
+  mobconfig:
+    enderman:
+      type: ENDERMAN
+      spawn_chance: 0.4
+      identifier: enderman
+    enderking:
+      type: ENDERMAN
+      spawn_chance: 0.01
+      identifier: enderking
+      name: Ender King
+      buffs:
+            speed1:
+                  type: SPEED
+                  level: 1
+      on_hit_debuffs:
+            weakness:
+                  type: WEAKNESS
+                  level: 1
+      drops:
+           pearls:
+                   material: ENDER_PEARL
+                   amount: 4
+    chicken:
+      type: CHICKEN
+      spawn_chance: 0.0002
+      identifier: chicken
+      buffs:
+            speed3:
+                    type: SPEED
+                    level: 3
