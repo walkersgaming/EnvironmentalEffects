@@ -126,7 +126,7 @@ monster:
    OPskeletons:
      identifier: firewatchskelly
      type: SKELETON
-     name: RabidFireWatch
+     name: §kFive §4RabidFireWatch §kFive 
      on_hit_message: YOU KILLED MY BIRCH. YOU BETTER RUN
      spawn_chance: 0.44
      drops:
@@ -139,27 +139,43 @@ monster:
          enchant: KNOCKBACK
          level: 1
      equipment:
-      watch:
-       material: WATCH
+      BluntHotRod:
+       material: BLAZE_ROD
        enchants:
-        KB5:
+        KB8:
          enchant: KNOCKBACK
-         level: 5
+         level: 8
         S2:
          enchant: DAMAGE_ALL
          level: 2
       firechest451:
-       material: DIAMOND_CHESTPLATE
+       material: LEATHER_CHESTPLATE
        enchants:
         Prot451:
          enchant: PROTECTION_FIRE
          level: 451
-      fireBoots:
+      firelegs451:
+       material: LEATHER_LEGGINGS
+       enchants:
+        Prot451:
+         enchant: PROTECTION_FIRE
+         level: 451
+      fireBoots154:
        material: LEATHER_BOOTS
        enchants:
         FeatherFall4:
          enchant: PROTECTION_FALL
          level: 4
+        Prot451:
+         enchant: PROTECTION_FIRE
+         level: 451
+# Skeleton's cannot wear glass. Put a leather helmet on instead
+      exglasshelm:
+       material: LEATHER_HELMET
+       enchants:
+        Prot451:
+         enchant: PROTECTION_FIRE
+         level: 451
      buffs:
       CantDrown:
        type: WATER_BREATHING
@@ -173,17 +189,30 @@ monster:
        level: 1
        duration: 1s
        chance: 1.0 
+      blinded:
+       type: BLINDNESS
+       level: 1
+       duration: 1s
+       chance: 1.0 
+      withered:
+       type: WITHER
+       level: 1
+       duration: 2s
+       chance: 1.0 
      blocks_to_spawn_on:
       - STONE
       - DIRT
       - GRASS
       - STATIONARY_LAVA
+      - STATIONARY_WATER 
      blocks_to_spawn_in:
       - AIR
-      - WATER
       - STATIONARY_LAVA
+      - STATIONARY_WATER 
      health: 320
-     chestplate_dropchance: 0.04
+     chestplate_dropchance: 0.02
+     leggins_dropchance: 0.02
+     boots_dropchance: 0.02
+     helmet_dropchance: 0.02
      despawn_on_chunk_unload: true
-     can_pickup_items: false
      y_spawn_range: 16
