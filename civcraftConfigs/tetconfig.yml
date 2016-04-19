@@ -129,9 +129,7 @@ monster:
      identifier: jungleskelly
      type: SKELETON
      range: 80
-     amount: 1
      name: §kFive §2JungleSkelly §kFive 
-     on_hit_message: YOU KILLED MY COCO. PISS OFF M8
      spawn_chance: 0.2
      drops:
       PowBone:
@@ -208,7 +206,6 @@ monster:
       - STATIONARY_WATER 
      health: 160
      despawn_on_chunk_unload: true
-     can_pickup_items: false
      y_spawn_range: 16
 
  ocean:

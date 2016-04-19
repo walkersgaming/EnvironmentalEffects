@@ -61,7 +61,6 @@ monster:
          type: SLOW
          level: 1
          duration: 5s
-         chance: 1
    creepers:
      type: CREEPER 
      spawn_chance: 0.0222
@@ -169,7 +168,7 @@ monster:
      identifier: PowerGolem
      type: IRON_GOLEM
      name: Power Golem
-     on_hit_message: Git Rekt Son
+     on_hit_message: ATTACK MODE ACTIVATED!
      spawn_chance: 0.1
      drops:
       pistonwithstickyoil:
@@ -199,17 +198,14 @@ monster:
        type: CONFUSION
        level: 1
        duration: 10s
-       chance: 1.0 
       blinded:
        type: BLINDNESS
        level: 1
        duration: 5s
-       chance: 1.0 
       Slowness:
        type: SLOW
        level: 2
        duration: 5s
-       chance: 1.0 
      blocks_to_spawn_on:
       - STONE
       - DIRT
@@ -222,5 +218,4 @@ monster:
       - STATIONARY_WATER 
      health: 3000
      despawn_on_chunk_unload: true
-     can_pickup_items: false
      y_spawn_range: 16

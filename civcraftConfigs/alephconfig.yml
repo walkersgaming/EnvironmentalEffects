@@ -188,17 +188,14 @@ monster:
        type: SPEED
        level: 1
        duration: 1s
-       chance: 1.0 
       blinded:
        type: BLINDNESS
        level: 1
        duration: 1s
-       chance: 1.0 
       withered:
        type: WITHER
        level: 1
        duration: 2s
-       chance: 1.0 
      blocks_to_spawn_on:
       - STONE
       - DIRT
@@ -210,9 +207,5 @@ monster:
       - STATIONARY_LAVA
       - STATIONARY_WATER 
      health: 320
-     chestplate_dropchance: 0.02
-     leggins_dropchance: 0.02
-     boots_dropchance: 0.02
-     helmet_dropchance: 0.02
      despawn_on_chunk_unload: true
      y_spawn_range: 16

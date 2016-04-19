@@ -181,17 +181,14 @@ monster:
        type: POISON
        level: 1
        duration: 10s
-       chance: 1.0 
       blinded:
        type: BLINDNESS
        level: 1
        duration: 5s
-       chance: 1.0 
       Slowness:
        type: SLOW
        level: 2
        duration: 5s
-       chance: 1.0 
      blocks_to_spawn_on:
       - STONE
       - DIRT
@@ -271,17 +268,14 @@ monster:
        type: CONFUSION
        level: 1
        duration: 10s
-       chance: 1.0 
       blinded:
        type: BLINDNESS
        level: 1
        duration: 2s
-       chance: 1.0 
       nightv:
        type: NIGHT_VISION
        level: 1
        duration: 30s
-       chance: 1.0 
      blocks_to_spawn_on:
       - STONE
       - DIRT
@@ -294,7 +288,6 @@ monster:
       - STATIONARY_WATER 
      health: 40
      despawn_on_chunk_unload: true
-     can_pickup_items: false
      y_spawn_range: 16     
 
  desertsection:
