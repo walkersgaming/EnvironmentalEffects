@@ -74,7 +74,7 @@ monster:
         type: SPEED
         level: 2
      on_hit_debuffs:
-      amthrax:
+      anthrax:
        type: POISON
        level: 2
        duration: 5s
@@ -153,16 +153,159 @@ monster:
      blocks_to_spawn_in:
       - WATER
       - STATIONARY_WATER
+   dirtyspider:
+     identifier: dirtyspider
+     type: CAVE_SPIDER
+     name: Dirty Spider
+     on_hit_message: Cant Catch Me
+     spawn_chance: 0.01
+     drops:
+      String:
+       material: STRING 
+       amount: 16
+       chance: 1
+      spidereyes:
+       material: SPIDER_EYE 
+       amount: 8
+       chance: 1
+      fermspidereyes:
+       material: FERMENTED_SPIDER_EYE  
+       amount: 4
+       chance: 0.3
+     buffs:
+      Fast2:
+       type: SPEED
+       level: 2
+     on_hit_debuffs:
+      poison:
+       type: POISON
+       level: 1
+       duration: 10s
+       chance: 1.0 
+      blinded:
+       type: BLINDNESS
+       level: 1
+       duration: 5s
+       chance: 1.0 
+      Slowness:
+       type: SLOW
+       level: 2
+       duration: 5s
+       chance: 1.0 
+     blocks_to_spawn_on:
+      - STONE
+      - DIRT
+      - GRASS
+      - STATIONARY_LAVA
+      - STATIONARY_WATER 
+     blocks_to_spawn_in:
+      - AIR
+      - STATIONARY_LAVA
+      - STATIONARY_WATER 
+     health: 100
+     despawn_on_chunk_unload: true
+     can_pickup_items: false
+     y_spawn_range: 16
+   darkzombiearcher:
+     identifier: undeadarcher
+     type: ZOMBIE
+     name: Dark Archer
+     on_hit_message:  "**Zombie** **Snarls** **Crunch** **Rawr**"
+     spawn_chance: 0.05
+     drops:
+      Flesh:
+       material: ROTTEN_FLESH
+       amount: 8
+       chance: 1
+      zquiver:
+       material: ARROW
+       amount: 8
+       chance: 1
+       lore: Zombie Quiver
+      pistonwithstickyblood:
+       material: PISTON_STICKY_BASE
+       amount: 1
+     equipment:
+      ZombieArrows:
+       material: BOW 
+       enchants:
+        Punch4:
+         enchant: ARROW_KNOCKBACK
+         level: 4
+        Fire1:
+         enchant: ARROW_FIRE
+         level: 1
+      chainchest2:
+       material: CHAINMAIL_CHESTPLATE
+       enchants:
+        Prot2:
+         enchant: PROTECTION_ENVIRONMENTAL
+         level: 2
+      chainlegs2:
+       material: CHAINMAIL_LEGGINGS
+       enchants:
+        Prot2:
+         enchant: PROTECTION_ENVIRONMENTAL
+         level: 2
+      chainboots2:
+       material: CHAINMAIL_BOOTS
+       enchants:
+        Prot2:
+         enchant: PROTECTION_ENVIRONMENTAL
+         level: 2
+      leatherhelm2:
+       material: CHAINMAIL_HELMET
+       enchants:
+        Prot2:
+         enchant: PROTECTION_ENVIRONMENTAL
+         level: 2
+     buffs:
+      Fast2:
+       type: SPEED
+       level: 2
+      Regen3:
+       type: REGENERATION
+       level: 3
+     on_hit_debuffs:
+      confusion:
+       type: CONFUSION
+       level: 1
+       duration: 10s
+       chance: 1.0 
+      blinded:
+       type: BLINDNESS
+       level: 1
+       duration: 2s
+       chance: 1.0 
+      nightv:
+       type: NIGHT_VISION
+       level: 1
+       duration: 30s
+       chance: 1.0 
+     blocks_to_spawn_on:
+      - STONE
+      - DIRT
+      - GRASS
+      - STATIONARY_LAVA
+      - STATIONARY_WATER 
+     blocks_to_spawn_in:
+      - AIR
+      - STATIONARY_LAVA
+      - STATIONARY_WATER 
+     health: 40
+     despawn_on_chunk_unload: true
+     can_pickup_items: false
+     y_spawn_range: 16     
 
  desertsection:
-  updatetime: 1m
+  updatetime: 30s
   areas:
     biomes:
      - DESERT
   mobconfig:
    skeletons:
      type: SKELETON
-     spawn_chance: 0.07    
+     spawn_chance: 0.05    
      identifier: skeleton
      maximum_light_level: 7
    ozymandias:
@@ -213,9 +356,9 @@ monster:
    solarcreepers:
      type: CREEPER 
      spawn_chance: 0.01
-     name: Solar Creeper
+     name: §2Solar §2Creeper
      identifier: solarcreeper
-     maximum_light_level: 7
+     maximum_light_level: 15
      buffs:
           speed2:
                type: SPEED
@@ -229,3 +372,4 @@ monster:
      blocks_to_spawn_on:
       - DIRT
       - GRASS
+      - SAND
