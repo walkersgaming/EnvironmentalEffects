@@ -222,6 +222,7 @@ monster:
       pistonwithstickyblood:
        material: PISTON_STICKY_BASE
        amount: 1
+       chance: 1
      equipment:
       ZombieArrows:
        material: BOW 
@@ -366,3 +367,37 @@ monster:
       - DIRT
       - GRASS
       - SAND
+ AquilaSection:
+  updatetime: 2m
+  areas:
+   locations:
+    AquilaRuins:
+     shape: CIRCLE
+     xsize: 100
+     center:
+      x: 1000
+      z: 64
+  mobconfig:
+   GhostWitch:
+    identifier: FloatingWitch2
+    spawn: WITCH
+    type: WITCH
+    name: §oOl' §oSally
+    range: 32
+    amount: 1
+    maximum_spawn_attempts: 10
+    spawn_chance: 0.4
+    drops:
+     Newfriendlives:
+      material: NETHER_WARTS
+      amount: 10
+      lore: "The Great War's Souls"
+    buffs:
+     Ghosty:
+      type: INVISIBILITY
+     Slow2:
+      type: SLOW
+      level: 2
+    y_spawn_range: 8
+    minimum_light_level: 0
+    maximum_light_level: 5
