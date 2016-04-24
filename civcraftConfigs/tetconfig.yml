@@ -125,89 +125,97 @@ monster:
       spawn_chance: 0.05
       identifier: ocelot
       minimum_light_level: 7
-    JungleSkelly:
-     identifier: jungleskelly
-     type: SKELETON
-     range: 80
-     name: §kFive §2JungleSkelly §kFive 
-     spawn_chance: 0.2
-     drops:
-      PowBone:
-       material: BONE
-       amount: 2
-       lore: Coco Knocker
-       enchants:
-        KB1:
-         enchant: KNOCKBACK
-         level: 1
-     equipment:
-      BluntHotRod:
-       material: BONE
-       enchants:
-        KB8:
-         enchant: KNOCKBACK
-         level: 8
-        S2:
-         enchant: DAMAGE_ALL
-         level: 2
-      firechest451:
-       material: LEATHER_CHESTPLATE
-       enchants:
-        Prot451:
-         enchant: PROTECTION_FIRE
-         level: 451
-      firelegs451:
-       material: LEATHER_LEGGINGS
-       enchants:
-        Prot451:
-         enchant: PROTECTION_FIRE
-         level: 451
-      fireBoots154:
-       material: LEATHER_BOOTS
-       enchants:
-        FeatherFall4:
-         enchant: PROTECTION_FALL
-         level: 3
-#No glass helms permitted. Leave it to be whatever helmet wanted.
-     buffs:
-      CantDrown:
-       type: WATER_BREATHING
-       level: 2
-      Fast1:
-       type: SPEED
-       level: 1
-     on_hit_debuffs:
-      RunForestRun:
-       type: SPEED
-       level: 1
-       duration: 1s
-       chance: 1.0 
-      blinded:
-       type: BLINDNESS
-       level: 1
-       duration: 1s
-       chance: 1.0 
-      withered:
-       type: WITHER
-       level: 1
-       duration: 2s
-       chance: 1.0 
-     blocks_to_spawn_on:
-      - STONE
-      - DIRT
-      - GRASS
-      - STATIONARY_LAVA
-      - STATIONARY_WATER 
-      - LEAVES
-      - LEAVES_2
-     blocks_to_spawn_in:
-      - AIR
-      - STATIONARY_LAVA
-      - STATIONARY_WATER 
-     health: 160
-     despawn_on_chunk_unload: true
-     y_spawn_range: 16
-
+    jungleSkelly:
+      identifier: jungleskelly
+      type: SKELETON
+      range: 80
+      amount: 2
+      name: §kFive §2JungleSkelly §kFive 
+      spawn_chance: 0.08
+      drops:
+       Spookyboots:
+        material: CHAINMAIL_BOOTS
+        lore: Chocolate Boots 
+        chance: 0.2
+        enchants:
+         wowmuchfall:
+          enchant: PROTECTION_FALL
+          level: 2
+       PowBone:
+        material: BONE
+        amount: 2
+        lore: Coco Knocker
+        enchants:
+         KB1:
+          enchant: KNOCKBACK
+          level: 1
+      equipment:
+       BluntHotRod:
+        material: BONE
+        enchants:
+         KB8:
+          enchant: KNOCKBACK
+          level: 8
+         S2:
+          enchant: DAMAGE_ALL
+          level: 2
+       firechest451:
+        material: LEATHER_CHESTPLATE
+        enchants:
+         Prot451:
+          enchant: PROTECTION_FIRE
+          level: 451
+       firelegs451:
+        material: LEATHER_LEGGINGS
+        enchants:
+         Prot451:
+          enchant: PROTECTION_FIRE
+          level: 451
+       fireBoots154:
+        material: CHAINMAIL_BOOTS
+        enchants:
+         FeatherFall4:
+          enchant: PROTECTION_FALL
+          level: 4
+      buffs:
+       CantDrown:
+        type: WATER_BREATHING
+        level: 2
+       Fast1:
+        type: SPEED
+        level: 1
+      on_hit_debuffs:
+       RunForestRun:
+        type: SPEED
+        level: 3
+        duration: 1s
+        chance: 1.0 
+       blinded:
+        type: BLINDNESS
+        level: 1
+        duration: 10s
+        chance: 0.5 
+       withered:
+        type: WITHER
+        level: 1
+        duration: 2s
+        chance: 1.0 
+      blocks_to_spawn_on:
+       - STONE
+       - DIRT
+       - GRASS
+       - STATIONARY_LAVA
+       - STATIONARY_WATER 
+       - LEAVES
+       - LEAVES_2
+      blocks_to_spawn_in:
+       - AIR
+       - STATIONARY_LAVA
+       - STATIONARY_WATER 
+      health: 160
+      deathmessage: Thats What Happens If You Dont Fight Back
+      despawn_on_chunk_unload: true
+      y_spawn_range: 16
  ocean:
   updatetime: 10s
   areas:
@@ -237,7 +245,6 @@ monster:
       blocks_to_spawn_in:
        - WATER
        - STATIONARY_WATER
-
  volcanos:
   updatetime: 5s
   areas:
@@ -256,7 +263,7 @@ monster:
       buffs:
             Renenseanse:
                        type: RESISTANCE
-                       level: 1      
+                       level: 2      
     firespider:
       type: SPIDER
       name: Fire Spider
@@ -269,3 +276,52 @@ monster:
                        level: 1
                        duration: 3s
                        chance: 0.5 
+ BongoRuins:
+  updatetime: 1m
+  areas:
+   locations:
+    BongoBongoLand:
+     shape: CIRCLE
+     xsize: 180
+     center:
+      x: -860
+      z: 570
+  mobconfig:
+   darklogger:
+    identifier: zombielogger
+    spawn: ZOMBIE
+    type: ZOMBIE
+    name: §3Paul §3Bunyan
+    range: 32
+    amount: 2
+    maximum_spawn_attempts: 10
+    spawn_chance: 0.34
+    equipment:
+     safetyhat:
+       material: LEATHER_HELMET
+       enchants:
+        prot5:
+         type: PROTECTION_ENVIRONMENTAL
+         level: 5
+     burningaxe:
+      type: WOOD_AXE
+      enchants:
+       burning1:
+        type: FIRE_ASPECT
+        level: 1
+    drops:
+     Newfriendbloodiedaxe:
+      material: WOOD_AXE
+      amount: 1
+      lore: Burning for you
+      enchants:
+       Burning:
+        type: FIRE_ASPECT
+        level: 1
+    buffs:
+     HealthyJack:
+      type: SPEED
+      level: 1
+    y_spawn_range: 16
+    minimum_light_level: 0
+    maximum_light_level: 6
