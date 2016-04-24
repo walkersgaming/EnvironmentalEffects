@@ -46,7 +46,8 @@ monster:
                    material: ENDER_PEARL
                    amount: 4
            cakes:
-                   material: CAKE_BLOCK
+# testing to see if cake will drop from number value instead of name value of bukkit id's if this dosent work use : CAKE
+                   material: CAKE
                    amount: 1
     chicken:
       type: CHICKEN
@@ -55,7 +56,8 @@ monster:
       name: §1C§2a§3n§4d§5y Chicken
       drops:
                  cakes:
-                   material: CAKE_BLOCK
+# testing to see if cake will drop from number value instead of name value of bukkit id's if this dosent work use : CAKE
+                   material: CAKE
                    amount: 1
       buffs:
             speed3:
@@ -65,4 +67,11 @@ monster:
       type: SILVERFISH 
       spawn_chance: 0.3
       identifier: silverfish
+      amount: 5
+      range: 96
       name: §1C§2a§3n§4d§5y Fish
+      drops:
+                 cakes:
+# testing to see if cake will drop from number value instead of name value of bukkit id's if this dosent work use : CAKE
+                   material: CAKE
+                   amount: 1
