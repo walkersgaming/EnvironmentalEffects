@@ -27,7 +27,7 @@ daytime_modifier:
 
 fireball:
  netherFireRain:
-   frequency: 1m
+   frequency: 10s
    range: 16
    areas:
    biomes:
@@ -184,9 +184,17 @@ monster:
       despawn_on_chunk_unload: true
       maximum_light_level: 11
       drops:
-       firebones:
+       firerod:
+        material: BLAZE_ROD
+        amount: 2
+        lore: Ouch! That is Hot!
+        enchants:
+         F1:
+          enchant: FIRE_ASPECT
+          level: 1
+       firebone:
         material: BONE
-        amount: 1
+        amount: 2
         lore: Ouch! That is Hot!
         enchants:
          F1:
@@ -226,6 +234,9 @@ monster:
              Prot2:
                enchant: PROTECTION_ENVIRONMENTAL
                level: 2
+             Thorns3:
+               enchant: THORNS
+               level: 3
       buffs:
         fireres:
                type: FIRE_RESISTANCE
@@ -247,22 +258,30 @@ monster:
       identifier: magmacube
       despawn_on_chunk_unload: true
     dangedspirit:
-      type: ZOMBIE
-      spawn_chance: 0.1
+      type: SKELETON
+      spawn_chance: 0.25
       identifier: dangedspirit
       name: §dSuccubus
       despawn_on_chunk_unload: true
       maximum_light_level: 15
       drops:
-       Cane:
-        material: SUGAR_CANE 
-        amount: 4
+       yourpants:
+        material: CHAINMAIL_LEGGINGS 
+        amount: 1
+        lore: Stay Cool
+        enchants:
+         fireProt2:
+          enchant: PROTECTION_FIRE
+          level: 2
       buffs:
         fireres:
                type: FIRE_RESISTANCE
                level: 1
         res:
                type: RESISTANCE
+               level: 1
+        fast:
+               type: SPEED
                level: 1
       on_hit_debuffs:
         burningtouch:
@@ -271,6 +290,7 @@ monster:
                duration: 5s
                chance: 1
       on_hit_message: Your strength is very tasty
+      deathmessage: Pants Off Dance Off
       blocks_to_spawn_on:
          - NETHERRACK
          - OBSIDIAN
