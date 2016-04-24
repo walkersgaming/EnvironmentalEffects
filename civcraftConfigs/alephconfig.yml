@@ -103,6 +103,154 @@ monster:
      blocks_to_spawn_on:
       - DIRT
       - GRASS
+   OPzombie:
+     identifier: opzombie
+     type: ZOMBIE
+     name: §kFive §4Running §4Ghoul §kFive 
+     on_hit_message: Snarl
+     spawn_chance: 0.1
+     drops:
+      Flesh:
+       material: ROTTEN_FLESH
+       amount: 6
+       lore: Human Remains
+      Bone:
+       material: BONE
+       amount: 2
+       lore: Human Remains
+       enchants:
+        KB1:
+         enchant: KNOCKBACK
+         level: 1
+     equipment:
+      BluntHotRod:
+       material: BLAZE_ROD
+       enchants:
+        KB8:
+         enchant: KNOCKBACK
+         level: 8
+        S2:
+         enchant: DAMAGE_ALL
+         level: 2
+      firechest451:
+       material: LEATHER_CHESTPLATE
+       enchants:
+        Thorns:
+         enchant: THORNS
+         level: 3
+      firelegs451:
+       material: LEATHER_LEGGINGS
+       enchants:
+        Prot451:
+         enchant: PROTECTION_FIRE
+         level: 451
+      fireBoots154:
+       material: LEATHER_BOOTS
+       enchants:
+        FeatherFall4:
+         enchant: PROTECTION_FALL
+         level: 4
+        Prot451:
+         enchant: PROTECTION_FIRE
+         level: 451
+      helm:
+       material: LEATHER_HELMET
+       enchants:
+        Prot451:
+         enchant: PROTECTION_FIRE
+         level: 451
+     buffs:
+      CantDrown:
+       type: WATER_BREATHING
+       level: 2
+      Fast1:
+       type: SPEED
+       level: 4
+     on_hit_debuffs:
+      blinded:
+       type: BLINDNESS
+       level: 2
+       duration: 10s
+     blocks_to_spawn_on:
+      - STONE
+      - DIRT
+      - GRASS
+      - STATIONARY_LAVA
+      - STATIONARY_WATER 
+      - LEAVES
+      - LEAVES_2
+      - GRAVEL
+      - SAND
+     blocks_to_spawn_in:
+      - AIR
+      - STATIONARY_LAVA
+      - STATIONARY_WATER 
+     health: 100
+     despawn_on_chunk_unload: true
+     y_spawn_range: 16
+   treespider:
+     identifier: treespider
+     type: SPIDER
+     name: §kILL §2Treerantula §kILL 
+     on_hit_message: KssssssT
+     maximum_light_level: 7
+     spawn_chance: 0.1
+     drops:
+      String:
+       material: STRING
+       amount: 8
+       lore: Sticky Webbing
+      FermEye:
+       material: FERMENTED_SPIDER_EYE 
+       amount: 4
+       lore: Rotting Eye
+     buffs:
+      CantDrown:
+       type: WATER_BREATHING
+       level: 2
+      Slow:
+       type: SLOW
+       level: 2
+      Jump:
+       type: JUMP
+       level: 3
+      Regen:
+       type: REGENERATION
+       level: 1
+      Firerez:
+       type: FIRE_RESISTANCE
+       level: 2
+     on_hit_debuffs:
+      Wither:
+       type: WITHER
+       level: 1
+       duration: 5s
+      blinded:
+       type: BLINDNESS
+       level: 1
+       duration: 4s
+      withered:
+       type: CONFUSION
+       level: 1
+       duration: 10s
+     blocks_to_spawn_on:
+      - STONE
+      - DIRT
+      - GRASS
+      - STATIONARY_LAVA
+      - STATIONARY_WATER 
+      - LEAVES
+      - LEAVES_2
+      - GRAVEL
+      - CLAY
+      - SAND
+     blocks_to_spawn_in:
+      - AIR
+      - STATIONARY_LAVA
+      - STATIONARY_WATER 
+     health: 100
+     despawn_on_chunk_unload: true
+     y_spawn_range: 16
  riversection:
   updatetime: 10s
   areas:
@@ -128,7 +276,7 @@ monster:
      type: SKELETON
      name: §kFive §4RabidFireWatch §kFive 
      on_hit_message: YOU KILLED MY BIRCH. YOU BETTER RUN
-     spawn_chance: 0.44
+     spawn_chance: 0.1
      drops:
       PowBone:
        material: BONE
@@ -169,8 +317,7 @@ monster:
         Prot451:
          enchant: PROTECTION_FIRE
          level: 451
-# Skeleton's cannot wear glass. Put a leather helmet on instead
-      exglasshelm:
+      helm:
        material: LEATHER_HELMET
        enchants:
         Prot451:
