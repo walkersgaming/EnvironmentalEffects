@@ -34,6 +34,26 @@ monster:
      - MEGA_SPRUCE_TAIGA
      - ICE_PLAINS
   mobconfig:
+   whitewalkers:
+      type: ZOMBIE
+      identifier: White Walker
+      name: White Walker 
+      spawn_chance: 0.1
+      amount: 2
+      maximum_light_level: 7
+      equipment:
+           sword:
+              material: IRON_SWORD
+              enchants:
+                   P2:
+                    enchant: SWORD_DAMAGE
+                    level: 1
+           ironchest:
+              material: IRON_CHESTPLATE
+              enchants:
+                   Prot2:
+                    enchant: PROTECTION_ENVIRONMENTAL
+                    level: 2
    skeletons:
      type: SKELETON
      spawn_chance: 0.0666     
@@ -120,7 +140,7 @@ monster:
       type: ZOMBIE
       identifier: White Walker
       name: White Walker 
-      spawn_chance: 0.0444
+      spawn_chance: 0.1
       amount: 2
       maximum_light_level: 7
       equipment:
@@ -169,15 +189,17 @@ monster:
      type: IRON_GOLEM
      name: Power Golem
      on_hit_message: ATTACK MODE ACTIVATED!
-     spawn_chance: 0.1
+     spawn_chance: 0.05
+     maximum_light_level: 7
      drops:
       pistonwithstickyoil:
        material: PISTON_STICKY_BASE
        amount: 2
+       chance: 1
       DasRekker:
-       material: WOOD_SWORD 
+       material: GOLD_SWORD
        amount: 1
-       chance: 0.1
+       chance: 0.75
        lore: Das Rekker Wood Sword
        enchants:
         FA2:
@@ -192,7 +214,7 @@ monster:
        level: 4
       Fast4:
        type: SPEED
-       level: 4
+       level: 6
      on_hit_debuffs:
       Confused:
        type: CONFUSION
