@@ -18,11 +18,11 @@ daytime_modifier:
        - GLOBAL
 
 monster:
- plainssection:
+ forestsection:
   updatetime: 15s
   areas:
     biomes:
-     - PLAINS
+     - FOREST
      - BEACH
   mobconfig:
    zombies:
@@ -108,7 +108,7 @@ monster:
      type: ZOMBIE
      name: §kFive §4Running §4Ghoul §kFive 
      on_hit_message: Snarl
-     spawn_chance: 0.1
+     spawn_chance: 0.2
      drops:
       Flesh:
        material: ROTTEN_FLESH
@@ -121,7 +121,7 @@ monster:
        enchants:
         KB1:
          enchant: KNOCKBACK
-         level: 1
+         level: 3
      equipment:
       BluntHotRod:
        material: BLAZE_ROD
@@ -181,6 +181,8 @@ monster:
       - LEAVES_2
       - GRAVEL
       - SAND
+      - BEDROCK
+      - OBSIDIAN
      blocks_to_spawn_in:
       - AIR
       - STATIONARY_LAVA
@@ -235,6 +237,8 @@ monster:
        duration: 10s
      blocks_to_spawn_on:
       - STONE
+      - BEDROCK
+      - OBSIDIAN
       - DIRT
       - GRASS
       - STATIONARY_LAVA
@@ -251,6 +255,79 @@ monster:
      health: 100
      despawn_on_chunk_unload: true
      y_spawn_range: 16
+   lorax:
+     type: SKELETON
+     spawn_chance: 0.15
+     identifier: lorax
+     name: §aDryad
+     despawn_on_chunk_unload: false
+     maximum_light_level: 7
+     drops:
+      ironwoodshirt:
+       material: CHAINMAIL_CHESTPLATE 
+       amount: 1
+       lore: Deep roots
+       enchants:
+        ub2:
+         enchant: UNBREAKING
+         level: 2
+    equipment:
+     boomtree:
+      material: SAPLING
+      enchants:
+       KB8:
+        enchant: KNOCKBACK
+        level: 1
+       S2:
+        enchant: DAMAGE_ALL
+        level: 4
+     chainmail:
+      material: CHAINMAIL_CHESTPLATE
+      enchants:
+       Prot451:
+        enchant: PROTECTION_FIRE
+        level: 50
+     fireBoots:
+      material: LEATHER_BOOTS
+      enchants:
+       FeatherFall4:
+        enchant: PROTECTION_FALL
+        level: 4
+       Prot451:
+        enchant: PROTECTION_FIRE
+        level: 1
+     buffs:
+       fireres:
+              type: FIRE_RESISTANCE
+              level: 1
+       res:
+              type: RESISTANCE
+              level: 1
+       fast:
+              type: SPEED
+              level: 1
+       CantDrown:
+              type: WATER_BREATHING
+              level: 2
+     on_hit_debuffs:
+       burningtouch:
+              type: WEAKNESS
+              level: 2
+              duration: 2s
+              chance: 1
+     on_hit_message: Stay away from the trees
+     deathmessage: For the trees have no tongues 
+     blocks_to_spawn_on:
+        - BEDROCK
+        - OBSIDIAN
+        - GRASS
+        - DIRT
+        - STONE
+     blocks_to_spawn_in:
+        - AIR
+        - STATIONARY_LAVA
+        - STATIONARY_WATER 
+     health: 100
  riversection:
   updatetime: 10s
   areas:
@@ -275,7 +352,6 @@ monster:
      identifier: firewatchskelly
      type: SKELETON
      name: §kFive §4RabidFireWatch §kFive 
-     on_hit_message: YOU KILLED MY BIRCH. YOU BETTER RUN
      spawn_chance: 0.1
      drops:
       PowBone:
@@ -349,6 +425,8 @@ monster:
       - GRASS
       - STATIONARY_LAVA
       - STATIONARY_WATER 
+      - OBSIDIAN
+      - BEDROCK
      blocks_to_spawn_in:
       - AIR
       - STATIONARY_LAVA
@@ -356,3 +434,4 @@ monster:
      health: 320
      despawn_on_chunk_unload: true
      y_spawn_range: 16
+
