@@ -8,7 +8,6 @@ weathermachines:
     areas:
       biomes:
        - ROOFED_FOREST
-       - MEGA_SPRUCE_TAIGA
        - ICE_PLAINS
   lake:
     rain_chance: 0.8
@@ -181,7 +180,6 @@ monster:
   areas:
     biomes:
      - ROOFED_FOREST
-     - MEGA_SPRUCE_TAIGA
      - ICE_PLAINS
   mobconfig:
     OPirongolem:
