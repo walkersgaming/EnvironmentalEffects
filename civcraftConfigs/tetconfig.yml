@@ -16,7 +16,7 @@ weathermachines:
     areas:
       biomes:
        - JUNGLE
-       - BEACH
+       - BEACHES
   volcano:
     rain_chance: 0.0
     minimum_rain_duration: 1d
@@ -37,7 +37,7 @@ monster:
   areas:
     biomes:
      - JUNGLE
-     - BEACH
+     - BEACHES
   mobconfig:
     zombies:
       type: ZOMBIE
