@@ -271,31 +271,31 @@ monster:
         ub2:
          enchant: UNBREAKING
          level: 2
-    equipment:
-     boomtree:
-      material: SAPLING
-      enchants:
-       KB8:
-        enchant: KNOCKBACK
-        level: 1
-       S2:
-        enchant: DAMAGE_ALL
-        level: 4
-     chainmail:
-      material: CHAINMAIL_CHESTPLATE
-      enchants:
-       Prot451:
-        enchant: PROTECTION_FIRE
-        level: 50
-     fireBoots:
-      material: LEATHER_BOOTS
-      enchants:
-       FeatherFall4:
-        enchant: PROTECTION_FALL
-        level: 4
-       Prot451:
-        enchant: PROTECTION_FIRE
-        level: 1
+     equipment:
+       boomtree:
+        material: SAPLING
+        enchants:
+         KB8:
+          enchant: KNOCKBACK
+          level: 1
+         S2:
+          enchant: DAMAGE_ALL
+          level: 4
+       chainmail:
+        material: CHAINMAIL_CHESTPLATE
+        enchants:
+         Prot451:
+          enchant: PROTECTION_FIRE
+          level: 50
+       fireBoots:
+        material: LEATHER_BOOTS
+        enchants:
+         FeatherFall4:
+          enchant: PROTECTION_FALL
+          level: 4
+         Prot451:
+          enchant: PROTECTION_FIRE
+          level: 1
      buffs:
        fireres:
               type: FIRE_RESISTANCE
