@@ -23,7 +23,7 @@ monster:
   areas:
     biomes:
      - FOREST
-     - BEACH
+     - BEACHES
   mobconfig:
    zombies:
      type: ZOMBIE
