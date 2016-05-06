@@ -8,7 +8,7 @@ weathermachines:
     areas:
       biomes:
        - ROOFED_FOREST
-       - ICE_PLAINS
+       - ICE_FLATS
   lake:
     rain_chance: 0.8
     minimum_rain_duration: 6h
@@ -30,8 +30,7 @@ monster:
   areas:
     biomes:
      - ROOFED_FOREST
-     - MEGA_SPRUCE_TAIGA
-     - ICE_PLAINS
+     - ICE_FLATS
   mobconfig:
    whitewalkers:
       type: ZOMBIE
@@ -180,7 +179,7 @@ monster:
   areas:
     biomes:
      - ROOFED_FOREST
-     - ICE_PLAINS
+     - ICE_FLATS
   mobconfig:
     OPirongolem:
      identifier: PowerGolem
