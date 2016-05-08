@@ -108,7 +108,7 @@ monster:
      type: ZOMBIE
      name: §kFive §4Running §4Ghoul §kFive 
      on_hit_message: Snarl
-     spawn_chance: 0.2
+     spawn_chance: 0.0333
      drops:
       Flesh:
        material: ROTTEN_FLESH
@@ -165,12 +165,7 @@ monster:
        level: 2
       Fast1:
        type: SPEED
-       level: 4
-     on_hit_debuffs:
-      blinded:
-       type: BLINDNESS
-       level: 2
-       duration: 10s
+       level: 1
      blocks_to_spawn_on:
       - STONE
       - DIRT
@@ -187,7 +182,7 @@ monster:
       - AIR
       - STATIONARY_LAVA
       - STATIONARY_WATER 
-     health: 100
+     health: 20
      despawn_on_chunk_unload: true
      y_spawn_range: 16
    treespider:
@@ -257,7 +252,7 @@ monster:
      y_spawn_range: 16
    lorax:
      type: SKELETON
-     spawn_chance: 0.15
+     spawn_chance: 0.0333
      identifier: lorax
      name: §aDryad
      despawn_on_chunk_unload: false
