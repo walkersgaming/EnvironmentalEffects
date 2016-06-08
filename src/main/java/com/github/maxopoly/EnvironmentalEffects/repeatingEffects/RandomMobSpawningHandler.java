@@ -1,4 +1,4 @@
-package com.github.maxopoly.repeatingEffects;
+package com.github.maxopoly.environmentaleffects.repeatingEffects;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -20,14 +20,14 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import com.github.maxopoly.Effect;
-import com.github.maxopoly.EffectManager;
-import com.github.maxopoly.EnvironmentalEffects;
-import com.github.maxopoly.datarepresentations.Area;
-import com.github.maxopoly.datarepresentations.MobConfig;
-import com.github.maxopoly.datarepresentations.MobLureDenier;
-import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
-import com.github.maxopoly.listeners.effects.SpawnerSpawnModifier;
+import com.github.maxopoly.environmentaleffects.Effect;
+import com.github.maxopoly.environmentaleffects.EffectManager;
+import com.github.maxopoly.environmentaleffects.EnvironmentalEffects;
+import com.github.maxopoly.environmentaleffects.datarepresentations.Area;
+import com.github.maxopoly.environmentaleffects.datarepresentations.MobConfig;
+import com.github.maxopoly.environmentaleffects.datarepresentations.MobLureDenier;
+import com.github.maxopoly.environmentaleffects.datarepresentations.PlayerEnvironmentState;
+import com.github.maxopoly.environmentaleffects.listeners.effects.SpawnerSpawnModifier;
 
 /**
  * Manages the spawning of completly configurable mobs. All of the mobs are kept

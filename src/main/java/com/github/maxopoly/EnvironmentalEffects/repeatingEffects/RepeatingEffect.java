@@ -1,12 +1,12 @@
-package com.github.maxopoly.repeatingEffects;
+package com.github.maxopoly.environmentaleffects.repeatingEffects;
 
 import java.util.LinkedList;
 
 import org.bukkit.entity.Player;
 
-import com.github.maxopoly.Effect;
-import com.github.maxopoly.datarepresentations.Area;
-import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
+import com.github.maxopoly.environmentaleffects.Effect;
+import com.github.maxopoly.environmentaleffects.datarepresentations.Area;
+import com.github.maxopoly.environmentaleffects.datarepresentations.PlayerEnvironmentState;
 
 /**
  * Pretty much every effect caused by this plugin repeats in some sort of way,

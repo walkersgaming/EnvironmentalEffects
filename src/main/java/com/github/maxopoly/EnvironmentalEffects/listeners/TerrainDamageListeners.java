@@ -1,4 +1,4 @@
-package com.github.maxopoly.listeners;
+package com.github.maxopoly.environmentaleffects.listeners;
 
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;

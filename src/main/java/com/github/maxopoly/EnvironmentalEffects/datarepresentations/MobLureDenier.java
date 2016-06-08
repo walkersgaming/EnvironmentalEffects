@@ -1,4 +1,4 @@
-package com.github.maxopoly.datarepresentations;
+package com.github.maxopoly.environmentaleffects.datarepresentations;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
-import com.github.maxopoly.EnvironmentalEffects;
+import com.github.maxopoly.environmentaleffects.EnvironmentalEffects;
 
 public class MobLureDenier implements Runnable {
 	private int lureRange;

@@ -1,12 +1,12 @@
-package com.github.maxopoly.repeatingEffects;
+package com.github.maxopoly.environmentaleffects.repeatingEffects;
 
 import java.util.LinkedList;
 
 import org.bukkit.entity.Player;
 
-import com.github.maxopoly.datarepresentations.Area;
-import com.github.maxopoly.datarepresentations.ArmourState;
-import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
+import com.github.maxopoly.environmentaleffects.datarepresentations.Area;
+import com.github.maxopoly.environmentaleffects.datarepresentations.ArmourState;
+import com.github.maxopoly.environmentaleffects.datarepresentations.PlayerEnvironmentState;
 
 public class ArmourBasedDamage extends RepeatingEffect {
 	ArmourState as;

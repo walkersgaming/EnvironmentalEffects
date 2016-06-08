@@ -1,4 +1,4 @@
-package com.github.maxopoly.repeatingEffects;
+package com.github.maxopoly.environmentaleffects.repeatingEffects;
 
 import java.util.LinkedList;
 
@@ -7,8 +7,8 @@ import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.github.maxopoly.datarepresentations.Area;
-import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
+import com.github.maxopoly.environmentaleffects.datarepresentations.Area;
+import com.github.maxopoly.environmentaleffects.datarepresentations.PlayerEnvironmentState;
 
 /**
  * Spawns fireballs randomly around players. Be careful when using this without

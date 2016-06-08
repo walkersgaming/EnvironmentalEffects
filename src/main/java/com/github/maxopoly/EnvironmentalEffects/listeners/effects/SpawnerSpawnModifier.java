@@ -1,4 +1,4 @@
-package com.github.maxopoly.listeners.effects;
+package com.github.maxopoly.environmentaleffects.listeners.effects;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,10 +11,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.SpawnerSpawnEvent;
 
-import com.github.maxopoly.Effect;
-import com.github.maxopoly.datarepresentations.Area;
-import com.github.maxopoly.datarepresentations.MobConfig;
-import com.github.maxopoly.repeatingEffects.RandomMobSpawningHandler;
+import com.github.maxopoly.environmentaleffects.Effect;
+import com.github.maxopoly.environmentaleffects.datarepresentations.Area;
+import com.github.maxopoly.environmentaleffects.datarepresentations.MobConfig;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.RandomMobSpawningHandler;
 
 public class SpawnerSpawnModifier extends Effect implements Listener {
 	HashMap<EntityType, MobConfig> spawnerConfig;

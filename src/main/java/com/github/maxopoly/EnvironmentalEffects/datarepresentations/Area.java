@@ -1,4 +1,4 @@
-package com.github.maxopoly.datarepresentations;
+package com.github.maxopoly.environmentaleffects.datarepresentations;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -7,7 +7,7 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.Biome;
 
-import com.github.maxopoly.exceptions.ConfigParseException;
+import com.github.maxopoly.environmentaleffects.exceptions.ConfigParseException;
 
 /**
  * Used to describe an area for an effect, does not take y-level into account.

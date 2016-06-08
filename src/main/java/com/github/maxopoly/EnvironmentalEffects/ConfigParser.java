@@ -1,4 +1,4 @@
-package com.github.maxopoly;
+package com.github.maxopoly.environmentaleffects;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -17,25 +17,25 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.github.maxopoly.datarepresentations.Area;
-import com.github.maxopoly.datarepresentations.ArmourState;
-import com.github.maxopoly.datarepresentations.ArmourState.ArmourType;
-import com.github.maxopoly.datarepresentations.MobConfig;
-import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
-import com.github.maxopoly.datarepresentations.Area.Shape;
-import com.github.maxopoly.exceptions.ConfigParseException;
-import com.github.maxopoly.listeners.effects.SpawnerSpawnModifier;
-import com.github.maxopoly.listeners.effects.TerrainRestriction;
-import com.github.maxopoly.repeatingEffects.ArmourBasedDamage;
-import com.github.maxopoly.repeatingEffects.DaytimeModifier;
-import com.github.maxopoly.repeatingEffects.DispenserBuff;
-import com.github.maxopoly.repeatingEffects.FireBallRain;
-import com.github.maxopoly.repeatingEffects.LightningControl;
-import com.github.maxopoly.repeatingEffects.RandomMobSpawningHandler;
-import com.github.maxopoly.repeatingEffects.PotionBuff;
-import com.github.maxopoly.repeatingEffects.ReinforcementDecay;
-import com.github.maxopoly.repeatingEffects.TitleDisplayer;
-import com.github.maxopoly.repeatingEffects.WeatherMachine;
+import com.github.maxopoly.environmentaleffects.datarepresentations.Area;
+import com.github.maxopoly.environmentaleffects.datarepresentations.ArmourState;
+import com.github.maxopoly.environmentaleffects.datarepresentations.MobConfig;
+import com.github.maxopoly.environmentaleffects.datarepresentations.PlayerEnvironmentState;
+import com.github.maxopoly.environmentaleffects.datarepresentations.Area.Shape;
+import com.github.maxopoly.environmentaleffects.datarepresentations.ArmourState.ArmourType;
+import com.github.maxopoly.environmentaleffects.exceptions.ConfigParseException;
+import com.github.maxopoly.environmentaleffects.listeners.effects.SpawnerSpawnModifier;
+import com.github.maxopoly.environmentaleffects.listeners.effects.TerrainRestriction;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.ArmourBasedDamage;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.DaytimeModifier;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.DispenserBuff;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.FireBallRain;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.LightningControl;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.PotionBuff;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.RandomMobSpawningHandler;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.ReinforcementDecay;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.TitleDisplayer;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.WeatherMachine;
 
 import static vg.civcraft.mc.civmodcore.util.ConfigParsing.parseTime;
 

@@ -1,16 +1,16 @@
-package com.github.maxopoly;
+package com.github.maxopoly.environmentaleffects;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.maxopoly.commands.CommandHandler;
-import com.github.maxopoly.exceptions.ConfigParseException;
-import com.github.maxopoly.listeners.MobListeners;
-import com.github.maxopoly.listeners.SyncPlayersWithInternalValues;
-import com.github.maxopoly.listeners.TerrainDamageListeners;
-import com.github.maxopoly.repeatingEffects.RandomMobSpawningHandler;
+import com.github.maxopoly.environmentaleffects.commands.CommandHandler;
+import com.github.maxopoly.environmentaleffects.exceptions.ConfigParseException;
+import com.github.maxopoly.environmentaleffects.listeners.MobListeners;
+import com.github.maxopoly.environmentaleffects.listeners.SyncPlayersWithInternalValues;
+import com.github.maxopoly.environmentaleffects.listeners.TerrainDamageListeners;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.RandomMobSpawningHandler;
 
 public class EnvironmentalEffects extends JavaPlugin {
 	private static JavaPlugin plugin;

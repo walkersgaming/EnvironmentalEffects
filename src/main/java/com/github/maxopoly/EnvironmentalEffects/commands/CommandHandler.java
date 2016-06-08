@@ -1,4 +1,4 @@
-package com.github.maxopoly.commands;
+package com.github.maxopoly.environmentaleffects.commands;
 
 import java.util.Arrays;
 import java.util.HashMap;

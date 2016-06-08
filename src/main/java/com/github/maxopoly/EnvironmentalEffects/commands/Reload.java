@@ -1,11 +1,11 @@
-package com.github.maxopoly.commands;
+package com.github.maxopoly.environmentaleffects.commands;
 
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.maxopoly.EnvironmentalEffects;
+import com.github.maxopoly.environmentaleffects.EnvironmentalEffects;
 
 public class Reload extends AbstractCommand {
 	public Reload(JavaPlugin plugin) {

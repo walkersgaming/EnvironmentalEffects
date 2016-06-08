@@ -1,4 +1,4 @@
-package com.github.maxopoly.listeners;
+package com.github.maxopoly.environmentaleffects.listeners;
 
 import java.util.LinkedList;
 
@@ -9,12 +9,12 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
-import com.github.maxopoly.Effect;
-import com.github.maxopoly.EffectManager;
-import com.github.maxopoly.repeatingEffects.DaytimeModifier;
-import com.github.maxopoly.repeatingEffects.PotionBuff;
-import com.github.maxopoly.repeatingEffects.TitleDisplayer;
-import com.github.maxopoly.repeatingEffects.WeatherMachine;
+import com.github.maxopoly.environmentaleffects.Effect;
+import com.github.maxopoly.environmentaleffects.EffectManager;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.DaytimeModifier;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.PotionBuff;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.TitleDisplayer;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.WeatherMachine;
 
 public class SyncPlayersWithInternalValues implements Listener {
 	EffectManager manager;

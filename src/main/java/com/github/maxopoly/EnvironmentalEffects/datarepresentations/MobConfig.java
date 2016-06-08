@@ -1,4 +1,4 @@
-package com.github.maxopoly.datarepresentations;
+package com.github.maxopoly.environmentaleffects.datarepresentations;
 
 import java.util.HashMap;
 import java.util.LinkedList;

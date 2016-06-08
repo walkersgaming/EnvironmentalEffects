@@ -1,4 +1,4 @@
-package com.github.maxopoly.exceptions;
+package com.github.maxopoly.environmentaleffects.exceptions;
 
 public class ConfigParseException extends Exception {
 

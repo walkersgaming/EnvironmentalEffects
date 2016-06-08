@@ -1,4 +1,4 @@
-package com.github.maxopoly;
+package com.github.maxopoly.environmentaleffects;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -7,8 +7,8 @@ import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import com.github.maxopoly.datarepresentations.Area;
-import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
+import com.github.maxopoly.environmentaleffects.datarepresentations.Area;
+import com.github.maxopoly.environmentaleffects.datarepresentations.PlayerEnvironmentState;
 
 /**
  * Superclass for any sort of effect created by this plugin

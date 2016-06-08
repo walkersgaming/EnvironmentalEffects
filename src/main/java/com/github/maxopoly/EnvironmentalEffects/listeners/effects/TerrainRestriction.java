@@ -1,4 +1,4 @@
-package com.github.maxopoly.listeners.effects;
+package com.github.maxopoly.environmentaleffects.listeners.effects;
 
 import java.util.LinkedList;
 
@@ -12,9 +12,9 @@ import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-import com.github.maxopoly.Effect;
-import com.github.maxopoly.datarepresentations.Area;
-import com.github.maxopoly.datarepresentations.PlayerEnvironmentState;
+import com.github.maxopoly.environmentaleffects.Effect;
+import com.github.maxopoly.environmentaleffects.datarepresentations.Area;
+import com.github.maxopoly.environmentaleffects.datarepresentations.PlayerEnvironmentState;
 
 public class TerrainRestriction extends Effect implements Listener {
 	private boolean preventPlacement;

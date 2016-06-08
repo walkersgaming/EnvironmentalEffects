@@ -1,4 +1,4 @@
-package com.github.maxopoly.datarepresentations;
+package com.github.maxopoly.environmentaleffects.datarepresentations;
 
 import org.bukkit.WeatherType;
 import org.bukkit.entity.Player;

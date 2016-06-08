@@ -1,4 +1,4 @@
-package com.github.maxopoly.repeatingEffects;
+package com.github.maxopoly.environmentaleffects.repeatingEffects;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -7,7 +7,7 @@ import java.util.Map;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
-import com.github.maxopoly.datarepresentations.Area;
+import com.github.maxopoly.environmentaleffects.datarepresentations.Area;
 
 public class DispenserBuff extends RepeatingEffect {
 	private HashMap<PotionEffect, Double> onHitDebuffs;

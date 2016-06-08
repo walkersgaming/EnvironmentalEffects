@@ -1,4 +1,4 @@
-package com.github.maxopoly.commands;
+package com.github.maxopoly.environmentaleffects.commands;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -6,12 +6,12 @@ import java.util.List;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.maxopoly.datarepresentations.Area;
-import com.github.maxopoly.datarepresentations.Area.Shape;
-import com.github.maxopoly.exceptions.ConfigParseException;
-import com.github.maxopoly.repeatingEffects.FireBallRain;
-import com.github.maxopoly.repeatingEffects.LightningControl;
-import com.github.maxopoly.repeatingEffects.WeatherMachine;
+import com.github.maxopoly.environmentaleffects.datarepresentations.Area;
+import com.github.maxopoly.environmentaleffects.datarepresentations.Area.Shape;
+import com.github.maxopoly.environmentaleffects.exceptions.ConfigParseException;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.FireBallRain;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.LightningControl;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.WeatherMachine;
 
 /**
  * Joke command, which disables any previous effects and enables permanent rain,

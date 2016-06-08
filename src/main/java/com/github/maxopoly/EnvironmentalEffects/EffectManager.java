@@ -1,4 +1,4 @@
-package com.github.maxopoly;
+package com.github.maxopoly.environmentaleffects;
 
 import java.util.HashSet;
 import java.util.LinkedList;

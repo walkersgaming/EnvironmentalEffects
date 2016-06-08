@@ -1,4 +1,4 @@
-package com.github.maxopoly.repeatingEffects;
+package com.github.maxopoly.environmentaleffects.repeatingEffects;
 
 import java.util.LinkedList;
 
@@ -6,7 +6,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.maxopoly.datarepresentations.Area;
+import com.github.maxopoly.environmentaleffects.datarepresentations.Area;
 
 /**
  * Allows to change the length of ingame days and nights or to set the time to a

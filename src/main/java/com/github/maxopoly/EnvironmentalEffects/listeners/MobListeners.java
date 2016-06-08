@@ -1,4 +1,4 @@
-package com.github.maxopoly.listeners;
+package com.github.maxopoly.environmentaleffects.listeners;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -27,10 +27,10 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.projectiles.BlockProjectileSource;
 import org.bukkit.projectiles.ProjectileSource;
 
-import com.github.maxopoly.EnvironmentalEffects;
-import com.github.maxopoly.datarepresentations.MobConfig;
-import com.github.maxopoly.repeatingEffects.DispenserBuff;
-import com.github.maxopoly.repeatingEffects.RandomMobSpawningHandler;
+import com.github.maxopoly.environmentaleffects.EnvironmentalEffects;
+import com.github.maxopoly.environmentaleffects.datarepresentations.MobConfig;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.DispenserBuff;
+import com.github.maxopoly.environmentaleffects.repeatingEffects.RandomMobSpawningHandler;
 
 public class MobListeners implements Listener {
 	private Random rng;

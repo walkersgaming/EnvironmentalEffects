@@ -1,4 +1,4 @@
-package com.github.maxopoly.repeatingEffects;
+package com.github.maxopoly.environmentaleffects.repeatingEffects;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
 
-import com.github.maxopoly.datarepresentations.Area;
+import com.github.maxopoly.environmentaleffects.datarepresentations.Area;
 
 import vg.civcraft.mc.citadel.Citadel;
 import vg.civcraft.mc.citadel.ReinforcementManager;
