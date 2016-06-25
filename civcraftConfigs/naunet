@@ -1,0 +1,84 @@
+worldname: Naunet
+firespread_disabled: true
+cancel_natural_spawns: true
+
+weathermachines:
+  global:
+    rain_chance: 0.5
+    minimum_rain_duration: 2h
+    areas:
+      biomes:
+       - GLOBAL
+daytime_modifier:
+  global:
+    dayspeed: 0.33
+    starting_time: 0
+    areas:
+      biomes:
+       - GLOBAL
+
+monster:
+ ocean:
+  updatetime: 15s
+  areas:
+    biomes:
+     - OCEAN
+     - DEEP_OCEAN
+     - BEACH
+  mobconfig:
+   squids:
+     type: SQUID
+     spawn_chance: 0.4
+     identifier: squid
+     blocks_to_spawn_in:
+      -WATER
+      -STATIONARY_WATER
+    guardians:
+     type: GUARDIAN
+     spawn_chance: 0.4
+     identifier: guardian
+     blocks_to_spawn_in:
+      -WATER
+      -STATIONARY_WATER
+    squids:
+     type: SQUID
+     spawn_chance: 0.4
+     identifier: squid
+     blocks_to_spawn_in:
+      -WATER
+      -STATIONARY_WATER
+    spiders:
+      type: SPIDER
+      spawn_chance: 0.0666      
+      identifier: spider
+      maximum_light_level: 7
+    cavespiders:
+      type: CAVE_SPIDER
+      spawn_chance: 0.0666
+      identifier: cavespider
+      maximum_light_level: 7
+    creepers:
+      type: CREEPER 
+      spawn_chance: 0.0666
+      identifier: creeper
+      maximum_light_level: 7
+    skeletons:
+      type: SKELETON 
+      spawn_chance: 0.0666
+      identifier: skeletons
+      maximum_light_level: 7
+    zombies:
+      type: ZOMBIE 
+      spawn_chance: 0.0666
+      identifier: zombies
+      maximum_light_level: 7
+    witches:
+      type: WITCH 
+      spawn_chance: 0.0666
+      identifier: witches
+      maximum_light_level: 7
+    silverfish:
+      type: SILVERFISH 
+      spawn_chance: 0.0666
+      identifier: silverfish
+      maximum_light_level: 7
