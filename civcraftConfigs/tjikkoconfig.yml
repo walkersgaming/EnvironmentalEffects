@@ -1,0 +1,103 @@
+worldname: Tjikko
+firespread_disabled: true
+cancel_natural_spawns: true
+
+weathermachines:
+  global:
+    rain_chance: 0.5
+    minimum_rain_duration: 3h
+    areas:
+      biomes:
+       - GLOBAL
+daytime_modifier:
+  global:
+    dayspeed: 0.33
+    starting_time: 0
+    areas:
+      biomes:
+       - GLOBAL
+
+monster:
+ forest:
+  updatetime: 15s
+  areas:
+    biomes:
+     - RIVER
+     - FROZEN_RIVER
+     - REDWOOD_TAIGA
+     - TAIGA_COLD
+     - TAIGA_COLD_HILLS
+     - TAIGA
+  mobconfig:
+   spiders:
+     type: SPIDER 
+     spawn_chance: 0.0222
+     identifier: spiders
+     maximum_light_level: 7
+   creepers:
+     type: CREEPER 
+     spawn_chance: 0.0222
+     identifier: creepers
+     maximum_light_level: 7
+   skeletons:
+     type: SKELETON
+     spawn_chance: 0.0222
+     identifier: skeleton
+     maximum_light_level: 7
+   zombies:
+     type: ZOMBIE
+     spawn_chance: 0.0222
+     identifier: zombie
+     maximum_light_level: 7
+   endermen:
+     type: ENDERMAN
+     spawn_chance: 0.0222
+     identifier: endermen
+     maximum_light_level: 7
+   chicken:
+     type: CHICKEN
+     spawn_chance: 0.03
+     identifier: chicken
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+      - SNOW
+      - SNOW_LAYER
+   cow:
+     type: COW
+     spawn_chance: 0.03
+     identifier: cow
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+      - SNOW
+      - SNOW_LAYER
+   sheep:
+     type: SHEEP
+     spawn_chance: 0.03
+     identifier: sheep
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+      - SNOW
+      - SNOW_LAYER    
+   wolf:
+     type: WOLF
+     spawn_chance: 0.07
+     identifier: wolf
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+      - SNOW
+      - SNOW_LAYER   
+   bat:
+     type: BAT
+     spawn_chance: 0.03
+     identifier: bat
+     maximum_light_level: 7
+     blocks_to_spawn_on:
+      - STONE
