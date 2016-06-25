@@ -28,7 +28,7 @@ monster:
      - MESA
   mobconfig:
    spiders:
-     type: SPIDER 
+     type: SPIDER
      spawn_chance: 0.0444
      identifier: spiders
      maximum_light_level: 7
@@ -46,6 +46,11 @@ monster:
      type: WITCH
      spawn_chance: 0.0444
      identifier: witches
+     maximum_light_level: 7
+   endermen:
+     type: ENDERMAN
+     spawn_chance: 0.0222
+     identifier: endermen
      maximum_light_level: 7
    sheep:
      type: SHEEP
