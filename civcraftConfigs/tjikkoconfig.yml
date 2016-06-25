@@ -63,7 +63,7 @@ monster:
       - DIRT
       - GRASS
       - SNOW
-      - SNOW_LAYER
+      - SNOW_BLOCK
    cow:
      type: COW
      spawn_chance: 0.03
@@ -73,7 +73,7 @@ monster:
       - DIRT
       - GRASS
       - SNOW
-      - SNOW_LAYER
+      - SNOW_BLOCK
    sheep:
      type: SHEEP
      spawn_chance: 0.03
@@ -83,7 +83,7 @@ monster:
       - DIRT
       - GRASS
       - SNOW
-      - SNOW_LAYER    
+      - SNOW_BLOCK    
    wolf:
      type: WOLF
      spawn_chance: 0.07
@@ -93,7 +93,7 @@ monster:
       - DIRT
       - GRASS
       - SNOW
-      - SNOW_LAYER   
+      - SNOW_BLOCK
    bat:
      type: BAT
      spawn_chance: 0.03
