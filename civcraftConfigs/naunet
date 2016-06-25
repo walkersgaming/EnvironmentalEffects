@@ -24,26 +24,19 @@ monster:
     biomes:
      - OCEAN
      - DEEP_OCEAN
-     - BEACH
+     - BEACHES
   mobconfig:
    squids:
      type: SQUID
-     spawn_chance: 0.4
+     spawn_chance: 0.07
      identifier: squid
      blocks_to_spawn_in:
       -WATER
       -STATIONARY_WATER
     guardians:
      type: GUARDIAN
-     spawn_chance: 0.4
+     spawn_chance: 0.07
      identifier: guardian
-     blocks_to_spawn_in:
-      -WATER
-      -STATIONARY_WATER
-    squids:
-     type: SQUID
-     spawn_chance: 0.4
-     identifier: squid
      blocks_to_spawn_in:
       -WATER
       -STATIONARY_WATER
@@ -79,6 +72,6 @@ monster:
       maximum_light_level: 7
     silverfish:
       type: SILVERFISH 
-      spawn_chance: 0.0666
+      spawn_chance: 0.0222
       identifier: silverfish
       maximum_light_level: 7
