@@ -1,0 +1,105 @@
+worldname: Eilon
+firespread_disabled: true
+cancel_natural_spawns: true
+
+weathermachines:
+  global:
+    rain_chance: 0.5
+    minimum_rain_duration: 3h
+    areas:
+      biomes:
+       - GLOBAL
+daytime_modifier:
+  global:
+    dayspeed: 0.33
+    starting_time: 0
+    areas:
+      biomes:
+       - GLOBAL
+
+monster:
+ forest:
+  updatetime: 15s
+  areas:
+    biomes:
+     - FOREST
+     - MUTATED_FOREST
+  mobconfig:
+   spiders:
+     type: SPIDER 
+     spawn_chance: 0.0222
+     identifier: spiders
+     maximum_light_level: 7
+   cavespiders:
+     type: CAVE_SPIDER 
+     spawn_chance: 0.0222
+     identifier: cavespiders
+     maximum_light_level: 7
+   creepers:
+     type: CREEPER 
+     spawn_chance: 0.0222
+     identifier: creepers
+     maximum_light_level: 7
+   skeletons:
+     type: SKELETON
+     spawn_chance: 0.0222
+     identifier: skeleton
+     maximum_light_level: 7
+   zombies:
+     type: ZOMBIE
+     spawn_chance: 0.0222
+     identifier: zombie
+     maximum_light_level: 7
+   chicken:
+     type: CHICKEN
+     spawn_chance: 0.05
+     identifier: chicken
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+   pig:
+     type: PIG
+     spawn_chance: 0.03
+     identifier: pig
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS 
+   rabbit:
+     type: RABBIT
+     spawn_chance: 0.07
+     identifier: rabbit
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS   
+   sheep:
+     type: SHEEP
+     spawn_chance: 0.03
+     identifier: sheep
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+   bat:
+     type: BAT
+     spawn_chance: 0.03
+     identifier: bat
+     maximum_light_level: 7
+     blocks_to_spawn_on:
+      - STONE
+monster:
+ river:
+  updatetime: 15s
+  areas:
+    biomes:
+     - RIVER
+  mobconfig:
+   squids:
+     type: SQUID
+     spawn_chance: 0.01
+     identifier: squid
+     blocks_to_spawn_in:
+      -WATER
+      -STATIONARY_WATER
