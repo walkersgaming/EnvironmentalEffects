@@ -1,0 +1,64 @@
+worldname: Abydos
+firespread_disabled: true
+cancel_natural_spawns: true
+
+weathermachines:
+  global:
+    rain_chance: 0.5
+    minimum_rain_duration: 3h
+    areas:
+      biomes:
+       - GLOBAL
+daytime_modifier:
+  global:
+    dayspeed: 0.33
+    starting_time: 0
+    areas:
+      biomes:
+       - GLOBAL
+
+monster:
+ normalselection:
+  updatetime: 15s
+  areas:
+    biomes:
+     - DESERT
+     - RIVER
+     - DESERT_HILLS
+     - MESA
+  mobconfig:
+   spiders:
+     type: SPIDER 
+     spawn_chance: 0.0444
+     identifier: spiders
+     maximum_light_level: 7
+   creepers:
+     type: CREEPER 
+     spawn_chance: 0.0444
+     identifier: creepers
+     maximum_light_level: 7
+   skeletons:
+     type: SKELETON
+     spawn_chance: 0.0444
+     identifier: skeleton
+     maximum_light_level: 7
+   witches:
+     type: WITCH
+     spawn_chance: 0.0444
+     identifier: witches
+     maximum_light_level: 7
+   sheep:
+     type: SHEEP
+     spawn_chance: 0.03
+     identifier: sheep
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+   bat:
+     type: BAT
+     spawn_chance: 0.03
+     identifier: bat
+     maximum_light_level: 7
+     blocks_to_spawn_on:
+      - STONE
