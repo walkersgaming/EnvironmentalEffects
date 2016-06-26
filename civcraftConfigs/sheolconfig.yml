@@ -1,0 +1,53 @@
+worldname: Sheol
+firespread_disabled: true
+cancel_natural_spawns: true
+
+weathermachines:
+  global:
+    rain_chance: 0.0
+    minimum_rain_duration: 0h
+    areas:
+      biomes:
+       - GLOBAL
+daytime_modifier:
+  global:
+    dayspeed: 0.33
+    starting_time: 0
+    areas:
+      biomes:
+       - GLOBAL
+monster:
+ forest:
+  updatetime: 15s
+  areas:
+    biomes:
+     - HELL
+  mobconfig:
+   pigzombie:
+     type: PIG_ZOMBIE 
+     spawn_chance: 0.0666
+     identifier: pigzombie
+   blaze:
+     type: BLAZE 
+     spawn_chance: 0.0666
+     identifier: blaze
+   ghast:
+     type: GHAST
+     spawn_chance: 0.0666
+     identifier: ghast
+   magmacube:
+     type: MAGMA_CUBE
+     spawn_chance: 0.0666
+     identifier: magmacube
+   witherskeleton:
+     type: SKELETON
+     spawn_chance: 0.0666
+     identifier: witherskeleton
+     alternative_version: true
+   bat:
+     type: BAT
+     spawn_chance: 0.07
+     identifier: bat
+     maximum_light_level: 7
+     blocks_to_spawn_on:
+      - STONE
