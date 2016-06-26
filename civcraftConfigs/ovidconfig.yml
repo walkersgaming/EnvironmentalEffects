@@ -1,0 +1,41 @@
+worldname: Ovid
+firespread_disabled: true
+cancel_natural_spawns: true
+
+weathermachines:
+  global:
+    rain_chance: 0.0
+    minimum_rain_duration: 0h
+    areas:
+      biomes:
+       - GLOBAL
+daytime_modifier:
+  global:
+    dayspeed: 0.33
+    starting_time: 0
+    areas:
+      biomes:
+       - GLOBAL
+monster:
+ void:
+  updatetime: 15s
+  areas:
+    biomes:
+     - VOID
+  mobconfig:
+   endermen:
+     type: ENDERMAN
+     spawn_chance: 0.0666
+     identifier: endermen
+   endermite:
+     type: ENDERMITE
+     spawn_chance: 0.0666
+     identifier: endermen
+   shulker:
+     type: SHULKER
+     spawn_chance: 0.0666
+     identifier: shulker
+   silverfish:
+     type: SILVERFISH
+     spawn_chance: 0.0222
+     identifier: silverfish
