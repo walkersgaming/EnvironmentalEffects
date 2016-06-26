@@ -32,6 +32,11 @@ monster:
      spawn_chance: 0.0666
      identifier: spiders
      maximum_light_level: 7
+   cavespiders:
+     type: CAVE_SPIDER 
+     spawn_chance: 0.0666
+     identifier: cavespiders
+     maximum_light_level: 7
    creepers:
      type: CREEPER 
      spawn_chance: 0.0666
