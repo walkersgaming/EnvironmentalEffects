@@ -1,0 +1,125 @@
+worldname: Isolde
+firespread_disabled: true
+cancel_natural_spawns: true
+
+weathermachines:
+  global:
+    rain_chance: 0.5
+    minimum_rain_duration: 3h
+    areas:
+      biomes:
+       - GLOBAL
+daytime_modifier:
+  global:
+    dayspeed: 0.33
+    starting_time: 0
+    areas:
+      biomes:
+       - GLOBAL
+monster:
+ forest:
+  updatetime: 15s
+  areas:
+    biomes:
+     - ICE_MOUNTAINS
+     - MUTATED_FOREST
+     - ICE_FLATS
+     - MUTATED_ICE_FLATES
+     - FROZEN_RIVER
+  mobconfig:
+   spiders:
+     type: SPIDER 
+     spawn_chance: 0.0444
+     identifier: spiders
+     maximum_light_level: 7
+   creepers:
+     type: CREEPER 
+     spawn_chance: 0.0444
+     identifier: creepers
+     maximum_light_level: 7
+   skeletons:
+     type: SKELETON
+     spawn_chance: 0.0444
+     identifier: skeleton
+     maximum_light_level: 7
+   zombies:
+     type: ZOMBIE
+     spawn_chance: 0.0444
+     identifier: zombie
+     maximum_light_level: 7
+   witch:
+     type: WITCH
+     spawn_chance: 0.0444
+     identifier: witch
+     maximum_light_level: 7
+   silverfish:
+     type: SILVERFISH
+     spawn_chance: 0.0666
+     identifier: silverfish
+     maximum_light_level: 7
+   enderman:
+     type: ENDERMAN
+     spawn_chance: 0.0222
+     identifier: enderman
+     maximum_light_level: 7
+   chicken:
+     type: CHICKEN
+     spawn_chance: 0.05
+     identifier: chicken
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+      - SNOW
+      - SNOW_BLOCK
+   sheep:
+     type: SHEEP
+     spawn_chance: 0.03
+     identifier: sheep
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+      - SNOW
+      - SNOW_BLOCK
+   horse:
+     type: HORSE
+     spawn_chance: 0.03
+     identifier: horse
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+      - SNOW
+      - SNOW_BLOCK
+   wolf:
+     type: WOLF
+     spawn_chance: 0.07
+     identifier: wolf
+     minimum_light_level: 8
+     blocks_to_spawn_on:
+      - DIRT
+      - GRASS
+      - SNOW
+      - SNOW_BLOCK
+   bat:
+     type: BAT
+     spawn_chance: 0.03
+     identifier: bat
+     maximum_light_level: 7
+     blocks_to_spawn_on:
+      - STONE
+monster:
+ river:
+  updatetime: 15s
+  areas:
+    biomes:
+     - FROZEN_RIVER
+  mobconfig:
+   squids:
+     type: SQUID
+     spawn_chance: 0.01
+     identifier: squid
+     blocks_to_spawn_in:
+      -WATER
+      -STATIONARY_WATER
