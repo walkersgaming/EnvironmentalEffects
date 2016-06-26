@@ -109,17 +109,3 @@ monster:
      maximum_light_level: 7
      blocks_to_spawn_on:
       - STONE
-monster:
- river:
-  updatetime: 15s
-  areas:
-    biomes:
-     - FROZEN_RIVER
-  mobconfig:
-   squids:
-     type: SQUID
-     spawn_chance: 0.01
-     identifier: squid
-     blocks_to_spawn_in:
-      -WATER
-      -STATIONARY_WATER
