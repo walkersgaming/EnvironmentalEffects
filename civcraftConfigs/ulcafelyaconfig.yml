@@ -1,0 +1,82 @@
+worldname: Ulca Felya
+firespread_disabled: true
+cancel_natural_spawns: true
+
+weathermachines:
+  global:
+    rain_chance: 0.5
+    minimum_rain_duration: 3h
+    areas:
+      biomes:
+       - GLOBAL
+daytime_modifier:
+  global:
+    dayspeed: 0.33
+    starting_time: 0
+    areas:
+      biomes:
+       - GLOBAL
+monster:
+ forest:
+  updatetime: 15s
+  areas:
+    biomes:
+     - PENDING
+  mobconfig:
+   spiders:
+     type: SPIDER 
+     spawn_chance: 0.0666
+     identifier: spiders
+     maximum_light_level: 7
+   cavespiders:
+     type: CAVE_SPIDER 
+     spawn_chance: 0.0666
+     identifier: cavespiders
+     maximum_light_level: 7
+   creepers:
+     type: CREEPER 
+     spawn_chance: 0.0666
+     identifier: creepers
+     maximum_light_level: 7
+   skeletons:
+     type: SKELETON
+     spawn_chance: 0.0666
+     identifier: skeleton
+     maximum_light_level: 7
+   zombies:
+     type: ZOMBIE
+     spawn_chance: 0.0666
+     identifier: zombie
+     maximum_light_level: 7
+   witch:
+     type: WITCH
+     spawn_chance: 0.0666
+     identifier: witch
+     maximum_light_level: 7
+   silverfish:
+     type: SILVERFISH
+     spawn_chance: 0.0666
+     identifier: silverfish
+     maximum_light_level: 7
+   enderman:
+     type: ENDERMAN
+     spawn_chance: 0.0444
+     identifier: enderman
+     maximum_light_level: 7
+   zombiepigman:
+     type: PIG_ZOMBIE
+     spawn_chance: 0.0222
+     identifier: zombiepigman
+     maximum_light_level: 7
+   blaze:
+     type: BLAZE
+     spawn_chance: 0.0222
+     identifier: blaze
+     maximum_light_level: 7
+   bat:
+     type: BAT
+     spawn_chance: 0.07
+     identifier: bat
+     maximum_light_level: 7
+     blocks_to_spawn_on:
+      - STONE
